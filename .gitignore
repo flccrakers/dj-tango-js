@@ -1,0 +1,9 @@
+IHM/node_modules/
+IHM/build/
+IHM/.idea/workspace.xml
+dataserver/node_modules/
+dataserver/build/
+dataserver/.idea/workspace.xml
+npm-debug.log
+/.idea/
+/IHM/.idea/workspace.xml
