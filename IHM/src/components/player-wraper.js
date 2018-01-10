@@ -37,6 +37,7 @@ class PlayerWraper extends Component {
     // let tangoSource = 'tango/'+this.props.playerData.currentTango.path;
     // console.log(tangoSource);
     // require
+    console.log(require("tango/TANGO/OSVALDO PUGLIESE/1958-Que Pinturita-OSVALDO PUGLIESE-COLECCION ANIVERSARIO-TANGO.mp3"));
     return(
 
       <div style={styles.playerRoot}>
@@ -68,6 +69,8 @@ class PlayerWraper extends Component {
           }}
           style={styles.audioPlayer}
           // src={require("tango/"+this.props.playerData.currentTango.path)}
+          //src={require("tango/TANGO/OSVALDO PUGLIESE/1958-Que Pinturita-OSVALDO PUGLIESE-COLECCION ANIVERSARIO-TANGO.mp3")}
+          src={"file:///tango/TANGO/OSVALDO PUGLIESE/1958-Que Pinturita-OSVALDO PUGLIESE-COLECCION ANIVERSARIO-TANGO.mp3"}
           autoPlay={false}
           listenInterval={300}
           onListen={this.listen}

@@ -10,7 +10,8 @@ function updateTango(payload) {
 }
 export function updateCurrentTango(tango) {
   return function (dispatch) {
-    tangoDataManagement.getTangoFile(tango._id).then(tangoFile => {
+    // tangoDataManagement.getTangoFile(tango._id).then(tangoFile => {
+    let tangoFile=null;
       let payload = {
         tango: tango,
         song: tangoFile,
@@ -18,7 +19,7 @@ export function updateCurrentTango(tango) {
       console.log(payload);
       dispatch(updateTango(payload));
 
-    });
+    // });
   }
 
 }
