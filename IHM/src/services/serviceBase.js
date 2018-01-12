@@ -72,6 +72,7 @@ export function getJSON(baseUrl:string, queryPayload?: any) {
       'Content-Type': 'application/json'
     },
   }).then(function (response) {
+    //console.log(response.headers.get("content-type"));
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
       return response.json();
@@ -87,5 +88,22 @@ export function getJSON(baseUrl:string, queryPayload?: any) {
       }
     }
     else return response;
+  })
+}
+
+export function getSongFile(baseUrl:string, queryPayload?: any){
+  let finalUrl = baseUrl+ queryPayload;
+  console.log(finalUrl);
+  return fetch(currentServerBasePath + finalUrl,{
+    method:'GET',
+    credentials:'include',
+    headers:{
+      'Accept': '*/*',
+      'Content-Type': 'audio/mpeg'
+    },
+  }).then(function(response){
+    console.log(response);
+    let blob = response.blob();
+    return response.url;
   })
 }

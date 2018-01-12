@@ -1,4 +1,7 @@
 'use strict';
+let path = require('path');
+let mime = require('mime');
+let fs = require('fs');
 
 let mongoose, Tango;
 mongoose = require('mongoose');
@@ -61,26 +64,25 @@ exports.delete_all_tangos = function (req, res) {
   );
 };
 
-exports.download=function(req,res){
-  Tango.findById(req.params.tangoId, function(err, tango){
-    // console.log(res.header);
-    if(err)
-      res.send(err);
-    //let stat = fileSystem.statSync(tango.path);
 
-    res.set({
-      'Content-Type': 'audio/mpeg',
-      'Content-Length': tango.fileSize,
-      'Accept-Ranges': 'bytes',
-      'Access-Control-Allow-Credentials' : true,
-      'Access-Control-Allow-Origin': 'http://localhost:3000',
-      'Cache-Control': 'public, max-age=0',
-      'Connection': 'keep-alive',
-      'Content-Disposition': "attachment; filename=\"1979-Boys Don't Cry-THE CURE-UNKNOWN-CORTINA.mp3\"",
-      'Vary': 'Origin',
-      'X-Powered-By': 'Express',
-    });
-    res.download(tango.path);
+exports.download = function (req, res) {
+  Tango.findById(req.params.tangoId, function (err, tango) {
+    // console.log(res.header);
+    if (err)
+      res.send(err);
+    console.log(tango.path);
+    // let baseName = '/home/hoonakker/Dropbox/dvt/projet-JAVASCRIPT/react-tutos/dj-tango-js/dataserver';
+    // let curFile = baseName + '/tango/TANGO/FRANCISCO CANARO/0-La Melodia De Nuestro Adios-FRANCISCO CANARO-UNKNOWN-TANGO.mp3';
+    let curFile = tango.path;
+    let mimeType = mime.lookup(curFile);
+    let filename = path.basename(curFile);
+    let stat = fs.statSync(curFile);
+    console.log(filename);
+    console.log(mimeType);
+    console.log(stat.size);
+    res.set('Content-disposition', 'attachment; filename=' + filename);
+    res.set('Content-type', mimeType);
+    res.download(curFile);
   });
 };
 

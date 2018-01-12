@@ -26,7 +26,7 @@ const styles = {
     display: 'flex',
     flex: '1 1 auto',
     minHeight: '0px',
-    flexDirection:'column',
+    flexDirection: 'column',
   },
   mainSource: {
     display: 'flex',
@@ -40,7 +40,79 @@ const styles = {
     overflow: 'hidden',
   },
 };
-const sizeTemplate = ['auto', 'auto', 'auto', 'auto', 50, 50, 50, 50];
+// const sizeTemplate = [40, 'auto', 'auto', 'auto', 'auto', 150, 50, 40, 40];
+{/*<th style={{...left, width: tableSizes[0]}}>Title</th>*/
+}
+{/*<th style={{...left, width: tableSizes[1]}}>Artist</th>*/
+}
+{/*<th style={{...left, width: tableSizes[2]}}>Singer</th>*/
+}
+{/*<th style={{...left, width: tableSizes[3]}}>Album</th>*/
+}
+{/*<th style={{...center, width: tableSizes[4]}}>Genre</th>*/
+}
+{/*<th style={{...center, width: tableSizes[5]}}>Year</th>*/
+}
+{/*<th style={{...center, width: tableSizes[6]}}>Bpm</th>*/
+}
+{/*<th style={{...center, width: tableSizes[7]}}>Time</th>*/
+}
+
+const rowsTemplate = [
+  {
+    name: '',
+    field: '',
+    size: 40,
+    align:'center',
+  },
+  {
+    name: 'Title',
+    field: 'title',
+    size: 'auto',
+    align:'left',
+  }, {
+    name: 'Artist',
+    field: 'artist',
+    size: 'auto',
+    align:'left',
+  },
+  {
+    name: 'Singer',
+    field: 'singer',
+    size: 'auto',
+    align:'left',
+  },
+  {
+    name: 'Album',
+    field: 'album',
+    size: 'auto',
+    align:'left',
+  },
+  {
+    name: 'Genre',
+    field: 'genre',
+    size: 150,
+    align:'center',
+  },
+  {
+    name: 'Year',
+    field: 'year',
+    size: 50,
+    align:'center',
+  },
+  {
+    name: 'Bpm',
+    field: 'bpmFromFile',
+    size: 40,
+    align:'center',
+  },
+  {
+    name: 'Time',
+    field: 'duration',
+    size: 40,
+    align:'center',
+  },
+];
 
 class SourceList extends Component {
 
@@ -82,13 +154,14 @@ class SourceList extends Component {
   getAutoSize(containerSize) {
     let autoNb = 0;
     let totalSize = 0;
-    let margin = sizeTemplate.length * 2 + 30;
-    sizeTemplate.forEach(element => {
-      if (element === 'auto') {
+    let margin = rowsTemplate.length * 2 + 30;
+    rowsTemplate.forEach(element => {
+      // console.log(element);
+      if (element.size === 'auto' || element.size === 0) {
         autoNb += 1;
       }
       else {
-        totalSize += element
+        totalSize += element.size
       }
     });
     return (containerSize - totalSize - margin) / autoNb;
@@ -98,25 +171,43 @@ class SourceList extends Component {
    * Get the table of size for each column
    * @returns {*[] | *}
    */
-  getTableSizes() {
+  getSizedRows() {
     let containerWidth, ret, autoSize = 0;
-    ret = sizeTemplate.slice();
+    ret = rowsTemplate.slice();
 
     if (document.getElementById('sources')) {
       containerWidth = document.getElementById('sources').getBoundingClientRect().width;
       autoSize = this.getAutoSize(containerWidth);
     }
     ret.forEach((elmt, index, table) => {
-      if (elmt === 'auto') {
-        table[index] = autoSize
+      if (elmt.size === 'auto' || elmt.size === 0) {
+        table[index].size = autoSize
       }
     });
-    console.log(ret);
+    // console.log(ret);
     return ret;
   }
 
+  getHeaderContent(sizedRows){
+    let ret=[];
+    let left = {...styles.leftAligned, paddingBottom: '5px'};
+    let center = {...styles.center, paddingBottom: '5px'};
+    sizedRows.forEach(row=>{
+      let style;
+      if(row.align === 'left'){
+        style = {...left, minWidth:row.size};
+      }else if (row.align ==='center' ){
+        style = {...center, minWidth:row.size};
+      }
+      ret.push(
+        <th key={'header_'+row.name}style={style}>{row.name}</th>
+      );
+    });
+    return ret;
+
+  }
   getHeader() {
-    let tableSizes = this.getTableSizes();
+    let sizedRows = this.getSizedRows();
     let left = {...styles.leftAligned, paddingBottom: '5px'};
     let center = {...styles.center, paddingBottom: '5px'};
     const table = {
@@ -127,14 +218,7 @@ class SourceList extends Component {
       <table key={'tableSourceTitle'} style={table}>
         <thead>
         <tr>
-          <th style={{...left, width: tableSizes[0]}}>Title</th>
-          <th style={{...left, width: tableSizes[1]}}>Artist</th>
-          <th style={{...left, width: tableSizes[2]}}>Singer</th>
-          <th style={{...left, width: tableSizes[3]}}>Album</th>
-          <th style={{...center, width: tableSizes[4]}}>Genre</th>
-          <th style={{...center, width: tableSizes[5]}}>Year</th>
-          <th style={{...center, width: tableSizes[6]}}>Bpm</th>
-          <th style={{...center, width: tableSizes[7]}}>Time</th>
+          {this.getHeaderContent(sizedRows)}
         </tr>
         </thead>
       </table>
@@ -147,17 +231,17 @@ class SourceList extends Component {
   }
 
   updateTango = (tango) => {
-    console.log('should play '+tango.path);
+    console.log('should play ' + tango.path);
   };
 
   getBody() {
-    let tableSizes = this.getTableSizes();
+    let sizedRows = this.getSizedRows();
     let left = {...styles.leftAligned};
     let innerLeft = {...left, ...styles.ellipsis};
     let center = {...styles.center};
     let innerCenter = {...center, ...styles.ellipsis};
     return this.props.tangoList.map((tango: tango) => {
-      return ( <DataLine tango={tango} sizeTable={tableSizes} key={tango._id}/> );
+      return (<DataLine tango={tango} sizedRows={sizedRows} key={tango._id}/>);
     });
   }
 
@@ -166,11 +250,7 @@ class SourceList extends Component {
     return [
       this.getHeader(),
       <div key={'source-scrolling'} style={styles.sourceScrolling}>
-        {/*<table>*/}
-          {/*<tbody>*/}
-          {this.getBody()}
-          {/*</tbody>*/}
-        {/*</table>*/}
+        {this.getBody()}
       </div>
     ];
   }

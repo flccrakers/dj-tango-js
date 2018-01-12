@@ -4,7 +4,8 @@ import Source from './sourceList';
 import * as sourceActions from '../redux/actions/sourceActions';
 import {connect} from 'react-redux';
 import PlayerWraper from './player-wraper';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
+import Footer from './footer';
 
 const theme = createMuiTheme({
   palette: {
@@ -30,16 +31,7 @@ const styles = {
     padding: '5px',
     backgroundColor: '#2a2a2a',
   },
-  footer: {
-    display: 'flex',
-    alignItems: 'center',
-    minHeight: '20px',
-    backgroundColor: '#4d4d4d',
-    color: '#d2d2d2',
-    fontSize: '12px',
-    padding: '0px 8px 0px 8px',
 
-  },
 
   playListRoot: {
     display: 'flex',
@@ -69,25 +61,18 @@ class Main extends Component {
   render() {
     return [
 
-      <MuiThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme} key={'main_app'}>
         <Header/>
         <div style={styles.content}>
-
           <PlayerWraper/>
-
           <div style={styles.playListRoot}>
-            {/*<div style={styles.playLists} id='sources'>*/}
             <Source/>
-            {/*</div>*/}
             <div style={styles.verticalSeparator}/>
             <div style={styles.playLists} id='milongas'>milonga</div>
-
           </div>
+        </div>
+        <Footer/>
 
-        </div>
-        <div style={styles.footer}>
-          Footer
-        </div>
       </MuiThemeProvider>
     ];
   }
