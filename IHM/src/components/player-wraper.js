@@ -27,18 +27,12 @@ class PlayerWraper extends Component {
   stopTango = () => {
     this.rap.audioEl.pause();
   };
-
-  /*handleLoadingTangos() {
-    this.props.dispatch(sourceActions.fetchAllTangos())
-    //sourceActions.fetchAllTangos();
-  }*/
+  listen = (event)=>{
+    console.log(event);
+  };
 
   render(){
-    // let tangoSource = 'tango/'+this.props.playerData.currentTango.path;
-    // console.log(tangoSource);
-    // require
     return(
-
       <div style={styles.playerRoot}>
         <IconButton
           style={styles.play}
@@ -54,21 +48,12 @@ class PlayerWraper extends Component {
         >
           <Stop/>
         </IconButton>
-        {/*<Button*/}
-          {/*raised*/}
-          {/*color="accent"*/}
-          {/*onClick={this.handleLoadingTangos.bind(this)}*/}
-        {/*>*/}
-          {/*Load tangos*/}
-        {/*</Button>*/}
-        <ReactAudioPlayer
-          ref={(element) => {
-            this.rap = element;
 
-          }}
+        <ReactAudioPlayer
+          ref={(element) => {this.rap = element;}}
           style={styles.audioPlayer}
-          // src={require("tango/"+this.props.playerData.currentTango.path)}
-          autoPlay={false}
+          src={this.props.playerData.currentTangoSong}
+          autoPlay={true}
           listenInterval={300}
           onListen={this.listen}
         />

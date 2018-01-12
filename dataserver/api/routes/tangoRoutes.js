@@ -13,8 +13,8 @@ module.exports = function (app) {
     .put(tangos.update_a_tango)
     .delete(tangos.delete_a_tango);
 
-  app.route('/tangos/download/:tangoId')
-    .get(tangos.download);
+   app.route('/tango/download/:tangoId')
+     .get(tangos.download);
 
 
 };

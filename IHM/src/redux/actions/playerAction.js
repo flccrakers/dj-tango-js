@@ -11,6 +11,7 @@ function updateTango(payload) {
 export function updateCurrentTango(tango) {
   return function (dispatch) {
     tangoDataManagement.getTangoFile(tango._id).then(tangoFile => {
+
       let payload = {
         tango: tango,
         song: tangoFile,
