@@ -24,7 +24,7 @@ const styles = {
 
   },
   center: {
-    textAlign:'center',
+    textAlign: 'center',
   }
 };
 
@@ -46,15 +46,22 @@ class DataLine extends Component {
     sizedRows.forEach(row => {
       let style;
       if (row.align === 'left') {
-        style = {...styles.cell, maxWidth: row.size, minWidth: row.size, lineHeight:this.props.rowHeight+'px'};
+        style = {...styles.cell, maxWidth: row.size, minWidth: row.size, lineHeight: this.props.rowHeight + 'px'};
       } else if (row.align === 'center') {
-        style = {...styles.cell, ...styles.center, maxWidth: row.size, minWidth: row.size, lineHeight:this.props.rowHeight+'px'};
+        style = {
+          ...styles.cell, ...styles.center,
+          maxWidth: row.size,
+          minWidth: row.size,
+          lineHeight: this.props.rowHeight + 'px'
+        };
       }
       let value = tango[row.field];
       if (row.field === 'duration') {
         value = millisToMinutesAndSeconds(value)
       }
-      if (value === 'Unknown'){value = " - ";}
+      if (value === 'Unknown') {
+        value = " - ";
+      }
       ret.push(
         <div key={tango._id + '_' + row.field} style={style}>{value}</div>
       );
@@ -66,7 +73,11 @@ class DataLine extends Component {
   render() {
 
     let tango: tango = this.props.tango;
-    let root = {...this.props.style, ...styles.root, backgroundColor: tangoColors()[tango.genre.replace('-','_')]};
+    let root = {
+      ...this.props.style, ...styles.root,
+      backgroundColor: tangoColors()[tango.genre.replace('-', '_')],
+      WebkitUserSelect: 'none'
+    };
     return (
       <div style={root} onDoubleClick={this.handleClickOnLine}>
         {this.getLineContent()}
@@ -79,6 +90,6 @@ class DataLine extends Component {
 DataLine.propTypes = {
   tango: PropTypes.object.isRequired,
   sizedRows: PropTypes.array.isRequired,
-  rowHeight:PropTypes.number.isRequired,
+  rowHeight: PropTypes.number.isRequired,
 };
 export default connect()(DataLine);

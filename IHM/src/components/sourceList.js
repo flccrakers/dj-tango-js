@@ -185,15 +185,15 @@ class SourceList extends Component {
 
   getHeaderContent(sizedRows) {
     let ret = [];
-    let left = {...styles.leftAligned, paddingBottom: '5px'};
-    let center = {...styles.center, paddingBottom: '5px'};
+    let left = {...styles.leftAligned, paddingBottom: '5px', WebkitUserSelect:'none'};
+    let center = {...styles.center, paddingBottom: '5px', WebkitUserSelect:'none'};
     let titleContainer = {
       display: 'flex',
       width: '100%',
       alignItems: 'center',
       cursor: 'pointer',
     };
-    console.log(this.props.source.sortingField);
+    // console.log(this.props.source.sortingField);
     sizedRows.forEach(row => {
       let style;
       if (row.align === 'left') {
@@ -204,7 +204,7 @@ class SourceList extends Component {
       let sort = [];
 
       if (row.field === this.props.source.sortingField) {
-        console.log('sortingStatus: ' + this.props.source.sortingStatus);
+        // console.log('sortingStatus: ' + this.props.source.sortingStatus);
         if (this.props.source.sortingStatus === SORT.ASC) {
           sort = [<ArrowUp style={{color: 'white'}} key={'sortUp'}/>];
         }
@@ -214,8 +214,8 @@ class SourceList extends Component {
       }
 
       ret.push(
-        <th key={'header_' + row.name} style={style} onClick={() => {
-          this.handleTitleClick(row.name)
+        <th key={'header_' + row.name} style={style} onClick={(event) => {
+          this.handleTitleClick(event,row.name)
         }}>
           <div style={titleContainer}>
             {row.name}{sort}
@@ -294,10 +294,11 @@ class SourceList extends Component {
   }
 
 
-  handleTitleClick(field) {
+  handleTitleClick(event, field) {
+    event.preventDefault();
     console.log(field);
     this.updateTitleStatus(field.toLowerCase());
-    this.sortData();
+    // this.sortData();
 
   }
 
@@ -308,8 +309,17 @@ class SourceList extends Component {
       status = SORT.NONE;
     }
 
-    this.props.dispatch(sourceActions.updateSortStatus(newField, status));
+    this.props.dispatch(sourceActions.updateSortStatusAndSort(newField, status, this.props.source.tangoList));
 
+  }
+
+  sortData() {
+    let datas, field, sortDirection;
+    datas = this.props.source.tangoList;
+    field = this.props.source.sortingField;
+    sortDirection = this.props.source.sortingStatus;
+
+    this.props.dispatch(sourceActions.sortDatas(datas,field,sortDirection))
   }
 }
 
