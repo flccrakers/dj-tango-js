@@ -16,10 +16,7 @@ const styles = {
   },
   cell: {
     display:'flex',
-    //flex:'1 1 auto',
     alignItems:'center',
-    // display: 'table-cell', /* comportement visuel de cellule */
-    // verticalAlign: 'middle',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
@@ -33,24 +30,6 @@ const styles = {
 
 class DataLine extends Component {
 
-  /*getTangoColor(genre) {
-    switch (genre) {
-      case'tango': {
-        return 'blue';
-      }
-      case'cortina': {
-        return 'brown';
-      }
-      case'vals': {
-        return 'pink';
-      }
-      case 'milonga': {
-        return 'yellow';
-      }
-      default:
-        return '';
-    }
-  }*/
 
   handleClickOnLine = () => {
     let tango = this.props.tango;
@@ -63,8 +42,6 @@ class DataLine extends Component {
     let sizedRows = this.props.sizedRows;
     let tango: tango = this.props.tango;
     let ret = [];
-    // let left = {...styles.leftAligned, paddingBottom: '5px'};
-    // let center = {...styles.center, paddingBottom: '5px'};
     sizedRows.forEach(row => {
       let style;
       if (row.align === 'left') {
@@ -76,6 +53,7 @@ class DataLine extends Component {
       if (row.field === 'duration') {
         value = millisToMinutesAndSeconds(value)
       }
+      if (value === 'Unknown'){value = " - ";}
       ret.push(
         <div key={tango._id + '_' + row.field} style={style}>{value}</div>
       );

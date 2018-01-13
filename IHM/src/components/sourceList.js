@@ -143,7 +143,15 @@ class SourceList extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(sourceActions.fetchAllTangos());
+
+  }
+
+  componentWillReceiveProps(newProps){
+    console.log(newProps);
+    /*if (this.props.tangoList.length === 0) {
+      this.props.dispatch(sourceActions.fetchAllTangos());
+    }*/
+
   }
 
   /**

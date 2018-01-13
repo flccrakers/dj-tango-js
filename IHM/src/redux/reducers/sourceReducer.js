@@ -7,6 +7,9 @@ export default function reducer(state=initialState, action) {
       console.log('in reducer tango');
       return {...state, tangoList: action.payload};
     }
+    case "persist/REHYDRATE": {
+      return {...state, tangoList: action.payload.source.tangoList}
+    }
     default: {
       return {...state};
     }
