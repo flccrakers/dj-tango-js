@@ -16,10 +16,14 @@ export function millisToMinutesAndSeconds(time: Number) {
 export function tangoColors(){
   let level = 900;
   let ret = {
-    tango:colors.blue[level],
+    tango:colors.indigo[level],
     cortina:colors.brown[level],
     vals:colors.pink[level],
     milonga:colors.yellow[level],
+    electro_tango:colors.indigo[500],
+    tango_nuevo:colors.indigo[700],
+    electro_vals:colors.pink[500],
+    alter_vals:colors.pink[500],
 
   };
 

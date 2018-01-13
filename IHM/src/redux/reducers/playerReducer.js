@@ -1,7 +1,8 @@
 const initialState = {
   currentTango:{path:''},
   currentTangoSong:null,
-  playerEl:''
+  playerEl:'',
+  progress:0,
 
 };
 export default function reducer(state: menuReducer = initialState, action) {
@@ -9,6 +10,9 @@ export default function reducer(state: menuReducer = initialState, action) {
 
     case"UPDATE_CURRENT_TANGO": {
       return {...state, currentTango: action.payload.tango, currentTangoSong:action.payload.song}
+    }
+    case"PROGRESS":{
+      return{...state, progress:action.payload}
     }
 
 

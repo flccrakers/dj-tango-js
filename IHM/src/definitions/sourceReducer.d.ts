@@ -1,9 +1,24 @@
 interface sourceReducer {
     isImporting: boolean,
-    importedFile: string,
+    tangoList:tango[],
+    listRowHeight: number,
+    overscanRowCount: number,
+    scrollToIndex: number,
+    showScrollingPlaceholder: boolean,
+    useDynamicRowHeight: boolean,
+    sortingField:string,
     /**
-     * indicate the percentage of success when loading a file.
-     * the default value is 0 the max value is 100
+     * the state of the sort:
+     * 0 - none
+     * 1 - ASC (ascendant)
+     * 2 - DES (descendant)
      */
-    percentEnded: number,
+    sortingStatus:number,
+
+}
+
+interface sortDTO {
+    NONE:number,
+    ASC:mumber,
+    DESC:number,
 }

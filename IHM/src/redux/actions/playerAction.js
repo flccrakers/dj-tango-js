@@ -24,6 +24,19 @@ export function updateCurrentTango(tango) {
 
 }
 
+/**
+ * Store the progress of the current tango
+ * @param value in milliseconds
+ */
+export function progress(value){
+
+  return{
+    type:'PROGRESS',
+    payload:value
+  }
+
+}
+
 export function storePlayerEl(element) {
   return {
     type: 'STORE_PLAYER',

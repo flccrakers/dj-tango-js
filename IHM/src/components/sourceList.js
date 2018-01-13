@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as sourceActions from '../redux/actions/sourceActions';
 import 'react-virtualized/styles.css';
-import {Column, Table, SortDirection, SortIndicator} from 'react-virtualized';
-// import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
-import {LabeledInput, InputRow} from 'react-virtualized';
-import * as utils from '../services/utils';
+import VirtualList from 'react-tiny-virtual-list';
 import DataLine from './data-line';
+import {sortStatus as SORT} from '../services/dj-const';
+import ArrowUp from 'material-ui-icons/ArrowDropUp';
+import ArrowDown from 'material-ui-icons/ArrowDropDown';
 
 const styles = {
   leftAligned: {
@@ -39,78 +39,77 @@ const styles = {
     border: '1pt solid ' + '#5f5f5f',
     overflow: 'hidden',
   },
+  virtualListContainer: {
+    flex: "1",
+    display: 'flex',
+    flexDirection: 'column',
+  },
 };
-// const sizeTemplate = [40, 'auto', 'auto', 'auto', 'auto', 150, 50, 40, 40];
-{/*<th style={{...left, width: tableSizes[0]}}>Title</th>*/
-}
-{/*<th style={{...left, width: tableSizes[1]}}>Artist</th>*/
-}
-{/*<th style={{...left, width: tableSizes[2]}}>Singer</th>*/
-}
-{/*<th style={{...left, width: tableSizes[3]}}>Album</th>*/
-}
-{/*<th style={{...center, width: tableSizes[4]}}>Genre</th>*/
-}
-{/*<th style={{...center, width: tableSizes[5]}}>Year</th>*/
-}
-{/*<th style={{...center, width: tableSizes[6]}}>Bpm</th>*/
-}
-{/*<th style={{...center, width: tableSizes[7]}}>Time</th>*/
-}
+
 
 const rowsTemplate = [
   {
     name: '',
-    field: '',
+    field: 'played',
     size: 40,
-    align:'center',
+    align: 'center',
+    sortStatus: SORT.NONE,
   },
   {
     name: 'Title',
     field: 'title',
     size: 'auto',
-    align:'left',
-  }, {
+    align: 'left',
+    sortStatus: SORT.NONE,
+  },
+  {
     name: 'Artist',
     field: 'artist',
     size: 'auto',
-    align:'left',
+    align: 'left',
+    sortStatus: SORT.NONE,
   },
   {
     name: 'Singer',
     field: 'singer',
     size: 'auto',
-    align:'left',
+    align: 'left',
+    sortStatus: SORT.NONE,
   },
   {
     name: 'Album',
     field: 'album',
     size: 'auto',
-    align:'left',
+    align: 'left',
+    sortStatus: SORT.NONE,
   },
   {
     name: 'Genre',
     field: 'genre',
-    size: 150,
-    align:'center',
+    size: 100,
+    align: 'left',
+    sortStatus: SORT.ASC,
   },
   {
     name: 'Year',
     field: 'year',
     size: 50,
-    align:'center',
+    align: 'center',
+    sortStatus: SORT.NONE,
   },
   {
     name: 'Bpm',
     field: 'bpmFromFile',
     size: 40,
-    align:'center',
+    align: 'center',
+    sortStatus: SORT.NONE,
   },
   {
     name: 'Time',
     field: 'duration',
     size: 40,
-    align:'center',
+    align: 'center',
+    sortStatus: SORT.NONE,
   },
 ];
 
@@ -119,31 +118,27 @@ class SourceList extends Component {
   constructor(props) {
     super(props);
     const sortBy = 'index';
-    const sortDirection = SortDirection.ASC;
-    const sortedList = props.tangoList;
+    //const sortDirection = SortDirection.ASC;
+    // const sortedList = props.tangoList;
     this.state = {
-      disableHeader: false,
-      headerHeight: 30,
-      height: 270,
-      hideIndexRow: false,
-      overscanRowCount: 10,
-      rowHeight: 40,
-      rowCount: sortedList.length,
-      scrollToIndex: undefined,
-      sortBy,
-      sortDirection,
-      sortedList,
-      useDynamicRowHeight: false,
+      containerHeight: 600,
+
     };
 
   }
 
-  componentWillMount() {
-
-  }
 
   componentDidMount() {
-    this.props.dispatch(sourceActions.fetchAllTangos());
+    const containerHeight = this.refs.virtualContainer.clientHeight;
+    this.setState({containerHeight});
+  }
+
+  componentWillReceiveProps(newProps) {
+    // console.log(newProps);
+    /*if (this.props.tangoList.length === 0) {
+      this.props.dispatch(sourceActions.fetchAllTangos());
+    }*/
+
   }
 
   /**
@@ -188,24 +183,50 @@ class SourceList extends Component {
     return ret;
   }
 
-  getHeaderContent(sizedRows){
-    let ret=[];
+  getHeaderContent(sizedRows) {
+    let ret = [];
     let left = {...styles.leftAligned, paddingBottom: '5px'};
     let center = {...styles.center, paddingBottom: '5px'};
-    sizedRows.forEach(row=>{
+    let titleContainer = {
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+      cursor: 'pointer',
+    };
+    console.log(this.props.source.sortingField);
+    sizedRows.forEach(row => {
       let style;
-      if(row.align === 'left'){
-        style = {...left, minWidth:row.size};
-      }else if (row.align ==='center' ){
-        style = {...center, minWidth:row.size};
+      if (row.align === 'left') {
+        style = {...left, minWidth: row.size, height:'24px'};
+      } else if (row.align === 'center') {
+        style = {...center, minWidth: row.size, height:'24px'};
       }
+      let sort = [];
+
+      if (row.field === this.props.source.sortingField) {
+        console.log('sortingStatus: ' + this.props.source.sortingStatus);
+        if (this.props.source.sortingStatus === SORT.ASC) {
+          sort = [<ArrowUp style={{color: 'white'}} key={'sortUp'}/>];
+        }
+        else if (this.props.source.sortingStatus === SORT.DESC) {
+          sort = [<ArrowDown style={{color: 'white'}} key={'sortDown'}/>];
+        }
+      }
+
       ret.push(
-        <th key={'header_'+row.name}style={style}>{row.name}</th>
+        <th key={'header_' + row.name} style={style} onClick={() => {
+          this.handleTitleClick(row.name)
+        }}>
+          <div style={titleContainer}>
+            {row.name}{sort}
+          </div>
+        </th>
       );
     });
     return ret;
 
   }
+
   getHeader() {
     let sizedRows = this.getSizedRows();
     let left = {...styles.leftAligned, paddingBottom: '5px'};
@@ -234,33 +255,38 @@ class SourceList extends Component {
     console.log('should play ' + tango.path);
   };
 
-  getBody() {
+  rowRenderer = (params) => {
     let sizedRows = this.getSizedRows();
-    let left = {...styles.leftAligned};
-    let innerLeft = {...left, ...styles.ellipsis};
-    let center = {...styles.center};
-    let innerCenter = {...center, ...styles.ellipsis};
-    return this.props.tangoList.map((tango: tango) => {
-      return (<DataLine tango={tango} sizedRows={sizedRows} key={tango._id}/>);
-    });
-  }
+    let tango = this.props.source.tangoList[params.index];
+    return (
+      <DataLine tango={tango} sizedRows={sizedRows} rowHeight={this.props.source.listRowHeight} style={params.style}
+                key={tango._id}/>);
+  };
 
-  getDatas() {
 
-    return [
-      this.getHeader(),
-      <div key={'source-scrolling'} style={styles.sourceScrolling}>
-        {this.getBody()}
-      </div>
-    ];
-  }
+  _noRowsRenderer = () => {
+    return (<span>NOTHING</span>);
+  };
+
 
   render() {
 
-
+    let source: sourceReducer = this.props.source;
     return (
       <div style={styles.mainSource} id='sources'>
-        {this.getDatas()}
+        {this.getHeader()}
+        <div style={styles.virtualListContainer} ref={'virtualContainer'}>
+          <VirtualList
+            width='100%'
+            height={this.state.containerHeight + source.listRowHeight}
+            itemCount={source.tangoList.length}
+            itemSize={source.listRowHeight} // Also supports variable heights (array or function getter)
+            renderItem={(index, style) => {
+              return (this.rowRenderer(index))
+            }}
+          />
+
+        </div>
       </div>
 
 
@@ -268,43 +294,32 @@ class SourceList extends Component {
   }
 
 
+  handleTitleClick(field) {
+    console.log(field);
+    this.updateTitleStatus(field.toLowerCase());
+    this.sortData();
+
+  }
+
+  updateTitleStatus(newField) {
+    let field = this.props.source.sortingField;
+    let status = this.props.source.sortingStatus;
+    if (newField !== field) {
+      status = SORT.NONE;
+    }
+
+    this.props.dispatch(sourceActions.updateSortStatus(newField, status));
+
+  }
 }
 
 
 export default connect((store) => {
   return {
-    tangoList: store.source.tangoList,
+    // tangoList: store.source.tangoList,
+    source: store.source,
   }
 
 })(SourceList);
 
 
-/*
-<tr key={'sourceTango_' + tango._id} style={{backgroundColor: tango.genre === 'tango' ? 'blue' : '#2a2a2a'}}
-            onDoubleClick={this.updateTango(tango)}>
-          <td>
-            <div style={{...innerLeft, width: tableSizes[0]}}>{tango.title}</div>
-          </td>
-          <td>
-            <div style={{...innerLeft, width: tableSizes[1]}}>{tango.artist} </div>
-          </td>
-          <td>
-            <div style={{...innerLeft, width: tableSizes[2]}}>{tango.singer}</div>
-          </td>
-          <td>
-            <div style={{...innerLeft, width: tableSizes[3]}}>{tango.album}</div>
-          </td>
-          <td>
-            <div style={{...innerCenter, width: tableSizes[4]}}>{tango.genre}</div>
-          </td>
-          <td>
-            <div style={{...innerCenter, width: tableSizes[5]}}>{tango.year}</div>
-          </td>
-          <td>
-            <div style={{...innerCenter, width: tableSizes[6]}}>{tango.bpmFromFile}</div>
-          </td>
-          <td>
-            <div style={{...innerCenter, width: tableSizes[7]}}>{utils.millisToMinutesAndSeconds(tango.duration)}</div>
-          </td>
-        </tr>
- */
