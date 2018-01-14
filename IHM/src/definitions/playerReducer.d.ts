@@ -1,6 +1,6 @@
 interface playerReducer {
     /**
-     * The tango wich is currently played
+     * The tango which is currently played
      */
     currentTango:tango,
     /**

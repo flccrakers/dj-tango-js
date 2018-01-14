@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import * as playerActions from '../redux/actions/playerAction';
 import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
+import Playing from 'material-ui-icons/VolumeUp';
 
 
 const styles = {
@@ -62,6 +63,9 @@ class DataLine extends Component {
       if (value === 'Unknown') {
         value = " - ";
       }
+      if (row.field === 'played' && this.isTangoPlaying()) {
+        value = [<Playing style={{color: 'white'}}/>];
+      }
       ret.push(
         <div key={tango._id + '_' + row.field} style={style}>{value}</div>
       );
@@ -70,14 +74,21 @@ class DataLine extends Component {
 
   }
 
-  render() {
 
-    let tango: tango = this.props.tango;
-    let root = {
-      ...this.props.style, ...styles.root,
-      backgroundColor: tangoColors()[tango.genre.replace('-', '_')],
-      WebkitUserSelect: 'none'
-    };
+  isTangoPlaying() {
+    return this.props.tango._id === this.props.playedId;
+  }
+
+  render() {
+    let tango, root, rootBase;
+    rootBase = {...this.props.style, ...styles.root, WebkitUserSelect: 'none'};
+    tango: tango = this.props.tango;
+    if (this.isTangoPlaying()) {
+      root={...rootBase, backgroundColor:'#3a3a3a', color:'#1ba500'}
+    }
+    else {
+      root = {...rootBase, backgroundColor: tangoColors()[tango.genre.replace('-', '_')]};
+    }
     return (
       <div style={root} onDoubleClick={this.handleClickOnLine}>
         {this.getLineContent()}
@@ -92,4 +103,9 @@ DataLine.propTypes = {
   sizedRows: PropTypes.array.isRequired,
   rowHeight: PropTypes.number.isRequired,
 };
-export default connect()(DataLine);
+
+export default connect((store) => {
+  return {
+    playedId: store.player.currentTango._id,
+  }
+})(DataLine);
