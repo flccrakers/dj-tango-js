@@ -10,7 +10,6 @@ import Dialog, {
   DialogContentText,
   DialogTitle,
 } from 'material-ui/Dialog';
-//import Select from 'material-ui/Select';
 import * as menuActions from '../redux/actions/menuActions';
 import {connect} from "react-redux";
 import DjProgress from './dj-progress';
@@ -22,12 +21,12 @@ const styles = {
     //alignItems: 'center',
     backgroundColor: '#2a2a2a',
     flexDirection: 'column',
-    minHeight:'50px',
+    minHeight: '50px',
   },
   headerButtons: {
     display: 'flex',
     alignItems: 'center',
-    flex:'1 1 auto',
+    flex: '1 1 auto',
   },
   logo: {},
   input: {
@@ -35,10 +34,10 @@ const styles = {
     width: "0px",
     height: "0px"
   },
-  button:{
-    margin:'0px 7px 0px 7px',
-    padding:'0px',
-    minWidth:'0px',
+  button: {
+    margin: '0px 7px 0px 7px',
+    padding: '0px',
+    minWidth: '0px',
   }
 };
 
@@ -49,6 +48,7 @@ const closeAll = {
 };
 
 class Header extends Component {
+
 
   constructor(props) {
     super(props);
@@ -107,6 +107,12 @@ class Header extends Component {
     let dialog = this.state.dialog;
     dialog.open = false;
     this.setState({dialog})
+  };
+
+  displaySideScreen = () => {
+    this.closeMenu();
+    window.open('http://www.google.com/', 'sharer', 'type=fullWindow, fullscreen, scrollbars=yes, toolbar=0');
+
   };
 
   render() {
@@ -175,7 +181,7 @@ class Header extends Component {
             onClose={this.closeMenu}
           >
             <MenuItem onClick={this.closeMenu}>Full screen</MenuItem>
-            <MenuItem onClick={this.closeMenu}>Display side screen</MenuItem>
+            <MenuItem onClick={this.displaySideScreen}>Display side screen</MenuItem>
           </Menu>
 
           <Dialog
@@ -226,7 +232,7 @@ class Header extends Component {
         <DjProgress
           isImporting={this.props.menu.isImporting}
           percentEnded={this.props.menu.percentEnded}
-          label={'Importing '+this.props.menu.importedFile+'...'}/>
+          label={'Importing ' + this.props.menu.importedFile + '...'}/>
 
       </div>
     );

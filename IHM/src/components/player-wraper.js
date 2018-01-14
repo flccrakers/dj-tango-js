@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Play from "material-ui-icons/PlayArrow";
 import IconButton from "material-ui/IconButton/index";
-import Button from "material-ui/Button/index";
+// import Button from "material-ui/Button/index";
 import ReactAudioPlayer from 'react-audio-player';
 import {connect} from "react-redux";
 import Stop from 'material-ui-icons/Stop';
@@ -61,6 +61,10 @@ class PlayerWraper extends Component {
   listen = (event) => {
     // console.log(utils.millisToMinutesAndSeconds(event*1000));
     this.props.dispatch(playerActions.progress(event * 1000));
+  };
+  ended = (event) =>{
+    console.log(event);
+    // this.props.dispatch(playerAction.playNext())
   };
 
   onUpdate = update => {
@@ -152,6 +156,7 @@ class PlayerWraper extends Component {
             autoPlay={true}
             listenInterval={300}
             onListen={this.listen}
+            onEnded={this.ended}
           />
         </div>
 
@@ -165,9 +170,7 @@ class PlayerWraper extends Component {
 export default connect(
   (store) => {
     return {
-      playerData: store.player
-      ,
-
+      playerData: store.player,
     }
   })
 (PlayerWraper);

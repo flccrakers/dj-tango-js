@@ -13,7 +13,7 @@ const initialState = {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case "GET_ALL_TANGOS": {
-      console.log('in reducer tango');
+      // console.log('in reducer tango');
       return {...state, tangoList: action.payload};
     }
     case "persist/REHYDRATE": {
@@ -22,6 +22,7 @@ export default function reducer(state = initialState, action) {
     case"UPDATE_SORT_STATUS": {
       return {...state, sortingField: action.payload.field, sortingStatus: action.payload.status}
     }
+
     default: {
       return {...state};
     }
