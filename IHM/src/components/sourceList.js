@@ -149,7 +149,7 @@ class SourceList extends Component {
   getAutoSize(containerSize) {
     let autoNb = 0;
     let totalSize = 0;
-    let margin = rowsTemplate.length * 2 + 30;
+    let margin = rowsTemplate.length * 4 + 30;
     rowsTemplate.forEach(element => {
       // console.log(element);
       if (element.size === 'auto' || element.size === 0) {
@@ -185,8 +185,8 @@ class SourceList extends Component {
 
   getHeaderContent(sizedRows) {
     let ret = [];
-    let left = {...styles.leftAligned, paddingBottom: '5px', WebkitUserSelect:'none'};
-    let center = {...styles.center, paddingBottom: '5px', WebkitUserSelect:'none'};
+    let left = {...styles.leftAligned, padding: '0px 2px 5px 2px', WebkitUserSelect:'none'};
+    let center = {...styles.center, padding: '0px 2px 5px 2px', WebkitUserSelect:'none'};
     let titleContainer = {
       display: 'flex',
       width: '100%',
@@ -229,8 +229,6 @@ class SourceList extends Component {
 
   getHeader() {
     let sizedRows = this.getSizedRows();
-    let left = {...styles.leftAligned, paddingBottom: '5px'};
-    let center = {...styles.center, paddingBottom: '5px'};
     const table = {
       borderBottom: '1px solid red',
       marginBottom: '15px',

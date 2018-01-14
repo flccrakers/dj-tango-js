@@ -64,10 +64,10 @@ class DataLine extends Component {
         value = " - ";
       }
       if (row.field === 'played' && this.isTangoPlaying()) {
-        value = [<Playing style={{color: 'white'}}/>];
+        value = [<Playing style={{color: 'white'}} key={'playing_beacon'}/>];
       }
       ret.push(
-        <div key={tango._id + '_' + row.field} style={style}>{value}</div>
+        <div key={tango._id + '_' + row.field} style={style} >{value}</div>
       );
     });
     return ret;
@@ -90,7 +90,7 @@ class DataLine extends Component {
       root = {...rootBase, backgroundColor: tangoColors()[tango.genre.replace('-', '_')]};
     }
     return (
-      <div style={root} onDoubleClick={this.handleClickOnLine}>
+      <div style={root} onDoubleClick={this.handleClickOnLine} draggable={true}>
         {this.getLineContent()}
 
       </div>

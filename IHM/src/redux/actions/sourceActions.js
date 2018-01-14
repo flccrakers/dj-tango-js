@@ -42,7 +42,7 @@ export function updateSortStatusAndSort(field, status, data) {
 export function sortDatas(datas, field, sortDirection) {
   return function (dispatch) {
     console.log(field);
-    console.log(datas[0].genre);
+    console.log(datas[0][field]);
     console.log(typeof datas[0][field]);
     if (typeof datas[0][field] === 'string') {
       dispatch(sortStrings(datas, field, sortDirection));
