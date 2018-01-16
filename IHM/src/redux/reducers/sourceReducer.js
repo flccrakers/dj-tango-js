@@ -17,7 +17,11 @@ export default function reducer(state = initialState, action) {
       return {...state, tangoList: action.payload};
     }
     case "persist/REHYDRATE": {
-      return {...state, tangoList: action.payload.source.tangoList}
+      if (action.payload.source) {
+        return {...state, tangoList: action.payload.source.tangoList}
+      } else {
+        return {...state}
+      }
     }
     case"UPDATE_SORT_STATUS": {
       return {...state, sortingField: action.payload.field, sortingStatus: action.payload.status}

@@ -56,6 +56,10 @@ class DataLine extends Component {
           lineHeight: this.props.rowHeight + 'px'
         };
       }
+
+      if(row.field === 'genre' && !this.isTangoPlaying()) {
+        style = {...style, backgroundColor: tangoColors()[tango.genre.replace('-', '_')]};
+      }
       let value = tango[row.field];
       if (row.field === 'duration') {
         value = millisToMinutesAndSeconds(value)
@@ -67,7 +71,7 @@ class DataLine extends Component {
         value = [<Playing style={{color: 'white'}} key={'playing_beacon'}/>];
       }
       ret.push(
-        <div key={tango._id + '_' + row.field} style={style} >{value}</div>
+        <div key={tango._id + '_' + row.field} style={style}>{value}</div>
       );
     });
     return ret;
@@ -84,10 +88,10 @@ class DataLine extends Component {
     rootBase = {...this.props.style, ...styles.root, WebkitUserSelect: 'none'};
     tango: tango = this.props.tango;
     if (this.isTangoPlaying()) {
-      root={...rootBase, backgroundColor:'#3a3a3a', color:'#1ba500'}
+      root = {...rootBase, backgroundColor: '#3a3a3a', color: '#1ba500'}
     }
     else {
-      root = {...rootBase, backgroundColor: tangoColors()[tango.genre.replace('-', '_')]};
+      root = {...rootBase};
     }
     return (
       <div style={root} onDoubleClick={this.handleClickOnLine} draggable={true}>
