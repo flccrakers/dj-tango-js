@@ -7,7 +7,9 @@ import {connect} from "react-redux";
 import Stop from 'material-ui-icons/Stop';
 import * as utils from '../services/utils';
 import * as playerActions from '../redux/actions/playerAction';
+import * as sourceActions from "../redux/actions/sourceActions";
 import Slider from 'react-compound-slider';
+
 
 const styles = {
   playerRoot: {
@@ -47,23 +49,65 @@ const styles = {
 };
 
 
-const domain = [100, 500];
-const defaultValues = [150];
-
+const cortinaDuration = 15*1000;
+const fadeoutDuration = 5*1000; // in milliseconds
+const listenInterval =300; //in milliseconds
 class PlayerWraper extends Component {
 
+  constructor(props){
+    super(props);
+    this.rap = null;
+  }
+  // componentDidMount(){
+  //   this.props.dispatch(playerActions.saveAudioEl(this.rap));
+  // }
   playTango = () => {
     this.rap.audioEl.play();
   };
   stopTango = () => {
     this.rap.audioEl.pause();
+    this.rap.audioEl.currentTime=this.props.playerData.currentTango.duration/1000;
+    this.props.dispatch(playerActions.updateVolume(1));
+
   };
-  listen = (event) => {
-    // console.log(utils.millisToMinutesAndSeconds(event*1000));
-    this.props.dispatch(playerActions.progress(event * 1000));
+
+  pauseTango = ()=>{
+    this.rap.audioEl.pause();
   };
+
+
+  listen = (position) => {
+    let tango = this.props.playerData.currentTango;
+    let volume = this.props.playerData.volume;
+    this.props.dispatch(playerActions.progress(position * 1000));
+    if (tango.genre==='cortina' && position*1000 >= cortinaDuration-fadeoutDuration && position*1000 <= cortinaDuration){
+      // this.rap.audioEl.volume= this.rap.audioEl.volume - 0.8;
+      this.props.dispatch(playerActions.updateVolume(volume - listenInterval/fadeoutDuration));
+      console.log(this.rap.audioEl.volume);
+      console.log("I'm supposed to fade out");
+    }else if(tango.genre==='cortina' && position*1000 > cortinaDuration ){
+      console.log("I'm supposed to end the song");
+      this.stopTango();
+      this.playNext();
+
+
+
+    }
+  };
+
+  playNext(){
+    console.log("I'm supposed to play next Tango");
+    console.log('current Index: '+this.props.source.currentIndex);
+    let index = this.props.source.currentIndex;
+    let tango = this.props.source.tangoList[index+1];
+    console.log(tango.path);
+    this.props.dispatch(playerActions.updateCurrentTango(tango));
+    this.props.dispatch(sourceActions.updateCurrentIndex(index+1));
+  }
+
   ended = (event) =>{
     console.log(event);
+    this.playNext();
     // this.props.dispatch(playerAction.playNext())
   };
 
@@ -154,9 +198,11 @@ class PlayerWraper extends Component {
             style={styles.audioPlayer}
             src={this.props.playerData.currentTangoSong}
             autoPlay={true}
-            listenInterval={300}
+            listenInterval={listenInterval}
             onListen={this.listen}
             onEnded={this.ended}
+            volume={this.props.playerData.volume}
+            controls
           />
         </div>
 
@@ -171,6 +217,7 @@ export default connect(
   (store) => {
     return {
       playerData: store.player,
+      source: store.source,
     }
   })
 (PlayerWraper);

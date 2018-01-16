@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import * as playerActions from '../redux/actions/playerAction';
+import * as sourceActions from '../redux/actions/sourceActions';
+
 import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
 import Playing from 'material-ui-icons/VolumeUp';
@@ -37,6 +39,7 @@ class DataLine extends Component {
     let tango = this.props.tango;
     console.log(tango.path);
     this.props.dispatch(playerActions.updateCurrentTango(tango));
+    this.props.dispatch(sourceActions.updateCurrentIndex(this.props.index))
 
   };
 
@@ -106,6 +109,7 @@ DataLine.propTypes = {
   tango: PropTypes.object.isRequired,
   sizedRows: PropTypes.array.isRequired,
   rowHeight: PropTypes.number.isRequired,
+  index:PropTypes.number.isRequired,
 };
 
 export default connect((store) => {

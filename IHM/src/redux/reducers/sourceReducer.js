@@ -7,6 +7,7 @@ const initialState = {
   overscanRowCount: 10,
   showScrollingPlaceholder: false,
   useDynamicRowHeight: false,
+  currentIndex:0,
   sortingField: '',
   sortingStatus: SORT.NONE,
 };
@@ -25,6 +26,9 @@ export default function reducer(state = initialState, action) {
     }
     case"UPDATE_SORT_STATUS": {
       return {...state, sortingField: action.payload.field, sortingStatus: action.payload.status}
+    }
+    case"UPDATE_CURRENT_INDEX":{
+      return{...state, currentIndex:action.payload}
     }
 
     default: {

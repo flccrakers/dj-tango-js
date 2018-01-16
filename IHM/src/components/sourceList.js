@@ -257,7 +257,7 @@ class SourceList extends Component {
     let sizedRows = this.getSizedRows();
     let tango = this.props.source.tangoList[params.index];
     return (
-      <DataLine tango={tango} sizedRows={sizedRows} rowHeight={this.props.source.listRowHeight} style={params.style}
+      <DataLine tango={tango} sizedRows={sizedRows} rowHeight={this.props.source.listRowHeight} style={params.style} index={params.index}
                 key={tango._id}/>);
   };
 
