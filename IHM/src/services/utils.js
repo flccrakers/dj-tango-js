@@ -4,6 +4,8 @@
  * @returns {String} the time of the song in string => mm:ss
  */
 import * as colors from 'material-ui/colors';
+import colorManipulator from '../services/color-manipulator';
+
 export function millisToMinutesAndSeconds(time: Number) {
 
   let minutes = Math.floor(time / 60000);
@@ -13,17 +15,22 @@ export function millisToMinutesAndSeconds(time: Number) {
   // return retTime;
 }
 
-export function tangoColors(){
+export function tangoColors() {
   let level = 900;
   let ret = {
-    tango:colors.indigo[level],
-    cortina:colors.brown[level],
-    vals:colors.pink[level],
-    milonga:colors.yellow[level],
-    electro_tango:colors.indigo[500],
-    tango_nuevo:colors.indigo[700],
-    electro_vals:colors.pink[500],
-    alter_vals:colors.pink[500],
+    tango: colorManipulator.fade('#00a0b0',0.31),
+    cortina: colorManipulator.fade('#6a4a3c',0.31),
+    vals: colorManipulator.fade('#cc333f',0.31),
+    milonga: colorManipulator.fade('#edc951',0.31),
+    electro_tango: '#00a0b0',
+    electro_vals: '#cc333f',
+    electro_milonga: '#edc951',
+    tango_nuevo: colorManipulator.fade('#00a0b0',0.196),
+    electro_vals: colorManipulator.fade('#cc333f',0.2),
+    alter_vals: colorManipulator.fade('#cc333f',0.58),
+    alter_milonga: colorManipulator.fade('#edc951',0.58),
+    alter_tango: colorManipulator.fade('#00a0b0',0.58),
+
 
   };
 

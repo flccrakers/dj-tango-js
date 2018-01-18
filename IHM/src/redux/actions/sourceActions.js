@@ -65,6 +65,13 @@ function sortStrings(datas, field, sortDirection) {
   }
 }
 
+export function updateCurrentIndex(index){
+  return {
+    type:'UPDATE_CURRENT_INDEX',
+    payload:index,
+  }
+}
+
 function sortNumbers(datas, field, sortDirection) {
   datas.sort((a, b) => {
     if (a[field]>b[field]){return 1}
