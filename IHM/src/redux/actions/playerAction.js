@@ -18,6 +18,7 @@ export function updateCurrentTango(tango) {
         song: tangoFile,
       };
       console.log(payload);
+      dispatch(updatePause(false));
       dispatch(updateTango(payload));
 
     });
@@ -74,5 +75,12 @@ export function saveAudioEl(audioEl) {
   return {
     type: 'SAVE_AUDIO_ELEMENT',
     payload: audioEl,
+  }
+}
+
+export function updatePause(value){
+  return{
+    type:'UPDATE_PAUSE',
+    payload:value,
   }
 }

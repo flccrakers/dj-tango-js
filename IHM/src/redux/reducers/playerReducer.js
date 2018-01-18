@@ -4,6 +4,7 @@ const initialState = {
   playerEl:'',
   progress:0,
   volume:1,
+  isPaused:true,
 
 };
 export default function reducer(state: menuReducer = initialState, action) {
@@ -23,6 +24,9 @@ export default function reducer(state: menuReducer = initialState, action) {
     }
     case"PROGRESS":{
       return{...state, progress:action.payload}
+    }
+    case"UPDATE_PAUSE":{
+      return{...state, isPaused:action.payload}
     }
 
 
