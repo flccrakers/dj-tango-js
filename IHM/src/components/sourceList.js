@@ -87,7 +87,7 @@ const rowsTemplate = [
     name: 'Genre',
     field: 'genre',
     size: 100,
-    align: 'left',
+    align: 'center',
     sortStatus: SORT.ASC,
   },
   {
@@ -122,15 +122,28 @@ class SourceList extends Component {
     // const sortedList = props.tangoList;
     this.state = {
       containerHeight: 600,
-
+      containerWidth: 600,
     };
 
   }
 
 
   componentDidMount() {
+    this.updateDimensions();
+    window.addEventListener("resize", this.updateDimensions.bind(this));
+    // const containerHeight = this.refs.virtualContainer.clientHeight;
+    // this.setState({containerHeight});
+
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateDimensions);
+  }
+
+  updateDimensions() {
     const containerHeight = this.refs.virtualContainer.clientHeight;
-    this.setState({containerHeight});
+    const containerWidth = this.refs.virtualContainer.clientWidth;
+    this.setState({containerHeight,containerWidth});
   }
 
   componentWillReceiveProps(newProps) {
@@ -159,7 +172,8 @@ class SourceList extends Component {
         totalSize += element.size
       }
     });
-    return (containerSize - totalSize - margin) / autoNb;
+    let ret = (containerSize - totalSize - margin) / autoNb;
+    return ret;
   }
 
   /**
@@ -167,11 +181,10 @@ class SourceList extends Component {
    * @returns {*[] | *}
    */
   getSizedRows() {
-    let containerWidth, ret, autoSize = 0;
-    ret = rowsTemplate.slice();
-
-    if (document.getElementById('sources')) {
-      containerWidth = document.getElementById('sources').getBoundingClientRect().width;
+    let ret, autoSize = 0, containerWidth;
+    ret = rowsTemplate.map(a => Object.assign({}, a));
+    containerWidth = this.state.containerWidth;
+    if(containerWidth !== NaN){
       autoSize = this.getAutoSize(containerWidth);
     }
     ret.forEach((elmt, index, table) => {
@@ -179,14 +192,13 @@ class SourceList extends Component {
         table[index].size = autoSize
       }
     });
-    // console.log(ret);
     return ret;
   }
 
   getHeaderContent(sizedRows) {
     let ret = [];
-    let left = {...styles.leftAligned, padding: '0px 2px 5px 2px', WebkitUserSelect:'none'};
-    let center = {...styles.center, padding: '0px 2px 5px 2px', WebkitUserSelect:'none'};
+    let left = {...styles.leftAligned, padding: '0px 2px 5px 2px', WebkitUserSelect: 'none'};
+    let center = {...styles.center, padding: '0px 2px 5px 2px', WebkitUserSelect: 'none'};
     let titleContainer = {
       display: 'flex',
       width: '100%',
@@ -197,9 +209,9 @@ class SourceList extends Component {
     sizedRows.forEach(row => {
       let style;
       if (row.align === 'left') {
-        style = {...left, minWidth: row.size, height:'24px'};
+        style = {...left, minWidth: row.size, height: '24px'};
       } else if (row.align === 'center') {
-        style = {...center, minWidth: row.size, height:'24px'};
+        style = {...center, minWidth: row.size, height: '24px'};
       }
       let sort = [];
 
@@ -215,7 +227,7 @@ class SourceList extends Component {
 
       ret.push(
         <th key={'header_' + row.name} style={style} onClick={(event) => {
-          this.handleTitleClick(event,row.name)
+          this.handleTitleClick(event, row.name)
         }}>
           <div style={titleContainer}>
             {row.name}{sort}
@@ -229,6 +241,7 @@ class SourceList extends Component {
 
   getHeader() {
     let sizedRows = this.getSizedRows();
+    // console.log(sizedRows);
     const table = {
       borderBottom: '1px solid red',
       marginBottom: '15px',
@@ -257,7 +270,8 @@ class SourceList extends Component {
     let sizedRows = this.getSizedRows();
     let tango = this.props.source.tangoList[params.index];
     return (
-      <DataLine tango={tango} sizedRows={sizedRows} rowHeight={this.props.source.listRowHeight} style={params.style} index={params.index}
+      <DataLine tango={tango} sizedRows={sizedRows} rowHeight={this.props.source.listRowHeight} style={params.style}
+                index={params.index}
                 key={tango._id}/>);
   };
 
@@ -271,7 +285,7 @@ class SourceList extends Component {
 
     let source: sourceReducer = this.props.source;
     return (
-      <div style={styles.mainSource} id='sources'>
+      <div style={styles.mainSource} id='sources' ref={'sources'}>
         {this.getHeader()}
         <div style={styles.virtualListContainer} ref={'virtualContainer'}>
           <VirtualList
@@ -317,7 +331,7 @@ class SourceList extends Component {
     field = this.props.source.sortingField;
     sortDirection = this.props.source.sortingStatus;
 
-    this.props.dispatch(sourceActions.sortDatas(datas,field,sortDirection))
+    this.props.dispatch(sourceActions.sortDatas(datas, field, sortDirection))
   }
 }
 
