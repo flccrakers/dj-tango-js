@@ -69,9 +69,15 @@ class PlayerWraper extends Component {
     this.rap.audioEl.play();
   };
   stopTango = () => {
-    this.rap.audioEl.pause();
-    this.rap.audioEl.currentTime = this.props.playerData.currentTango.duration / 1000 +1000;
-    this.props.dispatch(playerActions.progress(this.props.playerData.currentTango.duration+1000));
+    let audio = this.rap.audioEl;
+    audio.pause();
+    audio.remove();
+    // console.log(audio);
+
+    // audio.disconnect(0);
+
+    // this.rap.audioEl.currentTime = this.props.playerData.currentTango.duration / 1000 +1000;
+    this.props.dispatch(playerActions.progress(0));
     this.props.dispatch(playerActions.updateVolume(1));
     this.props.dispatch(playerActions.updatePause(true));
 
@@ -100,7 +106,7 @@ class PlayerWraper extends Component {
       console.log("I'm supposed to fade out");
     } else if (tango.genre === 'cortina' && position * 1000 > cortinaDuration) {
       console.log("I'm supposed to end the song");
-      this.stopTango();
+
       this.playNext();
 
 
@@ -108,6 +114,7 @@ class PlayerWraper extends Component {
   };
 
   playNext() {
+    this.stopTango();
     console.log("I'm supposed to play next Tango");
     console.log('current Index: ' + this.props.source.currentIndex);
     let index = this.props.source.currentIndex;
