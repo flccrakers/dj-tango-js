@@ -69,10 +69,22 @@ class PlayerWraper extends Component {
     this.rap.audioEl.play();
   };
   stopTango = () => {
-    let audio = this.rap.audioEl;
-    audio.pause();
-    audio.remove();
+    let audioElement = this.rap.audioEl;
+
+    // let  audioElement = document.getElementById('audioElement').audioEl;
+    audioElement.pause();
+    audioElement.src =""; // empty source
+    audioElement.load();
+
+
+    // audio.pause();
+    // audio.remove();
+    // this.rap = undefined;
+    // this.rap = document.getElementById('audioElement');
+    // audio = undefined;
     // console.log(audio);
+    // audio.src = '';
+    // audio.load();
 
     // audio.disconnect(0);
 
@@ -127,7 +139,6 @@ class PlayerWraper extends Component {
   ended = (event) => {
     console.log(event);
     this.playNext();
-    // this.props.dispatch(playerAction.playNext())
   };
 
   onUpdate = update => {
@@ -239,6 +250,7 @@ class PlayerWraper extends Component {
             ref={(element) => {
               this.rap = element;
             }}
+            id={'audioElement'}
             style={styles.audioPlayer}
             src={this.props.playerData.currentTangoSong}
             autoPlay={true}

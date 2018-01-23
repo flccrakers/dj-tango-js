@@ -7,6 +7,8 @@ import DataLine from './data-line';
 import {sortStatus as SORT} from '../services/dj-const';
 import ArrowUp from 'material-ui-icons/ArrowDropUp';
 import ArrowDown from 'material-ui-icons/ArrowDropDown';
+import List, {ListItem, ListItemText} from 'material-ui/List';
+import Menu, {MenuItem} from 'material-ui/Menu';
 
 const styles = {
   leftAligned: {
@@ -43,6 +45,11 @@ const styles = {
     flex: "1",
     display: 'flex',
     flexDirection: 'column',
+  },
+  filterButton:{
+    padding:'0px',
+    margin:'0px',
+    height:'24px',
   },
 };
 
@@ -110,19 +117,28 @@ const rowsTemplate = [
     size: 40,
     align: 'center',
     sortStatus: SORT.NONE,
-  },
+  }
+];
+
+const options = [
+  'Show some love to Material-UI',
+  'Show all notification content',
+  'Hide sensitive notification content',
+  'Hide all notification content',
 ];
 
 class SourceList extends Component {
 
   constructor(props) {
     super(props);
-    const sortBy = 'index';
+    // const sortBy = 'index';
     //const sortDirection = SortDirection.ASC;
     // const sortedList = props.tangoList;
     this.state = {
       containerHeight: 600,
       containerWidth: 600,
+      anchorEl: null,
+      selectedIndex: 1,
     };
 
   }
@@ -143,7 +159,7 @@ class SourceList extends Component {
   updateDimensions() {
     const containerHeight = this.refs.virtualContainer.clientHeight;
     const containerWidth = this.refs.virtualContainer.clientWidth;
-    this.setState({containerHeight,containerWidth});
+    this.setState({containerHeight, containerWidth});
   }
 
   componentWillReceiveProps(newProps) {
@@ -184,7 +200,7 @@ class SourceList extends Component {
     let ret, autoSize = 0, containerWidth;
     ret = rowsTemplate.map(a => Object.assign({}, a));
     containerWidth = this.state.containerWidth;
-    if(containerWidth !== NaN){
+    if (containerWidth !== NaN) {
       autoSize = this.getAutoSize(containerWidth);
     }
     ret.forEach((elmt, index, table) => {
@@ -193,6 +209,90 @@ class SourceList extends Component {
       }
     });
     return ret;
+  }
+
+  handleClickListItem = event => {
+    this.setState({anchorEl: event.currentTarget});
+  };
+
+  handleMenuItemClick = (event, index) => {
+    this.setState({selectedIndex: index, anchorEl: null});
+  };
+
+  handleClose = () => {
+    this.setState({anchorEl: null});
+  };
+
+  getFilterContent(sizedRows) {
+    let ret = [];
+    let left = {...styles.leftAligned, padding: '0px 2px 5px 2px', WebkitUserSelect: 'none'};
+    let center = {...styles.center, padding: '0px 2px 5px 2px', WebkitUserSelect: 'none'};
+    let titleContainer = {
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+      cursor: 'pointer',
+    };
+    const {anchorEl} = this.state;
+    // console.log(this.props.source.sortingField);
+    sizedRows.forEach(row => {
+      let style;
+      if (row.align === 'left') {
+        style = {...left, minWidth: row.size, height: '24px'};
+      } else if (row.align === 'center') {
+        style = {...center, minWidth: row.size, height: '24px'};
+      }
+      console.log(row.name);
+      if (row.name !== '') {
+        ret.push(
+          <th key={'filter_' + row.name} style={style}>
+            <div style={titleContainer}>
+              <List>
+                <ListItem
+                  button
+                  aria-haspopup="true"
+                  aria-controls="lock-menu"
+                  aria-label="When device is locked"
+                  onClick={this.handleClickListItem}
+                >
+                  <ListItemText
+                    primary={"select-"+row.name}
+                    // secondary={options[this.state.selectedIndex]}
+                  />
+                </ListItem>
+              </List>
+              <Menu
+                id="lock-menu"
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={this.handleClose}
+                // classes={styles.filterButton}
+              >
+                {options.map((option, index) => (
+                  <MenuItem
+                    key={option}
+                    disabled={index === 0}
+                    selected={index === this.state.selectedIndex}
+                    onClick={event => this.handleMenuItemClick(event, index)}
+                  >
+                    {option}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </div>
+          </th>
+        );
+      } else {
+        ret.push(
+          <th key={'filter_' + row.name} style={style}>
+            <div style={titleContainer}>
+            </div>
+          </th>
+        );
+      }
+    });
+    return ret;
+
   }
 
   getHeaderContent(sizedRows) {
@@ -237,6 +337,23 @@ class SourceList extends Component {
     });
     return ret;
 
+  }
+
+  getFilter() {
+    let sizedRows = this.getSizedRows();
+    const table = {
+      borderBottom: '1px solid red',
+      marginBottom: '15px',
+    };
+    return [
+      <table key={'tableSourceTitle'} style={table}>
+        <thead>
+        <tr>
+          {this.getFilterContent(sizedRows)}
+        </tr>
+        </thead>
+      </table>
+    ];
   }
 
   getHeader() {
@@ -286,6 +403,7 @@ class SourceList extends Component {
     let source: sourceReducer = this.props.source;
     return (
       <div style={styles.mainSource} id='sources' ref={'sources'}>
+        {this.getFilter()}
         {this.getHeader()}
         <div style={styles.virtualListContainer} ref={'virtualContainer'}>
           <VirtualList
