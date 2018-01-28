@@ -3,7 +3,7 @@ import Header from "./header";
 import Source from './sourceList';
 import * as sourceActions from '../redux/actions/sourceActions';
 import {connect} from 'react-redux';
-import PlayerWraper from './player-wraper';
+import PlayerWrapper from './player-wrapper';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import Footer from './footer';
 
@@ -64,7 +64,7 @@ class Main extends Component {
       <MuiThemeProvider theme={theme} key={'main_app'}>
         <Header/>
         <div style={styles.content}>
-          <PlayerWraper/>
+          <PlayerWrapper/>
           <div style={styles.playListRoot}>
             <Source/>
             <div style={styles.verticalSeparator}/>

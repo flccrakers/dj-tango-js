@@ -238,25 +238,26 @@ class SourceList extends Component {
     sizedRows.forEach(row => {
       let style;
       if (row.align === 'left') {
-        style = {...left, minWidth: row.size, height: '24px'};
+        style = {...left, width: row.size, height: '24px'};
       } else if (row.align === 'center') {
-        style = {...center, minWidth: row.size, height: '24px'};
+        style = {...center, width: row.size, height: '24px'};
       }
-      console.log(row.name);
+      // console.log(row.name);
       if (row.name !== '') {
         ret.push(
           <th key={'filter_' + row.name} style={style}>
             <div style={titleContainer}>
-              <List>
+              <List style={styles.filterButton}>
                 <ListItem
                   button
                   aria-haspopup="true"
                   aria-controls="lock-menu"
                   aria-label="When device is locked"
                   onClick={this.handleClickListItem}
+                  style={styles.filterButton}
                 >
                   <ListItemText
-                    primary={"select-"+row.name}
+                    primary={"select"}
                     // secondary={options[this.state.selectedIndex]}
                   />
                 </ListItem>
@@ -267,6 +268,7 @@ class SourceList extends Component {
                 open={Boolean(anchorEl)}
                 onClose={this.handleClose}
                 // classes={styles.filterButton}
+                styles={styles.filterButton}
               >
                 {options.map((option, index) => (
                   <MenuItem
@@ -309,9 +311,9 @@ class SourceList extends Component {
     sizedRows.forEach(row => {
       let style;
       if (row.align === 'left') {
-        style = {...left, minWidth: row.size, height: '24px'};
+        style = {...left, width: row.size, height: '24px'};
       } else if (row.align === 'center') {
-        style = {...center, minWidth: row.size, height: '24px'};
+        style = {...center, width: row.size, height: '24px'};
       }
       let sort = [];
 
@@ -342,8 +344,8 @@ class SourceList extends Component {
   getFilter() {
     let sizedRows = this.getSizedRows();
     const table = {
-      borderBottom: '1px solid red',
-      marginBottom: '15px',
+      // borderBottom: '1px solid red',
+      // marginBottom: '15px',
     };
     return [
       <table key={'tableSourceTitle'} style={table}>
