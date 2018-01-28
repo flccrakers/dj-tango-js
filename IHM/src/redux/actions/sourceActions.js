@@ -105,3 +105,39 @@ function sortNumbers(datas, field, sortDirection) {
     payload: datas,
   }
 }
+
+export function filterTangoList(selectedIndex, tangoList){
+  return function dispatch(){
+    
+  }
+}
+
+export function updateFilter(anchorEl, selectedIndex) {
+
+
+    return {
+      type: "UPDATE_FILTER",
+      payload: {anchorEl, selectedIndex}
+    }
+
+}
+
+export function updateAnchorState(anchorEl) {
+  console.log('should update anchor states');
+  return {
+    type: "UPDATE_ANCHOR_STATE",
+    payload: anchorEl,
+  }
+
+}
+
+export function clearFilter() {
+  let ret = {
+    anchorEl: {artist: null, album: null, singer: null, genre: null},
+    selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
+  };
+  return {
+    type: "UPDATE_FILTER",
+    payload: ret,
+  }
+}

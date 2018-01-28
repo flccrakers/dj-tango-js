@@ -209,6 +209,7 @@ class PlayerWrapper extends Component {
 
   getTitle() {
 
+    // noinspection JSAnnotator
     let tango: tango, ret, styles, space, color;
     tango = this.props.playerData.currentTango;
     ret = null;
