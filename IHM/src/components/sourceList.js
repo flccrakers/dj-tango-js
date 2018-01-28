@@ -263,6 +263,7 @@ class SourceList extends Component {
     selectedIndex[field] = index;
     anchorEl[field] = null;
     this.props.dispatch(sourceActions.updateFilter(anchorEl, selectedIndex));
+    this.props.dispatch(sourceActions.filterTangoList(selectedIndex, this.this.generateList(['artist', 'singer', 'album', 'genre',]), this.props.tangoList))
   };
 
   handleClose = (field) => {

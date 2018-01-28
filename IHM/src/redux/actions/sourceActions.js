@@ -106,9 +106,9 @@ function sortNumbers(datas, field, sortDirection) {
   }
 }
 
-export function filterTangoList(selectedIndex, tangoList){
+export function filterTangoList(selectedIndex, options, tangoList){
   return function dispatch(){
-    
+
   }
 }
 
