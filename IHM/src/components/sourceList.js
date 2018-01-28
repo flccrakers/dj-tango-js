@@ -1,12 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as sourceActions from '../redux/actions/sourceActions';
+import IconButton from "material-ui/IconButton/index";
 import 'react-virtualized/styles.css';
 import VirtualList from 'react-tiny-virtual-list';
 import DataLine from './data-line';
 import {sortStatus as SORT} from '../services/dj-const';
 import ArrowUp from 'material-ui-icons/ArrowDropUp';
 import ArrowDown from 'material-ui-icons/ArrowDropDown';
+import Shuffle from 'material-ui-icons/Shuffle';
+import Refresh from 'material-ui-icons/Refresh';
+import List, {ListItem, ListItemText} from 'material-ui/List';
+import Menu, {MenuItem} from 'material-ui/Menu';
+import Paper from "material-ui/es/Paper/Paper";
 
 const styles = {
   leftAligned: {
@@ -44,8 +50,16 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
   },
+  filterButton: {
+    padding: '0px',
+    margin: '0px',
+    height: '24px',
+  },
+  icon: {
+    width: '24px',
+    height: '24px',
+  },
 };
-
 
 const rowsTemplate = [
   {
@@ -110,19 +124,63 @@ const rowsTemplate = [
     size: 40,
     align: 'center',
     sortStatus: SORT.NONE,
+  }
+];
+
+const filterTemplate = [
+  {
+    name: 'Artist',
+    field: 'artist',
+    size: 'auto',
+    align: 'left',
+    sortStatus: SORT.NONE,
   },
+  {
+    name: 'Singer',
+    field: 'singer',
+    size: 'auto',
+    align: 'left',
+    sortStatus: SORT.NONE,
+  },
+  {
+    name: 'Album',
+    field: 'album',
+    size: 'auto',
+    align: 'left',
+    sortStatus: SORT.NONE,
+  },
+  {
+    name: 'Genre',
+    field: 'genre',
+    size: 150,
+    align: 'center',
+    sortStatus: SORT.ASC,
+  },
+];
+
+const options = [
+  'Show some love to Material-UI',
+  'Show all notification content',
+  'Hide sensitive notification content',
+  'Hide all notification content',
 ];
 
 class SourceList extends Component {
 
+  handleShuffle = () => {
+    this.props.dispatch(sourceActions.shuffleTangoList(this.props.source.tangoList))
+  };
+
   constructor(props) {
     super(props);
-    const sortBy = 'index';
+    // const sortBy = 'index';
     //const sortDirection = SortDirection.ASC;
     // const sortedList = props.tangoList;
     this.state = {
       containerHeight: 600,
       containerWidth: 600,
+      // anchorEl: {artist: null, album: null, singer: null, genre: null},
+      // selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
     };
 
   }
@@ -131,8 +189,6 @@ class SourceList extends Component {
   componentDidMount() {
     this.updateDimensions();
     window.addEventListener("resize", this.updateDimensions.bind(this));
-    // const containerHeight = this.refs.virtualContainer.clientHeight;
-    // this.setState({containerHeight});
 
   }
 
@@ -143,7 +199,7 @@ class SourceList extends Component {
   updateDimensions() {
     const containerHeight = this.refs.virtualContainer.clientHeight;
     const containerWidth = this.refs.virtualContainer.clientWidth;
-    this.setState({containerHeight,containerWidth});
+    this.setState({containerHeight, containerWidth});
   }
 
   componentWillReceiveProps(newProps) {
@@ -159,7 +215,7 @@ class SourceList extends Component {
    * @param containerSize size of the container in which the table is in (a div for example)
    * @returns {number} the size of column labeled 'auto'
    */
-  getAutoSize(containerSize) {
+  getAutoSize(rowsTemplate, containerSize) {
     let autoNb = 0;
     let totalSize = 0;
     let margin = rowsTemplate.length * 4 + 30;
@@ -180,12 +236,11 @@ class SourceList extends Component {
    * Get the table of size for each column
    * @returns {*[] | *}
    */
-  getSizedRows() {
-    let ret, autoSize = 0, containerWidth;
+  getSizedRows(rowsTemplate, containerWidth) {
+    let ret, autoSize = 0;
     ret = rowsTemplate.map(a => Object.assign({}, a));
-    containerWidth = this.state.containerWidth;
-    if(containerWidth !== NaN){
-      autoSize = this.getAutoSize(containerWidth);
+    if (containerWidth !== NaN) {
+      autoSize = this.getAutoSize(rowsTemplate, containerWidth);
     }
     ret.forEach((elmt, index, table) => {
       if (elmt.size === 'auto' || elmt.size === 0) {
@@ -193,6 +248,131 @@ class SourceList extends Component {
       }
     });
     return ret;
+  }
+
+  handleClickListItem(field, event) {
+    console.log(field);
+    let anchorEl = this.props.source.anchorEl;
+    anchorEl[field] = event.currentTarget;
+    this.setState({anchorEl});
+  }
+
+  handleMenuItemClick = (event, index, field) => {
+    console.log(index, field,);
+    let {selectedIndex, anchorEl} = this.props.source;
+    selectedIndex[field] = index;
+    anchorEl[field] = null;
+    this.props.dispatch(sourceActions.updateFilter(anchorEl, selectedIndex));
+    this.props.dispatch(sourceActions.filterTangoList(selectedIndex, this.this.generateList(['artist', 'singer', 'album', 'genre',]), this.props.tangoList))
+  };
+
+  handleClose = (field) => {
+    console.log(field + ' to close');
+    let anchorEl = this.props.source.anchorEl;
+    anchorEl[field] = null;
+    this.props.dispatch(sourceActions.updateAnchorState(anchorEl));
+  };
+
+  generateList(fields) {
+    let ret = {};
+    fields.forEach(field => {
+      ret[field] = [];
+    });
+    // if this.props.source.tangoList
+    if (this.props.source !== undefined) {
+      this.props.source.tangoList.forEach((tango => {
+        fields.forEach(field => {
+
+          if (!ret[field].some(element => {
+              return element === tango[field]
+            })) {
+            ret[field].push(tango[field]);
+          }
+        })
+      }));
+    }
+    // console.log(ret);
+    fields.forEach(field => {
+      ret[field] = ret[field].sort();
+    });
+    fields.forEach(field => {
+      ret[field].unshift(('select - ' + field).toUpperCase());
+    });
+    return ret;
+  }
+
+  getFilterContent(sizedRows) {
+    let ret = [];
+    let left = {...styles.leftAligned, padding: '0px 2px 0px 2px', WebkitUserSelect: 'none'};
+    let center = {...styles.center, padding: '0px 2px 0px 2px', WebkitUserSelect: 'none'};
+    let titleContainer = {
+      display: 'flex',
+      width: '100%',
+      alignItems: 'center',
+      cursor: 'pointer',
+    };
+    let optionsList = this.generateList(['artist', 'singer', 'album', 'genre',]);
+    const anchorEl = this.props.source.anchorEl;
+    console.log(anchorEl);
+    sizedRows.forEach(row => {
+      let style;
+      if (row.align === 'left') {
+        style = {...left, width: row.size, height: '24px'};
+      } else if (row.align === 'center') {
+        style = {...center, width: row.size, height: '24px'};
+      }
+      // console.log(row.name);
+      if (row.name !== '') {
+        // console.log(optionsList[row.field]);
+        ret.push(
+          <div key={'filter_' + row.name} style={style}>
+            <List style={styles.filterButton}>
+              <ListItem
+                button
+                aria-haspopup="true"
+                aria-controls="lock-menu"
+                aria-label="When device is locked"
+                onClick={this.handleClickListItem.bind(this, row.field)}
+                style={styles.filterButton}
+              >
+                <ListItemText
+                  primary={optionsList[row.field][this.props.source.selectedIndex[row.field]]}
+                />
+              </ListItem>
+            </List>
+            <Menu
+              id={"lock-menu" + row.name}
+              anchorEl={anchorEl[row.field]}
+              open={Boolean(anchorEl[row.field])}
+              onClose={this.handleClose.bind(this, row.field)}
+              // classes={styles.filterButton}
+              styles={styles.filterButton}
+            >
+              {optionsList[row.field].map((option, index) => {
+                return (
+                  <MenuItem
+                    key={option}
+                    selected={index === this.props.source.selectedIndex[row.field]}
+                    onClick={event => this.handleMenuItemClick(event, index, row.field)}
+                  >
+                    {option}
+                  </MenuItem>
+                )
+              })}
+            </Menu>
+          </div>
+        );
+      } else {
+        ret.push(
+          <th key={'filter_' + row.name} style={style}>
+            <div style={titleContainer}>
+            </div>
+          </th>
+        );
+      }
+    });
+    return ret;
+
   }
 
   getHeaderContent(sizedRows) {
@@ -209,9 +389,9 @@ class SourceList extends Component {
     sizedRows.forEach(row => {
       let style;
       if (row.align === 'left') {
-        style = {...left, minWidth: row.size, height: '24px'};
+        style = {...left, width: row.size, height: '24px'};
       } else if (row.align === 'center') {
-        style = {...center, minWidth: row.size, height: '24px'};
+        style = {...center, width: row.size, height: '24px'};
       }
       let sort = [];
 
@@ -227,7 +407,7 @@ class SourceList extends Component {
 
       ret.push(
         <th key={'header_' + row.name} style={style} onClick={(event) => {
-          this.handleTitleClick(event, row.name)
+          this.handleTitleClick(event, row.field)
         }}>
           <div style={titleContainer}>
             {row.name}{sort}
@@ -239,8 +419,44 @@ class SourceList extends Component {
 
   }
 
+  getFilter() {
+    let sizedRows = this.getSizedRows(filterTemplate, this.state.containerWidth - 100);
+
+    const styles = {
+      paperContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        margin: '0px 2px 5px 2px',
+      },
+      button: {
+        height: '36px',
+      }
+    };
+    return [
+      <Paper style={styles.paperContainer} elevation={4} key={'filter_source_menu'}>
+        <IconButton
+          style={styles.button}
+          color={'accent'}
+          onClick={this.handleShuffle}
+        >
+          <Shuffle style={styles.icon}/>
+        </IconButton>
+        <IconButton
+          style={styles.button}
+          color={'accent'}
+          onClick={() => {
+            this.props.dispatch(sourceActions.clearFilter())
+          }}
+        >
+          <Refresh style={styles.icon}/>
+        </IconButton>
+        {this.getFilterContent(sizedRows)}
+      </Paper>
+    ];
+  }
+
   getHeader() {
-    let sizedRows = this.getSizedRows();
+    let sizedRows = this.getSizedRows(rowsTemplate, this.state.containerWidth);
     // console.log(sizedRows);
     const table = {
       borderBottom: '1px solid red',
@@ -267,7 +483,7 @@ class SourceList extends Component {
   };
 
   rowRenderer = (params) => {
-    let sizedRows = this.getSizedRows();
+    let sizedRows = this.getSizedRows(rowsTemplate, this.state.containerWidth);
     let tango = this.props.source.tangoList[params.index];
     return (
       <DataLine tango={tango} sizedRows={sizedRows} rowHeight={this.props.source.listRowHeight} style={params.style}
@@ -286,6 +502,7 @@ class SourceList extends Component {
     let source: sourceReducer = this.props.source;
     return (
       <div style={styles.mainSource} id='sources' ref={'sources'}>
+        {this.getFilter()}
         {this.getHeader()}
         <div style={styles.virtualListContainer} ref={'virtualContainer'}>
           <VirtualList
@@ -309,8 +526,7 @@ class SourceList extends Component {
   handleTitleClick(event, field) {
     event.preventDefault();
     console.log(field);
-    this.updateTitleStatus(field.toLowerCase());
-    // this.sortData();
+    this.updateTitleStatus(field);
 
   }
 
@@ -325,14 +541,7 @@ class SourceList extends Component {
 
   }
 
-  sortData() {
-    let datas, field, sortDirection;
-    datas = this.props.source.tangoList;
-    field = this.props.source.sortingField;
-    sortDirection = this.props.source.sortingStatus;
-
-    this.props.dispatch(sourceActions.sortDatas(datas, field, sortDirection))
-  }
+  // sortData() {
 }
 
 
