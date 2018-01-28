@@ -26,7 +26,7 @@ function updateSortStatus(field, status) {
 
 export function updateSortStatusAndSort(field, status, data) {
   return function (dispatch) {
-    console.log(status);
+    console.log('status:' + status);
     if (status === 2) {
       status = 0
     }
@@ -42,7 +42,7 @@ export function updateSortStatusAndSort(field, status, data) {
 export function sortDatas(datas, field, sortDirection) {
   return function (dispatch) {
     console.log(field);
-    console.log(datas[0][field]);
+    console.log(datas[0]);
     console.log(typeof datas[0][field]);
     if (typeof datas[0][field] === 'string') {
       dispatch(sortStrings(datas, field, sortDirection));
@@ -65,17 +65,36 @@ function sortStrings(datas, field, sortDirection) {
   }
 }
 
-export function updateCurrentIndex(index){
+export function updateCurrentIndex(index) {
   return {
-    type:'UPDATE_CURRENT_INDEX',
-    payload:index,
+    type: 'UPDATE_CURRENT_INDEX',
+    payload: index,
+  }
+}
+
+function shuffle(arrayToShuffle) {
+  for (let i = arrayToShuffle.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arrayToShuffle[i], arrayToShuffle[j]] = [arrayToShuffle[j], arrayToShuffle[i]];
+  }
+  return arrayToShuffle;
+}
+
+export function shuffleTangoList(tangoList) {
+  return {
+    type: 'SHUFFLE',
+    payload: shuffle(tangoList),
   }
 }
 
 function sortNumbers(datas, field, sortDirection) {
   datas.sort((a, b) => {
-    if (a[field]>b[field]){return 1}
-    if (a[field]<b[field]){return -1}
+    if (a[field] > b[field]) {
+      return 1
+    }
+    if (a[field] < b[field]) {
+      return -1
+    }
     return 0;
   });
   if (sortDirection === SORT.DESC) {

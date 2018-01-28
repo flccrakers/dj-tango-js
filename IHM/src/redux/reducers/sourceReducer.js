@@ -30,6 +30,9 @@ export default function reducer(state = initialState, action) {
     case"UPDATE_CURRENT_INDEX":{
       return{...state, currentIndex:action.payload}
     }
+    case"SHUFFLE":{
+      return{...state, tangoList:action.payload}
+    }
 
     default: {
       return {...state};

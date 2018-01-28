@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as sourceActions from '../redux/actions/sourceActions';
+import IconButton from "material-ui/IconButton/index";
 import 'react-virtualized/styles.css';
 import VirtualList from 'react-tiny-virtual-list';
 import DataLine from './data-line';
 import {sortStatus as SORT} from '../services/dj-const';
 import ArrowUp from 'material-ui-icons/ArrowDropUp';
 import ArrowDown from 'material-ui-icons/ArrowDropDown';
+import Shuffle from 'material-ui-icons/Shuffle';
+import Refresh from 'material-ui-icons/Refresh';
 import List, {ListItem, ListItemText} from 'material-ui/List';
 import Menu, {MenuItem} from 'material-ui/Menu';
 
@@ -46,10 +49,14 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
   },
-  filterButton:{
-    padding:'0px',
-    margin:'0px',
-    height:'24px',
+  filterButton: {
+    padding: '0px',
+    margin: '0px',
+    height: '24px',
+  },
+  icon: {
+    width: '24px',
+    height: '24px',
   },
 };
 
@@ -120,6 +127,37 @@ const rowsTemplate = [
   }
 ];
 
+const filterTemplate = [
+  {
+    name: 'Artist',
+    field: 'artist',
+    size: 'auto',
+    align: 'left',
+    sortStatus: SORT.NONE,
+  },
+  {
+    name: 'Singer',
+    field: 'singer',
+    size: 'auto',
+    align: 'left',
+    sortStatus: SORT.NONE,
+  },
+  {
+    name: 'Album',
+    field: 'album',
+    size: 'auto',
+    align: 'left',
+    sortStatus: SORT.NONE,
+  },
+  {
+    name: 'Genre',
+    field: 'genre',
+    size: 100,
+    align: 'center',
+    sortStatus: SORT.ASC,
+  },
+];
+
 const options = [
   'Show some love to Material-UI',
   'Show all notification content',
@@ -129,6 +167,10 @@ const options = [
 
 class SourceList extends Component {
 
+  handleShuffle = ()=>{
+    this.props.dispatch(sourceActions.shuffleTangoList(this.props.source.tangoList))
+  };
+
   constructor(props) {
     super(props);
     // const sortBy = 'index';
@@ -137,8 +179,8 @@ class SourceList extends Component {
     this.state = {
       containerHeight: 600,
       containerWidth: 600,
-      anchorEl: null,
-      selectedIndex: 1,
+      anchorEl: {artist: null, album: null, singer: null, genre: null},
+      selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
     };
 
   }
@@ -175,7 +217,7 @@ class SourceList extends Component {
    * @param containerSize size of the container in which the table is in (a div for example)
    * @returns {number} the size of column labeled 'auto'
    */
-  getAutoSize(containerSize) {
+  getAutoSize(rowsTemplate, containerSize) {
     let autoNb = 0;
     let totalSize = 0;
     let margin = rowsTemplate.length * 4 + 30;
@@ -196,12 +238,12 @@ class SourceList extends Component {
    * Get the table of size for each column
    * @returns {*[] | *}
    */
-  getSizedRows() {
-    let ret, autoSize = 0, containerWidth;
+  getSizedRows(rowsTemplate, containerWidth) {
+    let ret, autoSize = 0;
     ret = rowsTemplate.map(a => Object.assign({}, a));
-    containerWidth = this.state.containerWidth;
+    // containerWidth = this.state.containerWidth;
     if (containerWidth !== NaN) {
-      autoSize = this.getAutoSize(containerWidth);
+      autoSize = this.getAutoSize(rowsTemplate, containerWidth);
     }
     ret.forEach((elmt, index, table) => {
       if (elmt.size === 'auto' || elmt.size === 0) {
@@ -211,17 +253,52 @@ class SourceList extends Component {
     return ret;
   }
 
-  handleClickListItem = event => {
-    this.setState({anchorEl: event.currentTarget});
+  handleClickListItem(field, event) {
+    console.log(field);
+    let anchorEl = this.state.anchorEl;
+    anchorEl[field] = event.currentTarget;
+    this.setState({anchorEl});
+  }
+
+  handleMenuItemClick = (event, index, field) => {
+    // console.log(field);
+    let {selectedIndex, anchorEl} = this.state;
+    selectedIndex[field] = index;
+    anchorEl[field] = null;
+    this.setState({selectedIndex, anchorEl});
   };
 
-  handleMenuItemClick = (event, index) => {
-    this.setState({selectedIndex: index, anchorEl: null});
+  handleClose = (field) => {
+    console.log(field + ' to close');
+    let anchorEl = this.state.anchorEl;
+    anchorEl[field] = null;
+    this.setState({anchorEl});
   };
 
-  handleClose = () => {
-    this.setState({anchorEl: null});
-  };
+  generateList(fields) {
+    let ret = {};
+    fields.forEach(field => {
+      ret[field] = [];
+    });
+    // if this.props.source.tangoList
+    if (this.props.source !== undefined) {
+      this.props.source.tangoList.forEach((tango => {
+        fields.forEach(field => {
+
+          if (!ret[field].some(element => {
+              return element === tango[field]
+            })) {
+            ret[field].push(tango[field]);
+          }
+        })
+      }));
+    }
+    // console.log(ret);
+    fields.forEach(field => {
+      ret[field] = ret[field].sort();
+    });
+    return ret;
+  }
 
   getFilterContent(sizedRows) {
     let ret = [];
@@ -233,8 +310,10 @@ class SourceList extends Component {
       alignItems: 'center',
       cursor: 'pointer',
     };
+    let optionsList = this.generateList(['artist', 'singer', 'album', 'genre',]);
     const {anchorEl} = this.state;
     // console.log(this.props.source.sortingField);
+    // filterRows
     sizedRows.forEach(row => {
       let style;
       if (row.align === 'left') {
@@ -244,6 +323,7 @@ class SourceList extends Component {
       }
       // console.log(row.name);
       if (row.name !== '') {
+        // console.log(optionsList[row.field]);
         ret.push(
           <th key={'filter_' + row.name} style={style}>
             <div style={titleContainer}>
@@ -253,33 +333,37 @@ class SourceList extends Component {
                   aria-haspopup="true"
                   aria-controls="lock-menu"
                   aria-label="When device is locked"
-                  onClick={this.handleClickListItem}
+                  onClick={this.handleClickListItem.bind(this, row.field)}
                   style={styles.filterButton}
                 >
                   <ListItemText
-                    primary={"select"}
+                    primary={this.state.selectedIndex[row.field] > 0 ? optionsList[row.field][this.state.selectedIndex[row.field]] : "select " + row.name.toLowerCase()}
+
                     // secondary={options[this.state.selectedIndex]}
                   />
                 </ListItem>
               </List>
               <Menu
-                id="lock-menu"
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={this.handleClose}
+                id={"lock-menu" + row.name}
+                anchorEl={anchorEl[row.field]}
+                open={Boolean(anchorEl[row.field])}
+                onClose={this.handleClose.bind(this, row.field)}
                 // classes={styles.filterButton}
                 styles={styles.filterButton}
               >
-                {options.map((option, index) => (
-                  <MenuItem
-                    key={option}
-                    disabled={index === 0}
-                    selected={index === this.state.selectedIndex}
-                    onClick={event => this.handleMenuItemClick(event, index)}
-                  >
-                    {option}
-                  </MenuItem>
-                ))}
+                {optionsList[row.field].map((option, index) => {
+                  // console.log(option);
+                  return (
+                    <MenuItem
+                      key={option}
+                      disabled={index === 0}
+                      selected={index === this.state.selectedIndex[row.field]}
+                      onClick={event => this.handleMenuItemClick(event, index, row.field)}
+                    >
+                      {option}
+                    </MenuItem>
+                  )
+                })}
               </Menu>
             </div>
           </th>
@@ -329,7 +413,7 @@ class SourceList extends Component {
 
       ret.push(
         <th key={'header_' + row.name} style={style} onClick={(event) => {
-          this.handleTitleClick(event, row.name)
+          this.handleTitleClick(event, row.field)
         }}>
           <div style={titleContainer}>
             {row.name}{sort}
@@ -342,15 +426,34 @@ class SourceList extends Component {
   }
 
   getFilter() {
-    let sizedRows = this.getSizedRows();
+    let sizedRows = this.getSizedRows(filterTemplate, this.state.containerWidth);
     const table = {
-      // borderBottom: '1px solid red',
-      // marginBottom: '15px',
+      borderBottom: '1px solid #000000',
+      marginBottom: '5px',
     };
     return [
       <table key={'tableSourceTitle'} style={table}>
         <thead>
+
         <tr>
+          <td>
+            <IconButton
+              style={styles.button}
+              color={'accent'}
+              onClick={this.handleShuffle}
+            >
+              <Shuffle style={styles.icon}/>
+            </IconButton>
+          </td>
+          <td>
+            <IconButton
+              style={styles.button}
+              color={'accent'}
+              onClick={()=>{console.log('Clean filter')}}
+            >
+              <Refresh style={styles.icon}/>
+            </IconButton>
+          </td>
           {this.getFilterContent(sizedRows)}
         </tr>
         </thead>
@@ -359,7 +462,7 @@ class SourceList extends Component {
   }
 
   getHeader() {
-    let sizedRows = this.getSizedRows();
+    let sizedRows = this.getSizedRows(rowsTemplate, this.state.containerWidth);
     // console.log(sizedRows);
     const table = {
       borderBottom: '1px solid red',
@@ -386,7 +489,7 @@ class SourceList extends Component {
   };
 
   rowRenderer = (params) => {
-    let sizedRows = this.getSizedRows();
+    let sizedRows = this.getSizedRows(rowsTemplate, this.state.containerWidth);
     let tango = this.props.source.tangoList[params.index];
     return (
       <DataLine tango={tango} sizedRows={sizedRows} rowHeight={this.props.source.listRowHeight} style={params.style}
@@ -429,7 +532,7 @@ class SourceList extends Component {
   handleTitleClick(event, field) {
     event.preventDefault();
     console.log(field);
-    this.updateTitleStatus(field.toLowerCase());
+    this.updateTitleStatus(field);
     // this.sortData();
 
   }
