@@ -106,8 +106,33 @@ function sortNumbers(datas, field, sortDirection) {
   }
 }
 
-export function filterTangoList(selectedIndex, options, tangoList){
-  return function dispatch(){
+export function filterTangoList(selectedIndex, options, tangoList) {
+  return function (dispatch) {
+    console.log(Object.keys(selectedIndex));
+    let fieldToSearch = {};
+    Object.keys(selectedIndex).forEach(key => {
+      if (selectedIndex[key] > 0) {
+        console.log(options[key][selectedIndex[key]]);
+        fieldToSearch[key] = options[key][selectedIndex[key]];
+      }
+    });
+
+    let newTangoList = tangoList.filter((tango => {
+
+      let ret = true;
+      Object.keys(fieldToSearch).forEach(key => {
+        if (fieldToSearch[key] !== tango[key]) {
+          ret = false;
+        }
+
+      });
+      return ret
+
+    }));
+
+    console.log(newTangoList);
+
+     dispatch(receivedAllTangos(newTangoList))
 
   }
 }
@@ -115,10 +140,10 @@ export function filterTangoList(selectedIndex, options, tangoList){
 export function updateFilter(anchorEl, selectedIndex) {
 
 
-    return {
-      type: "UPDATE_FILTER",
-      payload: {anchorEl, selectedIndex}
-    }
+  return {
+    type: "UPDATE_FILTER",
+    payload: {anchorEl, selectedIndex}
+  }
 
 }
 
@@ -131,7 +156,7 @@ export function updateAnchorState(anchorEl) {
 
 }
 
-export function clearFilter() {
+function clearFilterFullfill(){
   let ret = {
     anchorEl: {artist: null, album: null, singer: null, genre: null},
     selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
@@ -140,4 +165,15 @@ export function clearFilter() {
     type: "UPDATE_FILTER",
     payload: ret,
   }
+}
+
+export function clearFilter() {
+  return function (dispatch) {
+    dispatch(clearFilterFullfill());
+    dispatch(fetchAllTangos());
+
+  }
+
+
+
 }
