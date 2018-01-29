@@ -91,6 +91,12 @@ class DataLine extends Component {
       if (row.field === 'played' && this.isTangoPlaying()) {
         value = [<Playing style={{color: 'white'}} key={'playing_beacon'}/>];
       }
+
+      if (row.field === 'bpmHuman') {
+        // value = tango.bpmFromFile === 0 ? tango.bpmHuman : tango.bpmFromFile;
+        value = Math.round(tango[row.field] * 100) / 100
+      }
+
       ret.push(
         <div key={tango._id + '_' + row.field} style={style}>{value}</div>
       );

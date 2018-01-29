@@ -113,8 +113,8 @@ const rowsTemplate = [
   },
   {
     name: 'Bpm',
-    field: 'bpmFromFile',
-    size: 40,
+    field: 'bpmHuman',
+    size: 80,
     align: 'center',
     sortStatus: SORT.NONE,
   },
