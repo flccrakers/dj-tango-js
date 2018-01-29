@@ -168,7 +168,7 @@ const options = [
 class SourceList extends Component {
 
   handleShuffle = () => {
-    this.props.dispatch(sourceActions.shuffleTangoList(this.props.source.tangoList))
+    this.props.dispatch(sourceActions.shuffleTangoList(this.props.source.displayTangoList))
   };
 
   constructor(props) {
@@ -460,7 +460,7 @@ class SourceList extends Component {
 
   rowRenderer = (params) => {
     let sizedRows = this.getSizedRows(rowsTemplate, this.state.containerWidth);
-    let tango = this.props.source.tangoList[params.index];
+    let tango = this.props.source.displayTangoList[params.index];
     return (
       <DataLine tango={tango} sizedRows={sizedRows} rowHeight={this.props.source.listRowHeight} style={params.style}
                 index={params.index}
@@ -484,7 +484,7 @@ class SourceList extends Component {
           <VirtualList
             width='100%'
             height={this.state.containerHeight + source.listRowHeight}
-            itemCount={source.tangoList.length}
+            itemCount={source.displayTangoList.length}
             itemSize={source.listRowHeight} // Also supports variable heights (array or function getter)
             renderItem={(index, style) => {
               return (this.rowRenderer(index))
@@ -493,8 +493,6 @@ class SourceList extends Component {
 
         </div>
       </div>
-
-
     );
   }
 
@@ -513,7 +511,7 @@ class SourceList extends Component {
       status = SORT.NONE;
     }
 
-    this.props.dispatch(sourceActions.updateSortStatusAndSort(newField, status, this.props.source.tangoList));
+    this.props.dispatch(sourceActions.updateSortStatusAndSort(newField, status, this.props.source.displayTangoList));
 
   }
 

@@ -6,7 +6,7 @@ import * as sourceActions from '../redux/actions/sourceActions';
 import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
 import Playing from 'material-ui-icons/VolumeUp';
-
+import Menu, {MenuItem} from 'material-ui/Menu';
 
 const styles = {
   root: {
@@ -34,6 +34,24 @@ const styles = {
 
 class DataLine extends Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      hover: false,
+      anchorEl: null,
+      anchorPosition:{ top: 0, left: 0 }
+    }
+  }
+
+  handleClose = () => {
+    this.setState({anchorEl: null, hover:false});
+  };
+
+  handleClick(event) {
+    console.log(event.clientX);
+    let position = { top: event.clientY-35, left: event.clientX-25 };
+    this.setState({anchorEl: event.currentTarget, anchorPosition:position});
+  };
 
   handleClickOnLine = () => {
     let tango = this.props.tango;
@@ -60,7 +78,7 @@ class DataLine extends Component {
         };
       }
 
-      if(row.field === 'genre' && !this.isTangoPlaying()) {
+      if (row.field === 'genre' && !this.isTangoPlaying()) {
         style = {...style, backgroundColor: tangoColors()[tango.genre.replace('-', '_')]};
       }
       let value = tango[row.field];
@@ -86,7 +104,15 @@ class DataLine extends Component {
     return this.props.tango._id === this.props.playedId;
   }
 
+  handleContextMenu(event) {
+
+    console.log('Display context menu');
+    this.handleClick(event);
+  }
+
   render() {
+    const {anchorEl, anchorPosition} = this.state;
+    console.log(anchorPosition);
     let tango, root, rootBase;
     rootBase = {...this.props.style, ...styles.root, WebkitUserSelect: 'none'};
     tango: tango = this.props.tango;
@@ -96,9 +122,42 @@ class DataLine extends Component {
     else {
       root = {...rootBase};
     }
+
+    if (this.state.hover === true) {
+      root = {...root, backgroundColor: '#272727'}
+    }
     return (
-      <div style={root} onDoubleClick={this.handleClickOnLine} draggable={true}>
+      <div
+        style={root}
+        onDoubleClick={this.handleClickOnLine}
+        onMouseEnter={() => {
+          this.setState({hover: true})
+        }}
+        onMouseLeave={() => {
+          this.setState({hover: false})
+        }}
+        onContextMenu={(event) => {
+          event.preventDefault();
+          console.log('Display context menu');
+          this.handleClick(event);
+          // this.handleContextMenu.bind(this, event)
+        }}
+        draggable={true}
+      >
         {this.getLineContent()}
+
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleClose}
+          anchorReference={'anchorPosition'}
+          anchorPosition={anchorPosition}
+        >
+          <MenuItem onClick={this.handleClose}>Edit tango</MenuItem>
+          <MenuItem onClick={this.handleClose}>Calculate bpm</MenuItem>
+          <MenuItem onClick={this.handleClose}>Open with audacity</MenuItem>
+        </Menu>
 
       </div>
     );
@@ -109,7 +168,7 @@ DataLine.propTypes = {
   tango: PropTypes.object.isRequired,
   sizedRows: PropTypes.array.isRequired,
   rowHeight: PropTypes.number.isRequired,
-  index:PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default connect((store) => {

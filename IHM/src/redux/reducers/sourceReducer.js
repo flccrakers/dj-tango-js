@@ -2,6 +2,7 @@ import {sortStatus as SORT} from '../../services/dj-const';
 
 const initialState = {
   tangoList: [],
+  displayTangoList:[],
   isImporting: false,
   listRowHeight: 25,
   overscanRowCount: 10,
@@ -33,9 +34,9 @@ export default function reducer(state = initialState, action) {
     case"UPDATE_CURRENT_INDEX": {
       return {...state, currentIndex: action.payload}
     }
-    case"SHUFFLE": {
-      return {...state, tangoList: action.payload}
-    }
+    // case"SHUFFLE": {
+    //   return {...state, displayTangoList: action.payload}
+    // }
     case"UPDATE_ANCHOR_STATE": {
       // return{...state, anchorEl:action.payload}
       return {...state}
@@ -45,6 +46,9 @@ export default function reducer(state = initialState, action) {
     }
     case"UPDATE_FILTER_LIST": {
       return {...state, filterList: action.payload}
+    }
+    case'UPDATE_DISPLAY_TANGO_LIST':{
+      return {...state, displayTangoList: action.payload}
     }
 
 

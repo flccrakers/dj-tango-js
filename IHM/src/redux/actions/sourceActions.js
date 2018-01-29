@@ -7,13 +7,21 @@ function receivedAllTangos(tangoList) {
     payload: tangoList,
   }
 }
-
-export function fetchAllTangos() {
+function updateDisplayTangosList(tangoList){
+  return{
+    type:'UPDATE_DISPLAY_TANGO_LIST',
+    payload:tangoList,
+  }
+}
+export function fetchAllTangos(resetDisplayList = false) {
   return function (dispatch) {
 
     tangoDataManagement.getAllTangos().then((tangoList) => {
       dispatch(generateFilterList(['artist', 'singer', 'album', 'genre',], tangoList));
       dispatch(receivedAllTangos(tangoList));
+      if(resetDisplayList === true){
+        dispatch(updateDisplayTangosList(tangoList));
+      }
     });
   }
 }
@@ -93,7 +101,7 @@ function sortStrings(datas, field, sortDirection) {
     datas.reverse()
   }
   return {
-    type: 'GET_ALL_TANGOS',
+    type: 'UPDATE_DISPLAY_TANGO_LIST',
     payload: datas,
   }
 }
@@ -114,9 +122,8 @@ function shuffle(arrayToShuffle) {
 }
 
 export function shuffleTangoList(tangoList) {
-  return {
-    type: 'SHUFFLE',
-    payload: shuffle(tangoList),
+  return function (dispatch){
+    dispatch(updateDisplayTangosList(shuffle(tangoList)));
   }
 }
 
@@ -134,7 +141,7 @@ function sortNumbers(datas, field, sortDirection) {
     datas.reverse()
   }
   return {
-    type: 'GET_ALL_TANGOS',
+    type: 'UPDATE_DISPLAY_TANGO_LIST',
     payload: datas,
   }
 }
@@ -165,7 +172,7 @@ export function filterTangoList(selectedIndex, options, tangoList) {
 
     console.log(newTangoList);
 
-    dispatch(receivedAllTangos(newTangoList))
+    dispatch(updateDisplayTangosList(newTangoList))
 
   }
 }
@@ -203,7 +210,7 @@ function clearFilterFullfill() {
 export function clearFilter() {
   return function (dispatch) {
     dispatch(clearFilterFullfill());
-    dispatch(fetchAllTangos());
+    dispatch(fetchAllTangos(true));
 
   }
 

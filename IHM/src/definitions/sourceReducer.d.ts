@@ -1,6 +1,7 @@
 interface sourceReducer {
     isImporting: boolean,
     tangoList: tango[],
+    displayTangoList:tango[],
     listRowHeight: number,
     overscanRowCount: number,
     scrollToIndex: number,
