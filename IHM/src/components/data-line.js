@@ -60,7 +60,7 @@ class DataLine extends Component {
         };
       }
 
-      if(row.field === 'genre' && !this.isTangoPlaying()) {
+      if (row.field === 'genre' && !this.isTangoPlaying()) {
         style = {...style, backgroundColor: tangoColors()[tango.genre.replace('-', '_')]};
       }
       let value = tango[row.field];
@@ -73,6 +73,12 @@ class DataLine extends Component {
       if (row.field === 'played' && this.isTangoPlaying()) {
         value = [<Playing style={{color: 'white'}} key={'playing_beacon'}/>];
       }
+
+      if (row.field === 'bpmHuman') {
+        // value = tango.bpmFromFile === 0 ? tango.bpmHuman : tango.bpmFromFile;
+        value = Math.round(tango[row.field] * 100) / 100
+      }
+
       ret.push(
         <div key={tango._id + '_' + row.field} style={style}>{value}</div>
       );
@@ -109,7 +115,7 @@ DataLine.propTypes = {
   tango: PropTypes.object.isRequired,
   sizedRows: PropTypes.array.isRequired,
   rowHeight: PropTypes.number.isRequired,
-  index:PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default connect((store) => {
