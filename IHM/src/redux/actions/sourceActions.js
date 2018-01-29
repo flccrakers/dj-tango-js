@@ -10,12 +10,45 @@ function receivedAllTangos(tangoList) {
 
 export function fetchAllTangos() {
   return function (dispatch) {
+
     tangoDataManagement.getAllTangos().then((tangoList) => {
-      // console.log(tangoList);
+      dispatch(generateFilterList(['artist', 'singer', 'album', 'genre',], tangoList));
       dispatch(receivedAllTangos(tangoList));
     });
   }
 }
+
+function generateFilterList(fields, tangoList) {
+
+  let ret = {};
+  fields.forEach(field => {
+    ret[field] = [];
+  });
+  // if this.props.source.tangoList
+
+  tangoList.forEach((tango => {
+    fields.forEach(field => {
+
+      if (!ret[field].some(element => {
+          return element === tango[field]
+        })) {
+        ret[field].push(tango[field]);
+      }
+    })
+  }));
+  fields.forEach(field => {
+    ret[field] = ret[field].sort();
+  });
+  fields.forEach(field => {
+    ret[field].unshift(('select - ' + field).toUpperCase());
+  });
+
+  return {
+    type: 'UPDATE_FILTER_LIST',
+    payload: ret,
+  }
+}
+
 
 function updateSortStatus(field, status) {
   return {
@@ -132,7 +165,7 @@ export function filterTangoList(selectedIndex, options, tangoList) {
 
     console.log(newTangoList);
 
-     dispatch(receivedAllTangos(newTangoList))
+    dispatch(receivedAllTangos(newTangoList))
 
   }
 }
@@ -156,7 +189,7 @@ export function updateAnchorState(anchorEl) {
 
 }
 
-function clearFilterFullfill(){
+function clearFilterFullfill() {
   let ret = {
     anchorEl: {artist: null, album: null, singer: null, genre: null},
     selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
@@ -173,7 +206,6 @@ export function clearFilter() {
     dispatch(fetchAllTangos());
 
   }
-
 
 
 }

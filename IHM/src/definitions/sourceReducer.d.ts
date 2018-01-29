@@ -16,6 +16,7 @@ interface sourceReducer {
     sortingStatus: number,
     anchorEl: sourceAnchorDTO,
     selectedIndex: selectedIndexSourceDTO,
+    filterList:object,
 
 }
 
