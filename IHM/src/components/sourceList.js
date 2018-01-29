@@ -263,7 +263,7 @@ class SourceList extends Component {
     selectedIndex[field] = index;
     anchorEl[field] = null;
     this.props.dispatch(sourceActions.updateFilter(anchorEl, selectedIndex));
-    this.props.dispatch(sourceActions.filterTangoList(selectedIndex, this.generateList(['artist', 'singer', 'album', 'genre',]), this.props.source.tangoList))
+    this.props.dispatch(sourceActions.filterTangoList(selectedIndex, this.props.source.filterList, this.props.source.tangoList))
   };
 
   handleClose = (field) => {
@@ -273,33 +273,6 @@ class SourceList extends Component {
     this.props.dispatch(sourceActions.updateAnchorState(anchorEl));
   };
 
-  generateList(fields) {
-    let ret = {};
-    fields.forEach(field => {
-      ret[field] = [];
-    });
-    // if this.props.source.tangoList
-    if (this.props.source !== undefined) {
-      this.props.source.tangoList.forEach((tango => {
-        fields.forEach(field => {
-
-          if (!ret[field].some(element => {
-              return element === tango[field]
-            })) {
-            ret[field].push(tango[field]);
-          }
-        })
-      }));
-    }
-    // console.log(ret);
-    fields.forEach(field => {
-      ret[field] = ret[field].sort();
-    });
-    fields.forEach(field => {
-      ret[field].unshift(('select - ' + field).toUpperCase());
-    });
-    return ret;
-  }
 
   getFilterContent(sizedRows) {
     let ret = [];
@@ -311,66 +284,69 @@ class SourceList extends Component {
       alignItems: 'center',
       cursor: 'pointer',
     };
-    let optionsList = this.generateList(['artist', 'singer', 'album', 'genre',]);
+    let optionsList = this.props.source.filterList;
+    console.log(optionsList);
     const anchorEl = this.props.source.anchorEl;
     console.log(anchorEl);
-    sizedRows.forEach(row => {
-      let style;
-      if (row.align === 'left') {
-        style = {...left, width: row.size, height: '24px'};
-      } else if (row.align === 'center') {
-        style = {...center, width: row.size, height: '24px'};
-      }
-      // console.log(row.name);
-      if (row.name !== '') {
-        // console.log(optionsList[row.field]);
-        ret.push(
-          <div key={'filter_' + row.name} style={style}>
-            <List style={styles.filterButton}>
-              <ListItem
-                button
-                aria-haspopup="true"
-                aria-controls="lock-menu"
-                aria-label="When device is locked"
-                onClick={this.handleClickListItem.bind(this, row.field)}
-                style={styles.filterButton}
+    if(optionsList !== null) {
+      sizedRows.forEach(row => {
+        let style;
+        if (row.align === 'left') {
+          style = {...left, width: row.size, height: '24px'};
+        } else if (row.align === 'center') {
+          style = {...center, width: row.size, height: '24px'};
+        }
+        // console.log(row.name);
+        if (row.name !== '') {
+          // console.log(optionsList[row.field]);
+          ret.push(
+            <div key={'filter_' + row.name} style={style}>
+              <List style={styles.filterButton}>
+                <ListItem
+                  button
+                  aria-haspopup="true"
+                  aria-controls="lock-menu"
+                  aria-label="When device is locked"
+                  onClick={this.handleClickListItem.bind(this, row.field)}
+                  style={styles.filterButton}
+                >
+                  <ListItemText
+                    primary={optionsList[row.field][this.props.source.selectedIndex[row.field]] || ''}
+                  />
+                </ListItem>
+              </List>
+              <Menu
+                id={"lock-menu" + row.name}
+                anchorEl={anchorEl[row.field]}
+                open={Boolean(anchorEl[row.field])}
+                onClose={this.handleClose.bind(this, row.field)}
+                // classes={styles.filterButton}
+                styles={styles.filterButton}
               >
-                <ListItemText
-                  primary={optionsList[row.field][this.props.source.selectedIndex[row.field]]}
-                />
-              </ListItem>
-            </List>
-            <Menu
-              id={"lock-menu" + row.name}
-              anchorEl={anchorEl[row.field]}
-              open={Boolean(anchorEl[row.field])}
-              onClose={this.handleClose.bind(this, row.field)}
-              // classes={styles.filterButton}
-              styles={styles.filterButton}
-            >
-              {optionsList[row.field].map((option, index) => {
-                return (
-                  <MenuItem
-                    key={option}
-                    selected={index === this.props.source.selectedIndex[row.field]}
-                    onClick={event => this.handleMenuItemClick(event, index, row.field)}
-                  >
-                    {option}
-                  </MenuItem>
-                )
-              })}
-            </Menu>
-          </div>
-        );
-      } else {
-        ret.push(
-          <th key={'filter_' + row.name} style={style}>
-            <div style={titleContainer}>
+                {optionsList[row.field].map((option, index) => {
+                  return (
+                    <MenuItem
+                      key={option}
+                      selected={index === this.props.source.selectedIndex[row.field]}
+                      onClick={event => this.handleMenuItemClick(event, index, row.field)}
+                    >
+                      {option}
+                    </MenuItem>
+                  )
+                })}
+              </Menu>
             </div>
-          </th>
-        );
-      }
-    });
+          );
+        } else {
+          ret.push(
+            <th key={'filter_' + row.name} style={style}>
+              <div style={titleContainer}>
+              </div>
+            </th>
+          );
+        }
+      });
+    }
     return ret;
 
   }
