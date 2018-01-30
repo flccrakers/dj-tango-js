@@ -158,12 +158,6 @@ const filterTemplate = [
   },
 ];
 
-const options = [
-  'Show some love to Material-UI',
-  'Show all notification content',
-  'Hide sensitive notification content',
-  'Hide all notification content',
-];
 
 class SourceList extends Component {
 
@@ -228,8 +222,7 @@ class SourceList extends Component {
         totalSize += element.size
       }
     });
-    let ret = (containerSize - totalSize - margin) / autoNb;
-    return ret;
+    return (containerSize - totalSize - margin) / autoNb;
   }
 
   /**
@@ -239,7 +232,7 @@ class SourceList extends Component {
   getSizedRows(rowsTemplate, containerWidth) {
     let ret, autoSize = 0;
     ret = rowsTemplate.map(a => Object.assign({}, a));
-    if (containerWidth !== NaN) {
+    if (!isNaN(containerWidth)) {
       autoSize = this.getAutoSize(rowsTemplate, containerWidth);
     }
     ret.forEach((elmt, index, table) => {
@@ -258,16 +251,16 @@ class SourceList extends Component {
   }
 
   handleMenuItemClick = (event, index, field) => {
-    console.log(index, field,);
+    // console.log(index, field,);
     let {selectedIndex, anchorEl} = this.props.source;
     selectedIndex[field] = index;
     anchorEl[field] = null;
     this.props.dispatch(sourceActions.updateFilter(anchorEl, selectedIndex));
-    this.props.dispatch(sourceActions.filterTangoList(selectedIndex, this.props.source.filterList, this.props.source.tangoList))
+    this.props.dispatch(sourceActions.filterTangoList(selectedIndex, this.props.source.filterList, this.props.source.tangoList, this.props.source.sortingDatas))
   };
 
   handleClose = (field) => {
-    console.log(field + ' to close');
+    // console.log(field + ' to close');
     let anchorEl = this.props.source.anchorEl;
     anchorEl[field] = null;
     this.props.dispatch(sourceActions.updateAnchorState(anchorEl));
@@ -285,10 +278,10 @@ class SourceList extends Component {
       cursor: 'pointer',
     };
     let optionsList = this.props.source.filterList;
-    console.log(optionsList);
+    // console.log(optionsList);
     const anchorEl = this.props.source.anchorEl;
-    console.log(anchorEl);
-    if(optionsList !== null) {
+    // console.log(anchorEl);
+    if (optionsList !== null) {
       sizedRows.forEach(row => {
         let style;
         if (row.align === 'left') {
@@ -361,7 +354,7 @@ class SourceList extends Component {
       alignItems: 'center',
       cursor: 'pointer',
     };
-    // console.log(this.props.source.sortingField);
+    let sortingDatas = this.props.source.sortingDatas;
     sizedRows.forEach(row => {
       let style;
       if (row.align === 'left') {
@@ -370,13 +363,11 @@ class SourceList extends Component {
         style = {...center, width: row.size, height: '24px'};
       }
       let sort = [];
-
-      if (row.field === this.props.source.sortingField) {
-        // console.log('sortingStatus: ' + this.props.source.sortingStatus);
-        if (this.props.source.sortingStatus === SORT.ASC) {
+      if (row.field === sortingDatas.sortingField) {
+        if (sortingDatas.sortingDirection === SORT.ASC) {
           sort = [<ArrowUp style={{color: 'white'}} key={'sortUp'}/>];
         }
-        else if (this.props.source.sortingStatus === SORT.DESC) {
+        else if (sortingDatas.sortingDirection === SORT.DESC) {
           sort = [<ArrowDown style={{color: 'white'}} key={'sortDown'}/>];
         }
       }
@@ -499,23 +490,20 @@ class SourceList extends Component {
 
   handleTitleClick(event, field) {
     event.preventDefault();
-    console.log(field);
+    // console.log(field);
     this.updateTitleStatus(field);
 
   }
 
   updateTitleStatus(newField) {
-    let field = this.props.source.sortingField;
-    let status = this.props.source.sortingStatus;
+    let field = this.props.source.sortingDatas.sortingField;
+    let status = this.props.source.sortingDatas.sortingDirection;
     if (newField !== field) {
       status = SORT.NONE;
     }
-
     this.props.dispatch(sourceActions.updateSortStatusAndSort(newField, status, this.props.source.displayTangoList));
-
   }
 
-  // sortData() {
 }
 
 
