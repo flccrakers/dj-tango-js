@@ -23,7 +23,7 @@ class DjProgress extends Component {
         ret = [
           <span style={styles.label}>{this.props.label}</span>,
           <LinearProgress
-            color="accent"
+            color="secondary"
             mode="determinate"
             value={this.props.percentEnded}
             key={'linearProgressImport'}
@@ -31,7 +31,7 @@ class DjProgress extends Component {
           />
         ];
       } else {
-        ret = [<LinearProgress color="accent"/>];
+        ret = [<LinearProgress color="secondary"/>];
       }
     }
     return ret;
