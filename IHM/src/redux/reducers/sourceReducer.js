@@ -2,18 +2,21 @@ import {sortStatus as SORT} from '../../services/dj-const';
 
 const initialState = {
   tangoList: [],
-  displayTangoList:[],
+  displayTangoList: [],
   isImporting: false,
   listRowHeight: 25,
   overscanRowCount: 10,
   showScrollingPlaceholder: false,
   useDynamicRowHeight: false,
   currentIndex: 0,
-  sortingField: '',
-  sortingStatus: SORT.NONE,
+  sortingDatas: {
+    sortingField: '',
+    sortingDirection: SORT.NONE,
+  },
+
   anchorEl: {artist: null, album: null, singer: null, genre: null},
   selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
-  filterList:null,
+  filterList: null,
 };
 export default function reducer(state = initialState, action) {
   switch (action.type) {
@@ -29,7 +32,11 @@ export default function reducer(state = initialState, action) {
       }
     }
     case"UPDATE_SORT_STATUS": {
-      return {...state, sortingField: action.payload.field, sortingStatus: action.payload.status}
+      let sortingDatas = {
+        sortingField: action.payload.field,
+        sortingDirection: action.payload.status
+      };
+      return {...state, sortingDatas}
     }
     case"UPDATE_CURRENT_INDEX": {
       return {...state, currentIndex: action.payload}
@@ -47,7 +54,7 @@ export default function reducer(state = initialState, action) {
     case"UPDATE_FILTER_LIST": {
       return {...state, filterList: action.payload}
     }
-    case'UPDATE_DISPLAY_TANGO_LIST':{
+    case'UPDATE_DISPLAY_TANGO_LIST': {
       return {...state, displayTangoList: action.payload}
     }
 

@@ -118,7 +118,7 @@ class DataLine extends Component {
 
   render() {
     const {anchorEl, anchorPosition} = this.state;
-    console.log(anchorPosition);
+    // console.log(anchorPosition);
     let tango, root, rootBase;
     rootBase = {...this.props.style, ...styles.root, WebkitUserSelect: 'none'};
     tango: tango = this.props.tango;

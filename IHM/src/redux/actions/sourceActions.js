@@ -82,9 +82,9 @@ export function updateSortStatusAndSort(field, status, data) {
 
 export function sortDatas(datas, field, sortDirection) {
   return function (dispatch) {
-    console.log(field);
-    console.log(datas[0]);
-    console.log(typeof datas[0][field]);
+    // console.log(field);
+    // console.log(datas[0]);
+    // console.log(typeof datas[0][field]);
     if (typeof datas[0][field] === 'string') {
       dispatch(sortStrings(datas, field, sortDirection));
     } else if (typeof datas[0][field] === 'number') {
@@ -146,7 +146,7 @@ function sortNumbers(datas, field, sortDirection) {
   }
 }
 
-export function filterTangoList(selectedIndex, options, tangoList) {
+export function filterTangoList(selectedIndex, options, tangoList:tango[], sortingDatas:sortingDataDTO) {
   return function (dispatch) {
     console.log(Object.keys(selectedIndex));
     let fieldToSearch = {};
@@ -172,7 +172,10 @@ export function filterTangoList(selectedIndex, options, tangoList) {
 
     console.log(newTangoList);
 
-    dispatch(updateDisplayTangosList(newTangoList))
+
+    dispatch(sortDatas(newTangoList, sortingDatas.sortingField,sortingDatas.sortingDirection))
+    // dispatch(updateDisplayTangosList(newTangoList));
+
 
   }
 }

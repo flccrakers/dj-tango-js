@@ -1,12 +1,21 @@
 interface sourceReducer {
     isImporting: boolean,
     tangoList: tango[],
-    displayTangoList:tango[],
+    displayTangoList: tango[],
     listRowHeight: number,
     overscanRowCount: number,
     scrollToIndex: number,
     showScrollingPlaceholder: boolean,
     useDynamicRowHeight: boolean,
+    sortingDatas: sortingDataDTO,
+
+    anchorEl: sourceAnchorDTO,
+    selectedIndex: selectedIndexSourceDTO,
+    filterList: object,
+
+}
+
+interface sortingDataDTO {
     sortingField: string,
     /**
      * the state of the sort:
@@ -14,11 +23,7 @@ interface sourceReducer {
      * 1 - ASC (ascendant)
      * 2 - DES (descendant)
      */
-    sortingStatus: number,
-    anchorEl: sourceAnchorDTO,
-    selectedIndex: selectedIndexSourceDTO,
-    filterList:object,
-
+    sortingDirection: number,
 }
 
 interface selectedIndexSourceDTO {
