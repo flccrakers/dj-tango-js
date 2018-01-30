@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import Play from "material-ui-icons/PlayArrow";
 import IconButton from "material-ui/IconButton/index";
-// import Button from "material-ui/Button/index";
-import ReactAudioPlayer from 'react-audio-player';
 import {connect} from "react-redux";
 import Stop from 'material-ui-icons/Stop';
 import Pause from 'material-ui-icons/Pause';
@@ -286,7 +284,7 @@ class PlayerWrapper extends Component {
             style={styles.progressDigit}>{utils.millisToMinutesAndSeconds(this.state.progress)} / {utils.millisToMinutesAndSeconds(this.props.playerData.currentTango.duration)}</span>
           <IconButton
             style={styles.button}
-            color={'accent'}
+            color={'secondary'}
             onClick={this.handlePlayPause}
           >
             {this.props.playerData.isPaused &&
@@ -300,7 +298,7 @@ class PlayerWrapper extends Component {
           </IconButton>
           <IconButton
             style={styles.button}
-            color={'accent'}
+            color={'secondary'}
             onClick={this.stop}
           >
             <Stop style={styles.icon}/>

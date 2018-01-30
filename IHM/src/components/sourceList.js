@@ -403,16 +403,16 @@ class SourceList extends Component {
       <Paper style={styles.paperContainer} elevation={4} key={'filter_source_menu'}>
         <IconButton
           style={styles.button}
-          color={'accent'}
+          color={'secondary'}
           onClick={this.handleShuffle}
         >
           <Shuffle style={styles.icon}/>
         </IconButton>
         <IconButton
           style={styles.button}
-          color={'accent'}
+          color={'secondary'}
           onClick={() => {
-            this.props.dispatch(sourceActions.clearFilter())
+            this.props.dispatch(sourceActions.clearFilter(this.props.source.filterList, this.props.source.tangoList, this.props.source.sortingDatas))
           }}
         >
           <Refresh style={styles.icon}/>

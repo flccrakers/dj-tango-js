@@ -7,19 +7,21 @@ function receivedAllTangos(tangoList) {
     payload: tangoList,
   }
 }
-function updateDisplayTangosList(tangoList){
-  return{
-    type:'UPDATE_DISPLAY_TANGO_LIST',
-    payload:tangoList,
+
+function updateDisplayTangosList(tangoList) {
+  return {
+    type: 'UPDATE_DISPLAY_TANGO_LIST',
+    payload: tangoList,
   }
 }
+
 export function fetchAllTangos(resetDisplayList = false) {
   return function (dispatch) {
 
     tangoDataManagement.getAllTangos().then((tangoList) => {
       dispatch(generateFilterList(['artist', 'singer', 'album', 'genre',], tangoList));
       dispatch(receivedAllTangos(tangoList));
-      if(resetDisplayList === true){
+      if (resetDisplayList === true) {
         dispatch(updateDisplayTangosList(tangoList));
       }
     });
@@ -82,13 +84,16 @@ export function updateSortStatusAndSort(field, status, data) {
 
 export function sortDatas(datas, field, sortDirection) {
   return function (dispatch) {
-    // console.log(field);
-    // console.log(datas[0]);
-    // console.log(typeof datas[0][field]);
+    console.log(field);
+    console.log(datas[0]);
+    console.log(typeof datas[0][field]);
     if (typeof datas[0][field] === 'string') {
       dispatch(sortStrings(datas, field, sortDirection));
     } else if (typeof datas[0][field] === 'number') {
       dispatch(sortNumbers(datas, field, sortDirection));
+    } else if (field === '') {
+      console.log("there si no sorting filter");
+      dispatch(updateDisplayTangosList(datas));
     }
   }
 }
@@ -122,7 +127,7 @@ function shuffle(arrayToShuffle) {
 }
 
 export function shuffleTangoList(tangoList) {
-  return function (dispatch){
+  return function (dispatch) {
     dispatch(updateDisplayTangosList(shuffle(tangoList)));
   }
 }
@@ -146,14 +151,15 @@ function sortNumbers(datas, field, sortDirection) {
   }
 }
 
-export function filterTangoList(selectedIndex, options, tangoList:tango[], sortingDatas:sortingDataDTO) {
+export function filterTangoList(selectedIndex, filterList, tangoList: tango[], sortingDatas: sortingDataDTO) {
   return function (dispatch) {
-    console.log(Object.keys(selectedIndex));
+    console.log(selectedIndex);
+    console.log(filterList);
     let fieldToSearch = {};
     Object.keys(selectedIndex).forEach(key => {
       if (selectedIndex[key] > 0) {
-        console.log(options[key][selectedIndex[key]]);
-        fieldToSearch[key] = options[key][selectedIndex[key]];
+        console.log(filterList[key][selectedIndex[key]]);
+        fieldToSearch[key] = filterList[key][selectedIndex[key]];
       }
     });
 
@@ -173,7 +179,7 @@ export function filterTangoList(selectedIndex, options, tangoList:tango[], sorti
     console.log(newTangoList);
 
 
-    dispatch(sortDatas(newTangoList, sortingDatas.sortingField,sortingDatas.sortingDirection))
+    dispatch(sortDatas(newTangoList, sortingDatas.sortingField, sortingDatas.sortingDirection))
     // dispatch(updateDisplayTangosList(newTangoList));
 
 
@@ -199,21 +205,26 @@ export function updateAnchorState(anchorEl) {
 
 }
 
-function clearFilterFullfill() {
-  let ret = {
-    anchorEl: {artist: null, album: null, singer: null, genre: null},
-    selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
-  };
+function clearFilterFullfill(filter) {
+
   return {
     type: "UPDATE_FILTER",
-    payload: ret,
+    payload: filter,
   }
 }
 
-export function clearFilter() {
+export function clearFilter(filterList, tangoList: tango[], sortingDatas: sortingDataDTO) {
   return function (dispatch) {
-    dispatch(clearFilterFullfill());
-    dispatch(fetchAllTangos(true));
+    let filter = {
+      anchorEl: {artist: null, album: null, singer: null, genre: null},
+      selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
+    };
+    // dispatch(updateDisplayTangosList(tangoList));
+    // dispatch(fetchAllTangos(true));
+    dispatch(clearFilterFullfill(filter));
+    dispatch(filterTangoList(filter.selectedIndex, filterList, tangoList, sortingDatas));
+    dispatch(generateFilterList(['artist', 'singer', 'album', 'genre',], tangoList));
+
 
   }
 
