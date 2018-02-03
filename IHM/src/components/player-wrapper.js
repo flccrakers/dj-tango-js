@@ -175,6 +175,7 @@ class PlayerWrapper extends Component {
 
   playNext() {
     this.stop();
+    this.setState({isFading:false});
     // console.log("I'm supposed to play next Tango");
     // console.log('current Index: ' + this.props.source.currentIndex);
     let index = this.props.source.currentIndex;

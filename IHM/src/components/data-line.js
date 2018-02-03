@@ -54,10 +54,6 @@ class DataLine extends Component {
   handleLeftClick = (event) => {
     let shouldAdd = event.ctrlKey || event.shiftKey;
     let toAdd = [this.props.index,];
-    // if (this.props.selectedTangos.length > 1){
-    //   toAdd = this.props.
-    // }
-
     if (event.shiftKey) {
       let maxIndex = this.props.selectedTangos.reduce(function (a, b) {
         return Math.max(a, b);
@@ -65,8 +61,6 @@ class DataLine extends Component {
       let minIndex = this.props.selectedTangos.reduce(function (a, b) {
         return Math.min(a, b);
       });
-      console.log('min: ' + minIndex + ' max: ' + maxIndex);
-      // if (maxIndex !== minIndex) {
         if (this.props.index > maxIndex) {
           for (let i = maxIndex + 1; i < this.props.index; i++) {
             toAdd.push(i);
@@ -77,7 +71,6 @@ class DataLine extends Component {
             toAdd.push(i);
           }
         }
-      // }
     }
 
 

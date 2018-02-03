@@ -84,15 +84,15 @@ export function updateSortStatusAndSort(field, status, data) {
 
 export function sortDatas(datas, field, sortDirection) {
   return function (dispatch) {
-    console.log(field);
-    console.log(datas[0]);
-    console.log(typeof datas[0][field]);
+    // console.log(field);
+    // console.log(datas[0]);
+    // console.log(typeof datas[0][field]);
     if (typeof datas[0][field] === 'string') {
       dispatch(sortStrings(datas, field, sortDirection));
     } else if (typeof datas[0][field] === 'number') {
       dispatch(sortNumbers(datas, field, sortDirection));
     } else if (field === '') {
-      console.log("there si no sorting filter");
+      // console.log("there si no sorting filter");
       dispatch(updateDisplayTangosList(datas));
     }
   }
@@ -131,13 +131,10 @@ export function updateSelectedTangoIndex(index, currentSelectedIndex, shouldAdd)
   let newSelectedIndex = currentSelectedIndex.slice();
   index.forEach(id =>{
     let indexOfTango = tangoIndexInCurrentSelected(id, currentSelectedIndex);
-    console.log(indexOfTango);
-    console.log(currentSelectedIndex);
     if (indexOfTango === -1){
       if(shouldAdd === true){
         newSelectedIndex.push(id);
       } else{
-        console.log('I will push the id '+id);
         newSelectedIndex = [id,];
       }
     }else{
@@ -146,7 +143,6 @@ export function updateSelectedTangoIndex(index, currentSelectedIndex, shouldAdd)
     }
   });
 
-  console.log(newSelectedIndex);
   return{
     type:'UPDATE_SELECTED_TANGO_INDEX',
     payload:newSelectedIndex,
@@ -190,8 +186,8 @@ function sortNumbers(datas, field, sortDirection) {
 
 export function filterTangoList(selectedIndex, filterList, tangoList: tango[], sortingDatas: sortingDataDTO) {
   return function (dispatch) {
-    console.log(selectedIndex);
-    console.log(filterList);
+    // console.log(selectedIndex);
+    // console.log(filterList);
     let fieldToSearch = {};
     Object.keys(selectedIndex).forEach(key => {
       if (selectedIndex[key] > 0) {
@@ -213,8 +209,7 @@ export function filterTangoList(selectedIndex, filterList, tangoList: tango[], s
 
     }));
 
-    console.log(newTangoList);
-
+    // console.log(newTangoList);
 
     dispatch(sortDatas(newTangoList, sortingDatas.sortingField, sortingDatas.sortingDirection))
     // dispatch(updateDisplayTangosList(newTangoList));
