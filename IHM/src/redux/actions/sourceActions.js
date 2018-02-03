@@ -118,6 +118,43 @@ export function updateCurrentIndex(index) {
   }
 }
 
+function tangoIndexInCurrentSelected(index, currentSelected){
+  return currentSelected.findIndex(element=>{return element === index})
+}
+/**
+ *
+ * @param index: number[] -> the index array to add to the table
+ * @param currentSelectedIndex -> the current table
+ * @param shouldAdd:boolean -> if true should add, else empty the table and replace by the index array
+ */
+export function updateSelectedTangoIndex(index, currentSelectedIndex, shouldAdd){
+  let newSelectedIndex = currentSelectedIndex.slice();
+  index.forEach(id =>{
+    let indexOfTango = tangoIndexInCurrentSelected(id, currentSelectedIndex);
+    console.log(indexOfTango);
+    console.log(currentSelectedIndex);
+    if (indexOfTango === -1){
+      if(shouldAdd === true){
+        newSelectedIndex.push(id);
+      } else{
+        console.log('I will push the id '+id);
+        newSelectedIndex = [id,];
+      }
+    }else{
+      currentSelectedIndex.splice(indexOfTango,1);
+      newSelectedIndex = currentSelectedIndex.slice();
+    }
+  });
+
+  console.log(newSelectedIndex);
+  return{
+    type:'UPDATE_SELECTED_TANGO_INDEX',
+    payload:newSelectedIndex,
+  }
+
+}
+
+
 function shuffle(arrayToShuffle) {
   for (let i = arrayToShuffle.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -219,8 +256,6 @@ export function clearFilter(filterList, tangoList: tango[], sortingDatas: sortin
       anchorEl: {artist: null, album: null, singer: null, genre: null},
       selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
     };
-    // dispatch(updateDisplayTangosList(tangoList));
-    // dispatch(fetchAllTangos(true));
     dispatch(clearFilterFullfill(filter));
     dispatch(filterTangoList(filter.selectedIndex, filterList, tangoList, sortingDatas));
     dispatch(generateFilterList(['artist', 'singer', 'album', 'genre',], tangoList));

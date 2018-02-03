@@ -2,17 +2,21 @@ import React, {Component} from 'react';
 import {LinearProgress} from 'material-ui/Progress';
 import propTypes from 'prop-types';
 
-const styles={
-  label:{
-    color:'#d4d4d4',
-    fontSize:'12px',
-    margin:'2px 0px 5px 5px',
-
+const styles = {
+  label: {
+    color: '#d4d4d4',
+    fontSize: '12px',
+    margin: '2px 0px 5px 5px',
   },
-  progress:{
-    margin:'0px 5px 0px 5px',
+  progress: {
+    margin: '0px 5px 0px 5px',
+  },
+  main: {
+    minHeight:'150px',
   }
+
 };
+
 class DjProgress extends Component {
 
   render() {
@@ -20,24 +24,31 @@ class DjProgress extends Component {
     if (this.props.isImporting) {
       console.log(this.props.percentEnded);
       if (this.props.percentEnded > 0) {
-        ret = [
-          <span style={styles.label}>{this.props.label}</span>,
-          <LinearProgress
-            color="secondary"
-            mode="determinate"
-            value={this.props.percentEnded}
-            key={'linearProgressImport'}
-            style={styles.progress}
-          />
-        ];
+        ret = (
+          <div style={styles.main}>
+            <span style={styles.label}>{this.props.label}</span>
+            <LinearProgress
+              color="secondary"
+              mode="determinate"
+              value={this.props.percentEnded}
+              key={'linearProgressImport'}
+              style={styles.progress}
+            />
+          </div>
+        );
       } else {
-        ret = [<LinearProgress color="secondary"/>];
+        ret = (
+          <div style={styles.main}>
+            <LinearProgress color="secondary"/>
+          </div>
+        );
       }
     }
     return ret;
 
   }
 }
+
 // Specifies the default values for props:
 DjProgress.defaultProps = {
   isImporting: 'false',

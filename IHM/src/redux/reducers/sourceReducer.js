@@ -13,7 +13,7 @@ const initialState = {
     sortingField: '',
     sortingDirection: SORT.NONE,
   },
-
+  selectedTangos: [],
   anchorEl: {artist: null, album: null, singer: null, genre: null},
   selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
   filterList: null,
@@ -56,6 +56,9 @@ export default function reducer(state = initialState, action) {
     }
     case'UPDATE_DISPLAY_TANGO_LIST': {
       return {...state, displayTangoList: action.payload}
+    }
+    case'UPDATE_SELECTED_TANGO_INDEX': {
+      return {...state, selectedTangos: action.payload}
     }
 
 

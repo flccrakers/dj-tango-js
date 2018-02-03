@@ -230,6 +230,7 @@ class Header extends Component {
           </Dialog>
         </div>
         <DjProgress
+          key={'djProgress'}
           isImporting={this.props.menu.isImporting}
           percentEnded={this.props.menu.percentEnded}
           label={'Importing ' + this.props.menu.importedFile + '...'}/>

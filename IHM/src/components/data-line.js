@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import * as playerActions from '../redux/actions/playerAction';
 import * as sourceActions from '../redux/actions/sourceActions';
-
 import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
 import Playing from 'material-ui-icons/VolumeUp';
@@ -18,8 +17,6 @@ const styles = {
     cursor: 'pointer',
   },
   cell: {
-    // display:'flex',
-    // alignItems:'center',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
@@ -34,26 +31,61 @@ const styles = {
 
 class DataLine extends Component {
 
+
   constructor(props) {
     super(props);
     this.state = {
       hover: false,
       anchorEl: null,
-      anchorPosition:{ top: 0, left: 0 }
+      anchorPosition: {top: 0, left: 0}
     }
   }
 
   handleClose = () => {
-    this.setState({anchorEl: null, hover:false});
+    this.setState({anchorEl: null, hover: false});
   };
 
-  handleClick(event) {
+  handleRightClick(event) {
     console.log(event.clientX);
-    let position = { top: event.clientY-35, left: event.clientX-25 };
-    this.setState({anchorEl: event.currentTarget, anchorPosition:position});
+    let position = {top: event.clientY - 35, left: event.clientX - 25};
+    this.setState({anchorEl: event.currentTarget, anchorPosition: position});
   };
 
-  handleClickOnLine = () => {
+  handleLeftClick = (event) => {
+    let shouldAdd = event.ctrlKey || event.shiftKey;
+    let toAdd = [this.props.index,];
+    // if (this.props.selectedTangos.length > 1){
+    //   toAdd = this.props.
+    // }
+
+    if (event.shiftKey) {
+      let maxIndex = this.props.selectedTangos.reduce(function (a, b) {
+        return Math.max(a, b);
+      });
+      let minIndex = this.props.selectedTangos.reduce(function (a, b) {
+        return Math.min(a, b);
+      });
+      console.log('min: ' + minIndex + ' max: ' + maxIndex);
+      // if (maxIndex !== minIndex) {
+        if (this.props.index > maxIndex) {
+          for (let i = maxIndex + 1; i < this.props.index; i++) {
+            toAdd.push(i);
+          }
+        } else (this.props.index < minIndex)
+        {
+          for (let i = minIndex - 1; i > this.props.index; i--) {
+            toAdd.push(i);
+          }
+        }
+      // }
+    }
+
+
+    this.props.dispatch(sourceActions.updateSelectedTangoIndex(toAdd, this.props.selectedTangos, shouldAdd));
+
+  };
+
+  handleDoubleClick = () => {
     let tango = this.props.tango;
     console.log(tango.path);
     this.props.dispatch(playerActions.updateCurrentTango(tango));
@@ -81,6 +113,11 @@ class DataLine extends Component {
       if (row.field === 'genre' && !this.isTangoPlaying()) {
         style = {...style, backgroundColor: tangoColors()[tango.genre.replace('-', '_')]};
       }
+
+      if (this.isInSelectedIndex() === true) {
+        style = {...style, backgroundColor: 'black', color: '#f50057'}
+      }
+
       let value = tango[row.field];
       if (row.field === 'duration') {
         value = millisToMinutesAndSeconds(value)
@@ -113,7 +150,7 @@ class DataLine extends Component {
   handleContextMenu(event) {
 
     console.log('Display context menu');
-    this.handleClick(event);
+    this.handleRightClick(event);
   }
 
   render() {
@@ -135,7 +172,8 @@ class DataLine extends Component {
     return (
       <div
         style={root}
-        onDoubleClick={this.handleClickOnLine}
+        onClick={this.handleLeftClick}
+        onDoubleClick={this.handleDoubleClick}
         onMouseEnter={() => {
           this.setState({hover: true})
         }}
@@ -145,9 +183,10 @@ class DataLine extends Component {
         onContextMenu={(event) => {
           event.preventDefault();
           console.log('Display context menu');
-          this.handleClick(event);
+          this.handleRightClick(event);
           // this.handleContextMenu.bind(this, event)
         }}
+
         draggable={true}
       >
         {this.getLineContent()}
@@ -168,6 +207,12 @@ class DataLine extends Component {
       </div>
     );
   }
+
+  isInSelectedIndex() {
+    return this.props.selectedTangos.find(element => {
+      return element === this.props.index
+    }) !== undefined;
+  }
 }
 
 DataLine.propTypes = {
@@ -180,5 +225,6 @@ DataLine.propTypes = {
 export default connect((store) => {
   return {
     playedId: store.player.currentTango._id,
+    selectedTangos: store.source.selectedTangos,
   }
 })(DataLine);

@@ -178,7 +178,7 @@ class PlayerWrapper extends Component {
     // console.log("I'm supposed to play next Tango");
     // console.log('current Index: ' + this.props.source.currentIndex);
     let index = this.props.source.currentIndex;
-    let tango = this.props.source.tangoList[index + 1];
+    let tango = this.props.source.displayTangoList[index + 1];
     // console.log(tango.path);
     this.props.dispatch(playerActions.updateCurrentTango(tango));
     this.props.dispatch(sourceActions.updateCurrentIndex(index + 1));

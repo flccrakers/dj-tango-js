@@ -12,6 +12,7 @@ interface sourceReducer {
     anchorEl: sourceAnchorDTO,
     selectedIndex: selectedIndexSourceDTO,
     filterList: object,
+    selectedTangos:number[],
 
 }
 

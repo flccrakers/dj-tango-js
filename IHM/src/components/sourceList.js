@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as sourceActions from '../redux/actions/sourceActions';
 import IconButton from "material-ui/IconButton/index";
-import 'react-virtualized/styles.css';
+// import 'react-virtualized/styles.css';
 import VirtualList from 'react-tiny-virtual-list';
 import DataLine from './data-line';
 import {sortStatus as SORT} from '../services/dj-const';
