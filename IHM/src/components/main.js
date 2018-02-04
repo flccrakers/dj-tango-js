@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import Header from "./header";
-import Source from './sourceList';
-import * as sourceActions from '../redux/actions/sourceActions';
+import Source from './source-list';
+import Milonga from './milonga-list';
+// import * as sourceActions from '../redux/actions/sourceActions';
 import {connect} from 'react-redux';
-import PlayerWraper from './player-wraper';
+import PlayerWrapper from './player-wrapper';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import Footer from './footer';
 
@@ -64,11 +65,12 @@ class Main extends Component {
       <MuiThemeProvider theme={theme} key={'main_app'}>
         <Header/>
         <div style={styles.content}>
-          <PlayerWraper/>
+          <PlayerWrapper/>
           <div style={styles.playListRoot}>
             <Source/>
             <div style={styles.verticalSeparator}/>
-            <div style={styles.playLists} id='milongas'>milonga</div>
+            <Milonga/>
+            {/*<div style={styles.playLists} id='milongas'>milonga</div>*/}
           </div>
         </div>
         <Footer/>

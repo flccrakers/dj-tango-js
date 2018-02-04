@@ -1,17 +1,15 @@
 import React, {Component} from 'react';
 import Play from "material-ui-icons/PlayArrow";
 import IconButton from "material-ui/IconButton/index";
-// import Button from "material-ui/Button/index";
-import ReactAudioPlayer from 'react-audio-player';
 import {connect} from "react-redux";
 import Stop from 'material-ui-icons/Stop';
 import Pause from 'material-ui-icons/Pause';
 import * as utils from '../services/utils';
-import * as playerActions from '../redux/actions/playerAction';
+import * as playerActions from '../redux/actions/playerActions';
 import * as sourceActions from "../redux/actions/sourceActions";
 import Slider, {Range} from 'rc-slider';
 import 'rc-slider/assets/index.css';
-
+import {Howl, Howler} from 'howler';
 
 const styles = {
   playerRoot: {
@@ -55,23 +53,91 @@ const styles = {
 const cortinaDuration = 15 * 1000;
 const fadeoutDuration = 5 * 1000; // in milliseconds
 const listenInterval = 300; //in milliseconds
-class PlayerWraper extends Component {
+let start = null
+
+class PlayerWrapper extends Component {
 
   constructor(props) {
     super(props);
-    this.rap = null;
+    this.sound = null;
+    this.start = null;
+    this.state={
+      progress:0,
+      isFading : false,
+    };
+    window.requestAnimationFrame(this.step);
+
   }
 
-  // componentDidMount(){
-  //   this.props.dispatch(playerActions.saveAudioEl(this.rap));
-  // }
-  playTango = () => {
-    this.rap.audioEl.play();
+  componentWillReceiveProps(nextProps) {
+
+    if (nextProps.playerData.currentTango.path !== '' && this.props.playerData.currentTango.path !== nextProps.playerData.currentTango.path) {
+      this.stop();
+      this.initHowl(nextProps.playerData.currentTango.path, nextProps.playerData.currentTangoSong);
+      this.play();
+    }
+  }
+
+  /*shouldComponentUpdate(nextProps, nextState) {
+    if nextProps.playerData.currentTango.path === this.props.playerData.currentTango.path;
+  }*/
+
+  step = (timestamp) => {
+    if (this.sound !== null) {
+      // console.log(this.sound.seek());
+      if (this.start === null) {
+        this.start = 0;
+      }
+      this.listen(this.sound.seek() || 0);
+    }
+
+    // If the sound is still playing, continue stepping.
+    if (this.sound !== null && this.sound.playing()) {
+      window.requestAnimationFrame(this.step);
+    }
+
+
   };
-  stopTango = () => {
-    this.rap.audioEl.pause();
-    this.rap.audioEl.currentTime = this.props.playerData.currentTango.duration / 1000 +1000;
-    this.props.dispatch(playerActions.progress(this.props.playerData.currentTango.duration+1000));
+
+  initHowl(path, songFile) {
+    console.log(path.split('.').pop());
+    let ext = path.split('.').pop();
+    this.sound = new Howl(
+      {
+        src: songFile,
+        format: [ext],
+        onend: () => {
+          console.log('Finished!');
+          this.playNext();
+        },
+        onplay: this.handleStartPlay,
+      });
+    console.log('howl initiated');
+    console.log(this.sound);
+  }
+
+  handleStartPlay = () => {
+    window.requestAnimationFrame(this.step);
+  };
+
+  play = () => {
+    if (this.sound === null){this.initHowl(this.props.playerData.currentTango.path, this.props.playerData.currentTangoSong)}
+    this.props.dispatch(playerActions.updateVolume(1));
+    this.props.dispatch(playerActions.updatePause(false));
+    this.sound.play();
+  };
+
+  pause = () => {
+    this.sound.pause()
+  };
+
+  stop = () => {
+    if (this.sound !== null) {
+      this.sound.stop();
+      this.sound.unload();
+      this.sound = null;
+      this.setState({progress:0});
+    }
     this.props.dispatch(playerActions.updateVolume(1));
     this.props.dispatch(playerActions.updatePause(true));
 
@@ -79,48 +145,57 @@ class PlayerWraper extends Component {
 
   handlePlayPause = () => {
 
-    if (this.props.playerData.isPaused) {
-      this.props.dispatch(playerActions.updatePause(false));
-      this.rap.audioEl.play();
-    } else {
+    if (this.sound !== null && this.sound.playing()) {
       this.props.dispatch(playerActions.updatePause(true));
-      this.rap.audioEl.pause();
+      this.pause();
+    } else {
+      this.props.dispatch(playerActions.updatePause(false));
+      this.play();
+
+      // this.rap.audioEl.pause();
     }
   };
 
 
   listen = (position) => {
+
+    position = Math.round(position*1000);
+    this.setState({progress:position});
     let tango = this.props.playerData.currentTango;
     let volume = this.props.playerData.volume;
-    this.props.dispatch(playerActions.progress(position * 1000));
-    if (tango.genre === 'cortina' && position * 1000 >= cortinaDuration - fadeoutDuration && position * 1000 <= cortinaDuration) {
-      // this.rap.audioEl.volume= this.rap.audioEl.volume - 0.8;
-      this.props.dispatch(playerActions.updateVolume(volume - listenInterval / fadeoutDuration));
-      console.log(this.rap.audioEl.volume);
-      console.log("I'm supposed to fade out");
-    } else if (tango.genre === 'cortina' && position * 1000 > cortinaDuration) {
+    if (tango.genre === 'cortina' && position >= cortinaDuration-fadeoutDuration && this.state.isFading === false) {
+      console.log("I'm suppose to fade out");
+      this.sound.fade(1,0, fadeoutDuration);
+      this.setState({isFading:true});
+    } else if (tango.genre === 'cortina' && position > cortinaDuration) {
       console.log("I'm supposed to end the song");
-      this.stopTango();
       this.playNext();
-
-
     }
   };
 
   playNext() {
-    console.log("I'm supposed to play next Tango");
-    console.log('current Index: ' + this.props.source.currentIndex);
+    this.stop();
+    this.setState({isFading:false});
+    // console.log("I'm supposed to play next Tango");
+    // console.log('current Index: ' + this.props.source.currentIndex);
     let index = this.props.source.currentIndex;
-    let tango = this.props.source.tangoList[index + 1];
-    console.log(tango.path);
+    let tango = this.props.source.displayTangoList[index + 1];
+    // console.log(tango.path);
     this.props.dispatch(playerActions.updateCurrentTango(tango));
     this.props.dispatch(sourceActions.updateCurrentIndex(index + 1));
   }
 
   ended = (event) => {
     console.log(event);
+    let audioElement = this.rap.audioEl;
+
+    // let  audioElement = document.getElementById('audioElement').audioEl;
+    audioElement.pause();
+    audioElement.src = ""; // empty source
+    audioElement.title = "";
+    // audioElement.load();
+    console.log(audioElement);
     this.playNext();
-    // this.props.dispatch(playerAction.playNext())
   };
 
   onUpdate = update => {
@@ -133,6 +208,7 @@ class PlayerWraper extends Component {
 
   getTitle() {
 
+    // noinspection JSAnnotator
     let tango: tango, ret, styles, space, color;
     tango = this.props.playerData.currentTango;
     ret = null;
@@ -179,7 +255,8 @@ class PlayerWraper extends Component {
   seekSlider = (value) => {
     console.log(value);
     // this.props.dispatch(playerActions.progress(value));
-    this.rap.audioEl.currentTime = value / 1000;
+    //this.rap.audioEl.currentTime = value / 1000;
+    this.sound.seek(value/1000);
   };
 
   render() {
@@ -195,9 +272,9 @@ class PlayerWraper extends Component {
         <div style={styles.rightPart}>
           <div style={{display: 'flex', flex: '1 1 auto', padding: '15px'}}>
             <Slider
-              value={this.props.playerData.progress || 0}
+              value={this.state.progress || 0}
               max={this.props.playerData.currentTango.duration || 100}
-              step={100}
+              step={1}
               trackStyle={trackStyle}
               handleStyle={handleStyle}
               onChange={this.seekSlider}
@@ -205,10 +282,10 @@ class PlayerWraper extends Component {
             />
           </div>
           <span
-            style={styles.progressDigit}>{utils.millisToMinutesAndSeconds(this.props.playerData.progress)} / {utils.millisToMinutesAndSeconds(this.props.playerData.currentTango.duration)}</span>
+            style={styles.progressDigit}>{utils.millisToMinutesAndSeconds(this.state.progress)} / {utils.millisToMinutesAndSeconds(this.props.playerData.currentTango.duration)}</span>
           <IconButton
             style={styles.button}
-            color={'accent'}
+            color={'secondary'}
             onClick={this.handlePlayPause}
           >
             {this.props.playerData.isPaused &&
@@ -222,28 +299,13 @@ class PlayerWraper extends Component {
           </IconButton>
           <IconButton
             style={styles.button}
-            color={'accent'}
-            onClick={this.stopTango}
+            color={'secondary'}
+            onClick={this.stop}
           >
             <Stop style={styles.icon}/>
           </IconButton>
 
-          <ReactAudioPlayer
-            ref={(element) => {
-              this.rap = element;
-            }}
-            style={styles.audioPlayer}
-            src={this.props.playerData.currentTangoSong}
-            autoPlay={true}
-            listenInterval={listenInterval}
-            onListen={this.listen}
-            onEnded={this.ended}
-            volume={this.props.playerData.volume}
-            onPause={this.handleOnPause}
-            // onPlay={this.props.dispatch(playerActions.updatePause(false))}
-            // controls
 
-          />
         </div>
 
       </div>
@@ -251,7 +313,7 @@ class PlayerWraper extends Component {
     );
   }
 
-  handleOnPause=(value)=>{
+  handleOnPause = (value) => {
     console.log(value);
     // if (!this.props.playerData.isPaused)this.props.dispatch(playerActions.updatePause(true))
   };
@@ -264,4 +326,4 @@ export default connect(
       source: store.source,
     }
   })
-(PlayerWraper);
+(PlayerWrapper);

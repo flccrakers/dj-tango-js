@@ -125,7 +125,7 @@ class Header extends Component {
             aria-owns={this.state.file_menu_open ? 'file-menu' : null}
             aria-haspopup="true"
             onClick={this.handleClick}
-            color={'accent'}
+            color={'secondary'}
             style={styles.button}
           >
             File
@@ -146,7 +146,7 @@ class Header extends Component {
             aria-owns={this.state.menus.edition_menu_open ? 'edition-menu' : null}
             aria-haspopup="true"
             onClick={this.handleClick}
-            color={'accent'}
+            color={'secondary'}
             style={styles.button}
           >
             Edition
@@ -169,7 +169,7 @@ class Header extends Component {
             aria-owns={this.state.menus.display_menu_open ? 'display-menu' : null}
             aria-haspopup="true"
             onClick={this.handleClick}
-            color={'accent'}
+            color={'secondary'}
             style={styles.button}
           >
             Display
@@ -230,6 +230,7 @@ class Header extends Component {
           </Dialog>
         </div>
         <DjProgress
+          key={'djProgress'}
           isImporting={this.props.menu.isImporting}
           percentEnded={this.props.menu.percentEnded}
           label={'Importing ' + this.props.menu.importedFile + '...'}/>

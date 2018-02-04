@@ -7,7 +7,7 @@ import reducer from "./redux/reducers"
 import localForage from "localforage";
 
 
-const middleware = applyMiddleware(promise(), thunk, createLogger())
+const middleware = applyMiddleware(promise(), thunk, createLogger());
 //const locales = localeReducer("en", loc).default;
 let store = createStore(reducer, middleware, autoRehydrate());
 persistStore(store, {storage:localForage});

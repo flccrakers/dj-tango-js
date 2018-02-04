@@ -1,25 +1,20 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import * as playerActions from '../redux/actions/playerAction';
+import * as playerActions from '../redux/actions/playerActions';
 import * as sourceActions from '../redux/actions/sourceActions';
-
 import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
 import Playing from 'material-ui-icons/VolumeUp';
-
+import Menu, {MenuItem} from 'material-ui/Menu';
 
 const styles = {
   root: {
     display: 'flex',
     flex: '1 1 auto',
-    // width: '100%',
-    //minHeight: '25px',
     float: 'left',
     cursor: 'pointer',
   },
   cell: {
-    // display:'flex',
-    // alignItems:'center',
     whiteSpace: 'nowrap',
     textOverflow: 'ellipsis',
     overflow: 'hidden',
@@ -35,7 +30,51 @@ const styles = {
 class DataLine extends Component {
 
 
-  handleClickOnLine = () => {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hover: false,
+      anchorEl: null,
+      anchorPosition: {top: 0, left: 0},
+      isDragging:false,
+    }
+  }
+
+  handleClose = () => {
+    this.setState({anchorEl: null, hover: false});
+  };
+
+  handleRightClick(event) {
+    console.log(event.clientX);
+    let position = {top: event.clientY - 35, left: event.clientX - 20};
+    this.setState({anchorEl: event.currentTarget, anchorPosition: position});
+  };
+
+  handleLeftClick = (event) => {
+    let shouldAdd = event.ctrlKey || event.shiftKey;
+    let toAdd = [this.props.index,];
+    if (event.shiftKey) {
+      let maxIndex = this.props.selectedTangos.reduce(function (a, b) {
+        return Math.max(a, b);
+      });
+      let minIndex = this.props.selectedTangos.reduce(function (a, b) {
+        return Math.min(a, b);
+      });
+      if (this.props.index > maxIndex) {
+        for (let i = maxIndex + 1; i < this.props.index; i++) {
+          toAdd.push(i);
+        }
+      } else (this.props.index < minIndex)
+      {
+        for (let i = minIndex - 1; i > this.props.index; i--) {
+          toAdd.push(i);
+        }
+      }
+    }
+    this.props.dispatch(sourceActions.updateSelectedTangoIndex(toAdd, this.props.selectedTangos, shouldAdd));
+  };
+
+  handleDoubleClick = () => {
     let tango = this.props.tango;
     console.log(tango.path);
     this.props.dispatch(playerActions.updateCurrentTango(tango));
@@ -60,9 +99,14 @@ class DataLine extends Component {
         };
       }
 
-      if(row.field === 'genre' && !this.isTangoPlaying()) {
+      if (row.field === 'genre' && !this.isTangoPlaying()) {
         style = {...style, backgroundColor: tangoColors()[tango.genre.replace('-', '_')]};
       }
+
+      if (this.isInSelectedIndex() === true) {
+        style = {...style, backgroundColor: 'black', color: '#f50057'}
+      }
+
       let value = tango[row.field];
       if (row.field === 'duration') {
         value = millisToMinutesAndSeconds(value)
@@ -73,6 +117,12 @@ class DataLine extends Component {
       if (row.field === 'played' && this.isTangoPlaying()) {
         value = [<Playing style={{color: 'white'}} key={'playing_beacon'}/>];
       }
+
+      if (row.field === 'bpmHuman') {
+        // value = tango.bpmFromFile === 0 ? tango.bpmHuman : tango.bpmFromFile;
+        value = Math.round(tango[row.field] * 100) / 100
+      }
+
       ret.push(
         <div key={tango._id + '_' + row.field} style={style}>{value}</div>
       );
@@ -86,7 +136,15 @@ class DataLine extends Component {
     return this.props.tango._id === this.props.playedId;
   }
 
+  handleContextMenu(event) {
+
+    console.log('Display context menu');
+    this.handleRightClick(event);
+  }
+
   render() {
+    const {anchorEl, anchorPosition} = this.state;
+    // console.log(anchorPosition);
     let tango, root, rootBase;
     rootBase = {...this.props.style, ...styles.root, WebkitUserSelect: 'none'};
     tango: tango = this.props.tango;
@@ -96,12 +154,53 @@ class DataLine extends Component {
     else {
       root = {...rootBase};
     }
+
+    if (this.state.hover === true) {
+      root = {...root, backgroundColor: '#272727'}
+    }
     return (
-      <div style={root} onDoubleClick={this.handleClickOnLine} draggable={true}>
+      <div
+        ref={this.props.tango.id}
+        style={root}
+        onClick={this.handleLeftClick}
+        onDoubleClick={this.handleDoubleClick}
+        onMouseEnter={() => {
+          this.setState({hover: true})
+        }}
+        onMouseLeave={() => {
+          this.setState({hover: false})
+        }}
+        onContextMenu={(event) => {
+          event.preventDefault();
+          console.log('Display context menu');
+          this.handleRightClick(event);
+        }}
+
+        draggable={true}
+      >
         {this.getLineContent()}
+
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleClose}
+          anchorReference={'anchorPosition'}
+          anchorPosition={anchorPosition}
+        >
+          <MenuItem onClick={this.handleClose}>Edit tango</MenuItem>
+          <MenuItem onClick={this.handleClose}>Calculate bpm</MenuItem>
+          <MenuItem onClick={this.handleClose}>Open with audacity</MenuItem>
+        </Menu>
 
       </div>
     );
+  }
+
+  isInSelectedIndex() {
+    return this.props.selectedTangos.find(element => {
+      return element === this.props.index
+    }) !== undefined;
   }
 }
 
@@ -109,11 +208,12 @@ DataLine.propTypes = {
   tango: PropTypes.object.isRequired,
   sizedRows: PropTypes.array.isRequired,
   rowHeight: PropTypes.number.isRequired,
-  index:PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
 };
 
 export default connect((store) => {
   return {
     playedId: store.player.currentTango._id,
+    selectedTangos: store.source.selectedTangos,
   }
 })(DataLine);
