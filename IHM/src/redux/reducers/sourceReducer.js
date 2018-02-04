@@ -25,8 +25,19 @@ export default function reducer(state = initialState, action) {
       return {...state, tangoList: action.payload};
     }
     case "persist/REHYDRATE": {
-      if (action.payload.source) {
-        return {...state, tangoList: action.payload.source.tangoList}
+      if (action.payload.source !== undefined) {
+        let source = action.payload.source;
+        return {
+          ...state,
+          tangoList: source.tangoList,
+          displayTangoList:source.displayTangoList,
+          selectedTangos:source.selectedTangos,
+          anchorEl:source.anchorEl,
+          selectedIndex:source.selectedIndex,
+          sortingDatas:source.sortingDatas,
+          filterList:source.filterList,
+
+        }
       } else {
         return {...state}
       }

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import * as playerActions from '../redux/actions/playerAction';
+import * as playerActions from '../redux/actions/playerActions';
 import * as sourceActions from '../redux/actions/sourceActions';
 import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';

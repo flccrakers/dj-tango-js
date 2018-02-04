@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 import Stop from 'material-ui-icons/Stop';
 import Pause from 'material-ui-icons/Pause';
 import * as utils from '../services/utils';
-import * as playerActions from '../redux/actions/playerAction';
+import * as playerActions from '../redux/actions/playerActions';
 import * as sourceActions from "../redux/actions/sourceActions";
 import Slider, {Range} from 'rc-slider';
 import 'rc-slider/assets/index.css';

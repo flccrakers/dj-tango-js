@@ -13,6 +13,7 @@ import Refresh from 'material-ui-icons/Refresh';
 import List, {ListItem, ListItemText} from 'material-ui/List';
 import Menu, {MenuItem} from 'material-ui/Menu';
 import Paper from "material-ui/es/Paper/Paper";
+import * as djUtils from './dj-utils';
 
 const styles = {
   leftAligned: {
@@ -167,14 +168,9 @@ class SourceList extends Component {
 
   constructor(props) {
     super(props);
-    // const sortBy = 'index';
-    //const sortDirection = SortDirection.ASC;
-    // const sortedList = props.tangoList;
     this.state = {
       containerHeight: 600,
       containerWidth: 600,
-      // anchorEl: {artist: null, album: null, singer: null, genre: null},
-      // selectedIndex: {artist: 0, album: 0, singer: 0, genre: 0},
     };
 
   }
@@ -202,45 +198,6 @@ class SourceList extends Component {
       this.props.dispatch(sourceActions.fetchAllTangos());
     }*/
 
-  }
-
-  /**
-   * Calculate the size au column labelled 'auto
-   * @param containerSize size of the container in which the table is in (a div for example)
-   * @returns {number} the size of column labeled 'auto'
-   */
-  getAutoSize(rowsTemplate, containerSize) {
-    let autoNb = 0;
-    let totalSize = 0;
-    let margin = rowsTemplate.length * 4 + 30;
-    rowsTemplate.forEach(element => {
-      // console.log(element);
-      if (element.size === 'auto' || element.size === 0) {
-        autoNb += 1;
-      }
-      else {
-        totalSize += element.size
-      }
-    });
-    return (containerSize - totalSize - margin) / autoNb;
-  }
-
-  /**
-   * Get the table of size for each column
-   * @returns {*[] | *}
-   */
-  getSizedRows(rowsTemplate, containerWidth) {
-    let ret, autoSize = 0;
-    ret = rowsTemplate.map(a => Object.assign({}, a));
-    if (!isNaN(containerWidth)) {
-      autoSize = this.getAutoSize(rowsTemplate, containerWidth);
-    }
-    ret.forEach((elmt, index, table) => {
-      if (elmt.size === 'auto' || elmt.size === 0) {
-        table[index].size = autoSize
-      }
-    });
-    return ret;
   }
 
   handleClickListItem(field, event) {
@@ -387,7 +344,7 @@ class SourceList extends Component {
   }
 
   getFilter() {
-    let sizedRows = this.getSizedRows(filterTemplate, this.state.containerWidth - 100);
+    let sizedRows = djUtils.getSizedRows(filterTemplate, this.state.containerWidth - 100);
 
     const styles = {
       paperContainer: {
@@ -423,7 +380,7 @@ class SourceList extends Component {
   }
 
   getHeader() {
-    let sizedRows = this.getSizedRows(rowsTemplate, this.state.containerWidth);
+    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
     // console.log(sizedRows);
     const table = {
       borderBottom: '1px solid red',
@@ -450,7 +407,7 @@ class SourceList extends Component {
   };
 
   rowRenderer = (params) => {
-    let sizedRows = this.getSizedRows(rowsTemplate, this.state.containerWidth);
+    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
     let tango = this.props.source.displayTangoList[params.index];
     return (
       <DataLine tango={tango} sizedRows={sizedRows} rowHeight={this.props.source.listRowHeight} style={params.style}

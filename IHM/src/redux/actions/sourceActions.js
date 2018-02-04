@@ -84,9 +84,6 @@ export function updateSortStatusAndSort(field, status, data) {
 
 export function sortDatas(datas, field, sortDirection) {
   return function (dispatch) {
-    // console.log(field);
-    // console.log(datas[0]);
-    // console.log(typeof datas[0][field]);
     if (typeof datas[0][field] === 'string') {
       dispatch(sortStrings(datas, field, sortDirection));
     } else if (typeof datas[0][field] === 'number') {
@@ -186,8 +183,6 @@ function sortNumbers(datas, field, sortDirection) {
 
 export function filterTangoList(selectedIndex, filterList, tangoList: tango[], sortingDatas: sortingDataDTO) {
   return function (dispatch) {
-    // console.log(selectedIndex);
-    // console.log(filterList);
     let fieldToSearch = {};
     Object.keys(selectedIndex).forEach(key => {
       if (selectedIndex[key] > 0) {
@@ -208,13 +203,7 @@ export function filterTangoList(selectedIndex, filterList, tangoList: tango[], s
       return ret
 
     }));
-
-    // console.log(newTangoList);
-
     dispatch(sortDatas(newTangoList, sortingDatas.sortingField, sortingDatas.sortingDirection))
-    // dispatch(updateDisplayTangosList(newTangoList));
-
-
   }
 }
 
