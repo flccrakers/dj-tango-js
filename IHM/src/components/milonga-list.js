@@ -8,7 +8,8 @@ import Delete from 'material-ui-icons/DeleteForever';
 import Sweep from 'material-ui-icons/DeleteSweep'
 import IconButton from "material-ui/IconButton/index";
 import Paper from "material-ui/es/Paper/Paper";
-import Tooltip from 'material-ui/Tooltip';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap.css';
 import VirtualList from 'react-tiny-virtual-list';
 import {sortStatus as SORT} from "../services/dj-const";
 import DataLine from './data-line';
@@ -157,11 +158,24 @@ class MilongaList extends Component {
       },
       toolTip: {
         fontSize: '20px',
+      },
+      tooltip: {
+        display: 'flex',
+        flex: '1 1 auto',
+        alignItems: 'center',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        minHeight: '30px',
+      },
+      overlayStyle:{
+        // backgroundColor:'#000',
+        opacity:'1'
+
       }
     };
     return (
       <Paper style={styles.paperContainer} elevation={4} key={'filter_source_menu'}>
-        <Tooltip id="tooltip-icon" title="Save" style={{fontSize: '25px'}}>
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Save'}</div>} overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -172,7 +186,8 @@ class MilongaList extends Component {
             <Save style={styles.icon}/>
           </IconButton>
         </Tooltip>
-        <Tooltip id="tooltip-icon" title="Open milonga">
+
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Open a milonga'}</div>} overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -184,7 +199,7 @@ class MilongaList extends Component {
           </IconButton>
         </Tooltip>
 
-        <Tooltip id="tooltip-icon" title="Display info about the milonga">
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Show infos about Milonga'}</div>} overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -196,7 +211,7 @@ class MilongaList extends Component {
           </IconButton>
         </Tooltip>
 
-        <Tooltip id="tooltip-icon" title="Delete the milonga">
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Delete the milonga'}</div>} overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -207,7 +222,9 @@ class MilongaList extends Component {
             <Delete style={styles.icon}/>
           </IconButton>
         </Tooltip>
-        <Tooltip id="tooltip-icon" title="Empty the milonga and start a new one">
+
+        <Tooltip placement={'bottom'}
+                 overlay={<div style={styles.tooltip}>{'Empty the milonga and start a new one'}</div>} overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -233,7 +250,7 @@ class MilongaList extends Component {
         rowHeight={this.props.milonga.listRowHeight}
         style={params.style}
         index={params.index}
-        key={'milonga_' + tango._id+'_'+params.index}
+        key={'milonga_' + tango._id + '_' + params.index}
       />
     );
   }
