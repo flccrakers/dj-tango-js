@@ -11,8 +11,6 @@ const styles = {
   root: {
     display: 'flex',
     flex: '1 1 auto',
-    // width: '100%',
-    //minHeight: '25px',
     float: 'left',
     cursor: 'pointer',
   },
@@ -48,7 +46,7 @@ class DataLine extends Component {
 
   handleRightClick(event) {
     console.log(event.clientX);
-    let position = {top: event.clientY - 35, left: event.clientX - 25};
+    let position = {top: event.clientY - 35, left: event.clientX - 20};
     this.setState({anchorEl: event.currentTarget, anchorPosition: position});
   };
 
@@ -176,7 +174,6 @@ class DataLine extends Component {
           event.preventDefault();
           console.log('Display context menu');
           this.handleRightClick(event);
-          // this.handleContextMenu.bind(this, event)
         }}
 
         draggable={true}

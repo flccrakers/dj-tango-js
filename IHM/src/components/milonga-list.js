@@ -11,6 +11,7 @@ import Paper from "material-ui/es/Paper/Paper";
 import Tooltip from 'material-ui/Tooltip';
 import VirtualList from 'react-tiny-virtual-list';
 import {sortStatus as SORT} from "../services/dj-const";
+import DataLine from './data-line';
 import * as djUtils from "./dj-utils";
 
 const rowsTemplate = [
@@ -128,12 +129,12 @@ class MilongaList extends Component {
   handleOnClick = () => {
     // console.log("I have clicked on the div");
     let tangoToAdd = [];
-    this.props.selectedTangos.forEach((id)=>{
+    this.props.selectedTangos.forEach((id) => {
       // console.log("I will add tango "+this.props.tangoList[id].title);
       tangoToAdd.push(this.props.tangoList[id]);
     });
     console.log(tangoToAdd);
-    this.props.dispatch(milongaActions.addTango(tangoToAdd,this.props.milonga.list));
+    this.props.dispatch(milongaActions.addTango(tangoToAdd, this.props.milonga.list));
 
   };
 
@@ -160,7 +161,7 @@ class MilongaList extends Component {
     };
     return (
       <Paper style={styles.paperContainer} elevation={4} key={'filter_source_menu'}>
-        <Tooltip id="tooltip-icon" title="Save" style={{fontSize:'25px'}}>
+        <Tooltip id="tooltip-icon" title="Save" style={{fontSize: '25px'}}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -221,16 +222,20 @@ class MilongaList extends Component {
     );
   }
 
-  rowRenderer(params){
-    console.log(params.index);
-    /*this.props.milonga.list[index].name*/
-    console.log(this.props.milonga.list);
-    console.log(this.props.milonga.list[params.index].title);
-    return(
-      <div key={'milongatangolist_'+params.index}>
-        {this.props.milonga.list[params.index].title}
-      </div>
-    )
+  rowRenderer(params) {
+
+    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
+    let tango = this.props.milonga.list[params.index];
+    return (
+      <DataLine
+        tango={tango}
+        sizedRows={sizedRows}
+        rowHeight={this.props.milonga.listRowHeight}
+        style={params.style}
+        index={params.index}
+        key={'milonga_' + tango._id+'_'+params.index}
+      />
+    );
   }
 
   render() {
@@ -265,7 +270,7 @@ export default connect((store) => {
   return {
     milonga: store.milonga,
     selectedTangos: store.source.selectedTangos,
-    tangoList:store.source.displayTangoList,
+    tangoList: store.source.displayTangoList,
   }
 
 })(MilongaList);

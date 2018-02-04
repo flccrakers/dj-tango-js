@@ -235,9 +235,7 @@ class SourceList extends Component {
       cursor: 'pointer',
     };
     let optionsList = this.props.source.filterList;
-    // console.log(optionsList);
     const anchorEl = this.props.source.anchorEl;
-    // console.log(anchorEl);
     if (optionsList !== null) {
       sizedRows.forEach(row => {
         let style;
@@ -410,9 +408,14 @@ class SourceList extends Component {
     let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
     let tango = this.props.source.displayTangoList[params.index];
     return (
-      <DataLine tango={tango} sizedRows={sizedRows} rowHeight={this.props.source.listRowHeight} style={params.style}
+      <DataLine tango={tango}
+                sizedRows={sizedRows}
+                rowHeight={this.props.source.listRowHeight}
+                style={params.style}
                 index={params.index}
-                key={tango._id}/>);
+                key={tango._id}
+      />
+    );
   };
 
 
