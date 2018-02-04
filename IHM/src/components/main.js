@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import Header from "./header";
-import Source from './sourceList';
-import * as sourceActions from '../redux/actions/sourceActions';
+import Source from './source-list';
+import Milonga from './milonga-list';
+// import * as sourceActions from '../redux/actions/sourceActions';
 import {connect} from 'react-redux';
 import PlayerWrapper from './player-wrapper';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
@@ -68,7 +69,8 @@ class Main extends Component {
           <div style={styles.playListRoot}>
             <Source/>
             <div style={styles.verticalSeparator}/>
-            <div style={styles.playLists} id='milongas'>milonga</div>
+            <Milonga/>
+            {/*<div style={styles.playLists} id='milongas'>milonga</div>*/}
           </div>
         </div>
         <Footer/>

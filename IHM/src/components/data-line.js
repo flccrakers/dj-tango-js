@@ -37,7 +37,8 @@ class DataLine extends Component {
     this.state = {
       hover: false,
       anchorEl: null,
-      anchorPosition: {top: 0, left: 0}
+      anchorPosition: {top: 0, left: 0},
+      isDragging:false,
     }
   }
 
@@ -61,21 +62,18 @@ class DataLine extends Component {
       let minIndex = this.props.selectedTangos.reduce(function (a, b) {
         return Math.min(a, b);
       });
-        if (this.props.index > maxIndex) {
-          for (let i = maxIndex + 1; i < this.props.index; i++) {
-            toAdd.push(i);
-          }
-        } else (this.props.index < minIndex)
-        {
-          for (let i = minIndex - 1; i > this.props.index; i--) {
-            toAdd.push(i);
-          }
+      if (this.props.index > maxIndex) {
+        for (let i = maxIndex + 1; i < this.props.index; i++) {
+          toAdd.push(i);
         }
+      } else (this.props.index < minIndex)
+      {
+        for (let i = minIndex - 1; i > this.props.index; i--) {
+          toAdd.push(i);
+        }
+      }
     }
-
-
     this.props.dispatch(sourceActions.updateSelectedTangoIndex(toAdd, this.props.selectedTangos, shouldAdd));
-
   };
 
   handleDoubleClick = () => {
@@ -164,6 +162,7 @@ class DataLine extends Component {
     }
     return (
       <div
+        ref={this.props.tango.id}
         style={root}
         onClick={this.handleLeftClick}
         onDoubleClick={this.handleDoubleClick}
