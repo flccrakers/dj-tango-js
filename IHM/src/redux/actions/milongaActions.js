@@ -11,3 +11,10 @@ function updateTangoList(newTangoList){
     payload:newTangoList,
   }
 }
+
+export function clearMilonga(){
+  return function (dispatch){
+    dispatch(updateTangoList([]));
+  }
+
+}

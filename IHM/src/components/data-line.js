@@ -6,7 +6,20 @@ import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
 import Playing from 'material-ui-icons/VolumeUp';
 import Menu, {MenuItem} from 'material-ui/Menu';
+import {ItemTypes} from '../services/dj-const';
+import { DragSource } from 'react-dnd';
 
+const tangoSource = {
+  beginDrag(props) {
+    return {};
+  }
+};
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  }
+}
 const styles = {
   root: {
     display: 'flex',
@@ -36,7 +49,7 @@ class DataLine extends Component {
       hover: false,
       anchorEl: null,
       anchorPosition: {top: 0, left: 0},
-      isDragging:false,
+      isDragging: false,
     }
   }
 
@@ -143,8 +156,9 @@ class DataLine extends Component {
   }
 
   render() {
+
+    const { connectDragSource, isDragging } = this.props;
     const {anchorEl, anchorPosition} = this.state;
-    // console.log(anchorPosition);
     let tango, root, rootBase;
     rootBase = {...this.props.style, ...styles.root, WebkitUserSelect: 'none'};
     tango: tango = this.props.tango;
@@ -158,7 +172,7 @@ class DataLine extends Component {
     if (this.state.hover === true) {
       root = {...root, backgroundColor: '#272727'}
     }
-    return (
+    return connectDragSource(
       <div
         ref={this.props.tango.id}
         style={root}
@@ -204,12 +218,23 @@ class DataLine extends Component {
   }
 }
 
+DataLine.defaultProps = {
+  isMilonga: false,
+
+};
+
+
 DataLine.propTypes = {
   tango: PropTypes.object.isRequired,
   sizedRows: PropTypes.array.isRequired,
   rowHeight: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
+  isMilonga: PropTypes.bool.isRequired,
+  connectDragSource: PropTypes.func.isRequired,
+  isDragging: PropTypes.bool.isRequired
 };
+
+DataLine = DragSource(ItemTypes.TANGO, tangoSource, collect)(DataLine);
 
 export default connect((store) => {
   return {

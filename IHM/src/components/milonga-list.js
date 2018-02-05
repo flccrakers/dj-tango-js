@@ -102,6 +102,10 @@ const styles = {
 };
 
 class MilongaList extends Component {
+  handleClearMilonga = () => {
+    this.props.dispatch(milongaActions.clearMilonga());
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -128,15 +132,15 @@ class MilongaList extends Component {
   }
 
   handleOnClick = () => {
-    // console.log("I have clicked on the div");
-    let tangoToAdd = [];
-    this.props.selectedTangos.forEach((id) => {
-      // console.log("I will add tango "+this.props.tangoList[id].title);
-      tangoToAdd.push(this.props.tangoList[id]);
-    });
-    console.log(tangoToAdd);
-    this.props.dispatch(milongaActions.addTango(tangoToAdd, this.props.milonga.list));
-
+    /*  // console.log("I have clicked on the div");
+      let tangoToAdd = [];
+      this.props.selectedTangos.forEach((id) => {
+        // console.log("I will add tango "+this.props.tangoList[id].title);
+        tangoToAdd.push(this.props.tangoList[id]);
+      });
+      console.log(tangoToAdd);
+      this.props.dispatch(milongaActions.addTango(tangoToAdd, this.props.milonga.list));
+  */
   };
 
   getHeader() {
@@ -167,15 +171,16 @@ class MilongaList extends Component {
         fontWeight: 'bold',
         minHeight: '30px',
       },
-      overlayStyle:{
+      overlayStyle: {
         // backgroundColor:'#000',
-        opacity:'1'
+        opacity: '1'
 
       }
     };
     return (
       <Paper style={styles.paperContainer} elevation={4} key={'filter_source_menu'}>
-        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Save'}</div>} overlayStyle={styles.overlayStyle}>
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Save'}</div>}
+                 overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -187,7 +192,8 @@ class MilongaList extends Component {
           </IconButton>
         </Tooltip>
 
-        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Open a milonga'}</div>} overlayStyle={styles.overlayStyle}>
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Open a milonga'}</div>}
+                 overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -199,7 +205,8 @@ class MilongaList extends Component {
           </IconButton>
         </Tooltip>
 
-        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Show infos about Milonga'}</div>} overlayStyle={styles.overlayStyle}>
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Show infos about Milonga'}</div>}
+                 overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -211,7 +218,8 @@ class MilongaList extends Component {
           </IconButton>
         </Tooltip>
 
-        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Delete the milonga'}</div>} overlayStyle={styles.overlayStyle}>
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Delete the milonga'}</div>}
+                 overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -224,13 +232,12 @@ class MilongaList extends Component {
         </Tooltip>
 
         <Tooltip placement={'bottom'}
-                 overlay={<div style={styles.tooltip}>{'Empty the milonga and start a new one'}</div>} overlayStyle={styles.overlayStyle}>
+                 overlay={<div style={styles.tooltip}>{'Empty the milonga and start a new one'}</div>}
+                 overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
-            onClick={() => {
-              console.log('empty milonga')
-            }}
+            onClick={this.handleClearMilonga}
           >
             <Sweep style={styles.icon}/>
           </IconButton>
