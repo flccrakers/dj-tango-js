@@ -36,3 +36,13 @@ function getAutoSize(rowsTemplate, containerSize) {
   });
   return (containerSize - totalSize - margin) / autoNb;
 }
+
+
+export function getTangoListFromIdList(selectedTangosList, displayedTangos){
+  let ret = [];
+  selectedTangosList.forEach((id) => {
+    ret.push(displayedTangos[id]);
+  });
+
+  return ret;
+}

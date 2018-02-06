@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import Source from './source-list';
 import Milonga from './milonga-list';
-import {connect} from 'react-redux';
-import { DragDropContext } from 'react-dnd';
+import {DragDropContext} from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-
 
 const styles = {
   playListRoot: {
@@ -17,16 +15,10 @@ const styles = {
   },
 };
 
-
-
-
-
 class PlayListBoard extends Component {
-
-
   render() {
     return [
-      <div style={styles.playListRoot}>
+      <div style={styles.playListRoot} key={'playListBoard'}>
         <Source/>
         <div style={styles.verticalSeparator}/>
         <Milonga/>

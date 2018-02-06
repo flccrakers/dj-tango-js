@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import * as milongaActions from '../redux/actions/milongaActions';
 import Save from 'material-ui-icons/Save';
 import OpenMilonga from 'material-ui-icons/FolderOpen';
@@ -14,6 +15,31 @@ import VirtualList from 'react-tiny-virtual-list';
 import {sortStatus as SORT} from "../services/dj-const";
 import DataLine from './data-line';
 import * as djUtils from "./dj-utils";
+import {ItemTypes} from '../services/dj-const';
+import {DropTarget} from 'react-dnd';
+
+const milongaTarget = {
+  drop(props, monitor) {
+    // moveTango(props.beforeId, props.afterId);
+    //
+    let tangoToAdd = djUtils.getTangoListFromIdList(props.selectedTangos, props.tangoList);
+
+    // console.log(props.milonga.indexToDrop);
+    // console.log(tangoToAdd);
+    // console.log(props.milonga.list);
+    props.dispatch(milongaActions.dropTangos(props.milonga.indexToDrop,tangoToAdd,props.milonga.list ));
+
+
+    // console.log(props, monitor);
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
 
 const rowsTemplate = [
   {
@@ -258,17 +284,18 @@ class MilongaList extends Component {
         style={params.style}
         index={params.index}
         key={'milonga_' + tango._id + '_' + params.index}
+        isMilonga
       />
     );
   }
 
   render() {
     let milonga = this.props.milonga;
-    return (
+    const {x, y, connectDropTarget, isOver} = this.props;
+    return connectDropTarget(
       <div
         style={styles.main}
         onClick={this.handleOnClick}
-        ref={'milonga'}
       >
         {this.getMenu()}
         {this.getHeader()}
@@ -289,6 +316,14 @@ class MilongaList extends Component {
   }
 
 }
+
+/*MilongaList.propTypes = {
+  connectDropTarget: PropTypes.func.isRequired,
+  isOver: PropTypes.bool.isRequired
+};*/
+
+
+MilongaList = DropTarget(ItemTypes.TANGO, milongaTarget, collect)(MilongaList);
 
 export default connect((store) => {
   return {

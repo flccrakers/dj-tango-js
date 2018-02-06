@@ -8,6 +8,7 @@ const initialState = {
   useDynamicRowHeight: false,
   currentIndex: 0,
   selectedTangos: [],
+  indexToDrop:0,
 };
 export default function reducer(state = initialState, action) {
   switch (action.type) {

@@ -7,19 +7,21 @@ import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
 import Playing from 'material-ui-icons/VolumeUp';
 import Menu, {MenuItem} from 'material-ui/Menu';
 import {ItemTypes} from '../services/dj-const';
-import { DragSource } from 'react-dnd';
+import {DragSource} from 'react-dnd';
 
 const tangoSource = {
   beginDrag(props) {
     return {};
   }
 };
+
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging()
   }
 }
+
 const styles = {
   root: {
     display: 'flex',
@@ -157,7 +159,8 @@ class DataLine extends Component {
 
   render() {
 
-    const { connectDragSource, isDragging } = this.props;
+    const {connectDragSource, isDragging} = this.props;
+    // console.log('is dragging:' + isDragging);
     const {anchorEl, anchorPosition} = this.state;
     let tango, root, rootBase;
     rootBase = {...this.props.style, ...styles.root, WebkitUserSelect: 'none'};
@@ -169,8 +172,15 @@ class DataLine extends Component {
       root = {...rootBase};
     }
 
-    if (this.state.hover === true) {
+    if (this.state.hover === true && this.props.isMilonga === false) {
       root = {...root, backgroundColor: '#272727'}
+    } else if (this.state.hover === true && this.props.isMilonga === true && this.props.isDragging === true) {
+      console.log("I'm over a tango in milonga list");
+      root = {...root, borderBottom: '1px solid white'}
+    }
+    let ref = this.props.tango.id;
+    if (this.props.isMilonga === true) {
+      ref += 'milonga';
     }
     return connectDragSource(
       <div
@@ -180,6 +190,10 @@ class DataLine extends Component {
         onDoubleClick={this.handleDoubleClick}
         onMouseEnter={() => {
           this.setState({hover: true})
+        }}
+        onMouseMove={event => {
+          // console.log();
+          console.log('Y:' + event.clientY, 'X:' + event.clientY);
         }}
         onMouseLeave={() => {
           this.setState({hover: false})
