@@ -2,6 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import * as playerActions from '../redux/actions/playerActions';
 import * as sourceActions from '../redux/actions/sourceActions';
+import * as dialogActions from '../redux/actions/dialogActions';
+import dialogType from '../services/dialogTypeRef';
 import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
 import Playing from 'material-ui-icons/VolumeUp';
@@ -57,6 +59,11 @@ class DataLine extends Component {
 
   handleClose = () => {
     this.setState({anchorEl: null, hover: false});
+  };
+  handleEditTango = () => {
+    this.handleClose();
+    console.log(this.props.index);
+    this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.TANGO_DETAILS, {index:this.props.index}));
   };
 
   handleRightClick(event) {
@@ -216,7 +223,7 @@ class DataLine extends Component {
           anchorReference={'anchorPosition'}
           anchorPosition={anchorPosition}
         >
-          <MenuItem onClick={this.handleClose}>Edit tango</MenuItem>
+          <MenuItem onClick={this.handleEditTango}>Edit tango</MenuItem>
           <MenuItem onClick={this.handleClose}>Calculate bpm</MenuItem>
           <MenuItem onClick={this.handleClose}>Open with audacity</MenuItem>
         </Menu>

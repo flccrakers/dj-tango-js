@@ -4,7 +4,8 @@ import {connect} from 'react-redux';
 import PlayerWrapper from './player-wrapper';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import Footer from './footer';
-import PlaylistBoard from './playlist-board'
+import PlaylistBoard from './playlist-board';
+import DjDialog from './dialog';
 
 
 const theme = createMuiTheme({
@@ -37,6 +38,7 @@ class Main extends Component {
         <div style={styles.content}>
           <PlayerWrapper/>
           <PlaylistBoard/>
+          <DjDialog/>
         </div>
         <Footer/>
 

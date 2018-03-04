@@ -1,5 +1,5 @@
-export function updateDialogAndShow(dialogType, additionalData = '') {
-  let ret = {dialogType, additionalData}
+export function updateDialogAndShow(dialogType, additionalData = null) {
+  let ret = {dialogType:dialogType, additionalData:additionalData};
   return {
     type: 'UPDATE_DIALOG_AND_SHOW',
     payload: ret,
