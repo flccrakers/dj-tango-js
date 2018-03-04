@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import * as milongaActions from '../redux/actions/milongaActions';
 import Save from 'material-ui-icons/Save';
 import OpenMilonga from 'material-ui-icons/FolderOpen';
@@ -8,11 +9,37 @@ import Delete from 'material-ui-icons/DeleteForever';
 import Sweep from 'material-ui-icons/DeleteSweep'
 import IconButton from "material-ui/IconButton/index";
 import Paper from "material-ui/es/Paper/Paper";
-import Tooltip from 'material-ui/Tooltip';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap.css';
 import VirtualList from 'react-tiny-virtual-list';
 import {sortStatus as SORT} from "../services/dj-const";
 import DataLine from './data-line';
 import * as djUtils from "./dj-utils";
+import {ItemTypes} from '../services/dj-const';
+import {DropTarget} from 'react-dnd';
+
+const milongaTarget = {
+  drop(props, monitor) {
+    // moveTango(props.beforeId, props.afterId);
+    //
+    let tangoToAdd = djUtils.getTangoListFromIdList(props.selectedTangos, props.tangoList);
+
+    // console.log(props.milonga.indexToDrop);
+    // console.log(tangoToAdd);
+    // console.log(props.milonga.list);
+    props.dispatch(milongaActions.dropTangos(props.milonga.indexToDrop,tangoToAdd,props.milonga.list ));
+
+
+    // console.log(props, monitor);
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
 
 const rowsTemplate = [
   {
@@ -101,6 +128,10 @@ const styles = {
 };
 
 class MilongaList extends Component {
+  handleClearMilonga = () => {
+    this.props.dispatch(milongaActions.clearMilonga());
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -127,15 +158,15 @@ class MilongaList extends Component {
   }
 
   handleOnClick = () => {
-    // console.log("I have clicked on the div");
-    let tangoToAdd = [];
-    this.props.selectedTangos.forEach((id) => {
-      // console.log("I will add tango "+this.props.tangoList[id].title);
-      tangoToAdd.push(this.props.tangoList[id]);
-    });
-    console.log(tangoToAdd);
-    this.props.dispatch(milongaActions.addTango(tangoToAdd, this.props.milonga.list));
-
+    /*  // console.log("I have clicked on the div");
+      let tangoToAdd = [];
+      this.props.selectedTangos.forEach((id) => {
+        // console.log("I will add tango "+this.props.tangoList[id].title);
+        tangoToAdd.push(this.props.tangoList[id]);
+      });
+      console.log(tangoToAdd);
+      this.props.dispatch(milongaActions.addTango(tangoToAdd, this.props.milonga.list));
+  */
   };
 
   getHeader() {
@@ -157,11 +188,25 @@ class MilongaList extends Component {
       },
       toolTip: {
         fontSize: '20px',
+      },
+      tooltip: {
+        display: 'flex',
+        flex: '1 1 auto',
+        alignItems: 'center',
+        fontSize: '16px',
+        fontWeight: 'bold',
+        minHeight: '30px',
+      },
+      overlayStyle: {
+        // backgroundColor:'#000',
+        opacity: '1'
+
       }
     };
     return (
       <Paper style={styles.paperContainer} elevation={4} key={'filter_source_menu'}>
-        <Tooltip id="tooltip-icon" title="Save" style={{fontSize: '25px'}}>
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Save'}</div>}
+                 overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -172,7 +217,9 @@ class MilongaList extends Component {
             <Save style={styles.icon}/>
           </IconButton>
         </Tooltip>
-        <Tooltip id="tooltip-icon" title="Open milonga">
+
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Open a milonga'}</div>}
+                 overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -184,7 +231,8 @@ class MilongaList extends Component {
           </IconButton>
         </Tooltip>
 
-        <Tooltip id="tooltip-icon" title="Display info about the milonga">
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Show infos about Milonga'}</div>}
+                 overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -196,7 +244,8 @@ class MilongaList extends Component {
           </IconButton>
         </Tooltip>
 
-        <Tooltip id="tooltip-icon" title="Delete the milonga">
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Delete the milonga'}</div>}
+                 overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
@@ -207,13 +256,14 @@ class MilongaList extends Component {
             <Delete style={styles.icon}/>
           </IconButton>
         </Tooltip>
-        <Tooltip id="tooltip-icon" title="Empty the milonga and start a new one">
+
+        <Tooltip placement={'bottom'}
+                 overlay={<div style={styles.tooltip}>{'Empty the milonga and start a new one'}</div>}
+                 overlayStyle={styles.overlayStyle}>
           <IconButton
             style={styles.button}
             color={'secondary'}
-            onClick={() => {
-              console.log('empty milonga')
-            }}
+            onClick={this.handleClearMilonga}
           >
             <Sweep style={styles.icon}/>
           </IconButton>
@@ -233,18 +283,19 @@ class MilongaList extends Component {
         rowHeight={this.props.milonga.listRowHeight}
         style={params.style}
         index={params.index}
-        key={'milonga_' + tango._id+'_'+params.index}
+        key={'milonga_' + tango._id + '_' + params.index}
+        isMilonga
       />
     );
   }
 
   render() {
     let milonga = this.props.milonga;
-    return (
+    const {x, y, connectDropTarget, isOver} = this.props;
+    return connectDropTarget(
       <div
         style={styles.main}
         onClick={this.handleOnClick}
-        ref={'milonga'}
       >
         {this.getMenu()}
         {this.getHeader()}
@@ -265,6 +316,14 @@ class MilongaList extends Component {
   }
 
 }
+
+/*MilongaList.propTypes = {
+  connectDropTarget: PropTypes.func.isRequired,
+  isOver: PropTypes.bool.isRequired
+};*/
+
+
+MilongaList = DropTarget(ItemTypes.TANGO, milongaTarget, collect)(MilongaList);
 
 export default connect((store) => {
   return {

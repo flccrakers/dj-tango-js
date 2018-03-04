@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 import Header from "./header";
-import Source from './source-list';
-import Milonga from './milonga-list';
-// import * as sourceActions from '../redux/actions/sourceActions';
 import {connect} from 'react-redux';
 import PlayerWrapper from './player-wrapper';
 import {MuiThemeProvider, createMuiTheme} from 'material-ui/styles';
 import Footer from './footer';
+import PlaylistBoard from './playlist-board';
+import DjDialog from './dialog';
+
 
 const theme = createMuiTheme({
   palette: {
@@ -15,42 +15,13 @@ const theme = createMuiTheme({
 });
 
 const styles = {
-  rootApp: {
-    display: 'flex',
-    flex: '1 1 auto',
-    flexDirection: 'column',
-    height: '100%',
-    position: 'relative', /* need to position inner content*/
-    backgroundColor: 'red',
-    padding: '15px',
 
-  },
   content: {
     display: 'flex',
     flexDirection: 'column',
     flex: '1 1 auto',
     padding: '5px',
     backgroundColor: '#2a2a2a',
-  },
-
-
-  playListRoot: {
-    display: 'flex',
-    flex: '1 1 auto',
-    backgroundColor: '#2a2a2a',
-  },
-  playLists: {
-    display: 'flex',
-    flex: '1 1 50%',
-    margin: '3px 0px 0px 0px',
-    padding: '2px',
-    color: 'white',
-    // backgroundColor: 'blue',
-    border: '1pt solid ' + '#5f5f5f',
-    overflow: 'hidden',
-  },
-  verticalSeparator: {
-    width: '5px',
   },
 
 
@@ -66,12 +37,8 @@ class Main extends Component {
         <Header/>
         <div style={styles.content}>
           <PlayerWrapper/>
-          <div style={styles.playListRoot}>
-            <Source/>
-            <div style={styles.verticalSeparator}/>
-            <Milonga/>
-            {/*<div style={styles.playLists} id='milongas'>milonga</div>*/}
-          </div>
+          <PlaylistBoard/>
+          <DjDialog/>
         </div>
         <Footer/>
 

@@ -3,3 +3,7 @@ export const sortStatus:sortDTO = Object.freeze({
   ASC: 1,
   DESC:2,
 });
+
+export const ItemTypes = {
+  TANGO: 'Tango'
+};
