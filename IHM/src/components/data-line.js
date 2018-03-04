@@ -193,7 +193,7 @@ class DataLine extends Component {
         }}
         onMouseMove={event => {
           // console.log();
-          console.log('Y:' + event.clientY, 'X:' + event.clientY);
+          // console.log('Y:' + event.clientY, 'X:' + event.clientY);
         }}
         onMouseLeave={() => {
           this.setState({hover: false})
