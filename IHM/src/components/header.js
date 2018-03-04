@@ -214,7 +214,7 @@ class Header extends Component {
                 }}
               />
               <label htmlFor="raised-button-file">
-                <Button raised component="span">
+                <Button variant={'raised'} component="span">
                   Select File
                 </Button>
               </label>
