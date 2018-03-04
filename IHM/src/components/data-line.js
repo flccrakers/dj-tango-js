@@ -6,6 +6,21 @@ import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
 import Playing from 'material-ui-icons/VolumeUp';
 import Menu, {MenuItem} from 'material-ui/Menu';
+import {ItemTypes} from '../services/dj-const';
+import {DragSource} from 'react-dnd';
+
+const tangoSource = {
+  beginDrag(props) {
+    return {};
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  }
+}
 
 const styles = {
   root: {
@@ -36,7 +51,7 @@ class DataLine extends Component {
       hover: false,
       anchorEl: null,
       anchorPosition: {top: 0, left: 0},
-      isDragging:false,
+      isDragging: false,
     }
   }
 
@@ -143,8 +158,10 @@ class DataLine extends Component {
   }
 
   render() {
+
+    const {connectDragSource, isDragging} = this.props;
+    // console.log('is dragging:' + isDragging);
     const {anchorEl, anchorPosition} = this.state;
-    // console.log(anchorPosition);
     let tango, root, rootBase;
     rootBase = {...this.props.style, ...styles.root, WebkitUserSelect: 'none'};
     tango: tango = this.props.tango;
@@ -155,10 +172,17 @@ class DataLine extends Component {
       root = {...rootBase};
     }
 
-    if (this.state.hover === true) {
+    if (this.state.hover === true && this.props.isMilonga === false) {
       root = {...root, backgroundColor: '#272727'}
+    } else if (this.state.hover === true && this.props.isMilonga === true && this.props.isDragging === true) {
+      console.log("I'm over a tango in milonga list");
+      root = {...root, borderBottom: '1px solid white'}
     }
-    return (
+    let ref = this.props.tango.id;
+    if (this.props.isMilonga === true) {
+      ref += 'milonga';
+    }
+    return connectDragSource(
       <div
         ref={this.props.tango.id}
         style={root}
@@ -166,6 +190,10 @@ class DataLine extends Component {
         onDoubleClick={this.handleDoubleClick}
         onMouseEnter={() => {
           this.setState({hover: true})
+        }}
+        onMouseMove={event => {
+          // console.log();
+          console.log('Y:' + event.clientY, 'X:' + event.clientY);
         }}
         onMouseLeave={() => {
           this.setState({hover: false})
@@ -204,12 +232,23 @@ class DataLine extends Component {
   }
 }
 
+DataLine.defaultProps = {
+  isMilonga: false,
+
+};
+
+
 DataLine.propTypes = {
   tango: PropTypes.object.isRequired,
   sizedRows: PropTypes.array.isRequired,
   rowHeight: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
+  isMilonga: PropTypes.bool.isRequired,
+  connectDragSource: PropTypes.func.isRequired,
+  isDragging: PropTypes.bool.isRequired
 };
+
+DataLine = DragSource(ItemTypes.TANGO, tangoSource, collect)(DataLine);
 
 export default connect((store) => {
   return {
