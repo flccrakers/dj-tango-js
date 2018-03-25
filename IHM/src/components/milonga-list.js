@@ -121,12 +121,12 @@ const styles = {
   },
   mainHided: {
     display: 'flex',
-    flexDirection:'column',
-    justifyContent:'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
     // flexBasis: '25px',
     // minWidth: '25px',
     flex: '0 0 auto',
-    border: '1pt solid ' + '#5f5f5f',
+    borderLeft: '1pt solid ' + '#5f5f5f',
     overflow: 'hidden',
   },
   virtualListContainer: {
@@ -163,9 +163,11 @@ class MilongaList extends Component {
   }
 
   updateDimensions() {
-    const containerHeight = this.refs.virtualContainer.clientHeight;
-    const containerWidth = this.refs.virtualContainer.clientWidth;
-    this.setState({containerHeight, containerWidth});
+    if (this.state.shouldHide === false) {
+      const containerHeight = this.refs.virtualContainer.clientHeight;
+      const containerWidth = this.refs.virtualContainer.clientWidth;
+      this.setState({containerHeight, containerWidth});
+    }
   }
 
   handleOnClick = () => {
@@ -296,10 +298,10 @@ class MilongaList extends Component {
       );
     } else {
       return (
-        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'show milonga panel'}</div>}
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Show milonga panel'}</div>}
                  overlayStyle={styles.overlayStyle}>
           <IconButton
-            style={{...styles.button, width:'24px'}}
+            style={{...styles.button, width: '24px'}}
             color={'secondary'}
             onClick={() => {
               this.setState({shouldHide: !this.state.shouldHide});
