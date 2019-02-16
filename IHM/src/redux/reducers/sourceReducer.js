@@ -5,7 +5,7 @@ const initialState = {
   displayTangoList: [],
   isImporting: false,
   listRowHeight: 25,
-  overscanRowCount: 10,
+  overScanRowCount: 10,
   showScrollingPlaceholder: false,
   useDynamicRowHeight: false,
   currentIndex: 0,
@@ -25,7 +25,7 @@ export default function reducer(state = initialState, action) {
       return {...state, tangoList: action.payload};
     }
     case "persist/REHYDRATE": {
-      if (action.payload.source !== undefined) {
+      if (action.payload !== undefined && action.payload.source !== undefined) {
         let source = action.payload.source;
         return {
           ...state,

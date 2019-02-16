@@ -1,14 +1,18 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 // import {getTranslate} from "../locales/localeUtils";
-import * as  dialogActions from '../redux/actions/dialogActions';
-import Button from 'material-ui/Button';
-import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
-import dialogType from "../services/dialogTypeRef";
-import TextField from 'material-ui/TextField';
-import Checkbox from 'material-ui/Checkbox';
-import {FormControlLabel} from 'material-ui/Form';
-import * as playerActions from "../redux/actions/playerActions";
+import * as  dialogActions from '../../redux/actions/dialogActions';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle'
+import dialogType from "../../services/dialogTypeRef";
+import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import * as playerActions from "../../redux/actions/playerActions";
+import {generateDialogWithFactory} from '../dialogs/dialog-factory';
 
 class DjTangoDialog extends Component {
 
@@ -255,19 +259,11 @@ class DjTangoDialog extends Component {
   }
 
   render() {
-    let dialog: dialogReducerDTO = this.props.dialog;
-    return (
+    if (this.props.dialog.open === true) {
+      return generateDialogWithFactory(this.props.dialog.dialogType);
+    }
+    return null
 
-      <Dialog open={dialog.open}>
-        <DialogTitle id={dialog.dialogTitle}>{this.getTitle()}</DialogTitle>
-        <DialogContent>
-          {this.getContent()}
-        </DialogContent>
-        <DialogActions>
-          {this.getActions()}
-        </DialogActions>
-      </Dialog>
-    );
   }
 }
 

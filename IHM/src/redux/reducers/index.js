@@ -4,6 +4,7 @@ import milonga from "./milongaReducer";
 import menu from './menuReducer';
 import player from './playerReducer';
 import dialog from './dialogReducer';
+import locale from './localize-reducer';
 
 /*import inventory from "./inventoryReducer";
 import labbook from "./labbookReducer";
@@ -17,5 +18,6 @@ export default combineReducers({
   menu,
   player,
   dialog,
+  locale,
 });
 

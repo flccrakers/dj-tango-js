@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import Play from "material-ui-icons/PlayArrow";
-import IconButton from "material-ui/IconButton/index";
+import Play from "@material-ui/icons/PlayArrow";
+import IconButton from "@material-ui/core/IconButton";
 import {connect} from "react-redux";
-import Stop from 'material-ui-icons/Stop';
-import Pause from 'material-ui-icons/Pause';
+import Stop from '@material-ui/icons/Stop';
+import Pause from '@material-ui/icons/Pause';
 import * as utils from '../services/utils';
 import * as playerActions from '../redux/actions/playerActions';
 import * as sourceActions from "../redux/actions/sourceActions";

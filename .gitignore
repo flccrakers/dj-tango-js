@@ -6,6 +6,8 @@ dataserver/build/
 dataserver/.idea/workspace.xml
 dataserver/.idea/
 
+package-lock.json
+
 npm-debug.log
 /.idea/
 /IHM/.idea/workspace.xml

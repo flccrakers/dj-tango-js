@@ -6,8 +6,9 @@ import * as dialogActions from '../redux/actions/dialogActions';
 import dialogType from '../services/dialogTypeRef';
 import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
-import Playing from 'material-ui-icons/VolumeUp';
-import Menu, {MenuItem} from 'material-ui/Menu';
+import Playing from '@material-ui/icons/VolumeUp';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import {ItemTypes} from '../services/dj-const';
 import {DragSource} from 'react-dnd';
 
@@ -63,7 +64,7 @@ class DataLine extends Component {
   handleEditTango = () => {
     this.handleClose();
     console.log(this.props.index);
-    this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.TANGO_DETAILS, {index:this.props.index}));
+    this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.TANGO_DETAILS, {index: this.props.index}));
   };
 
   handleRightClick(event) {
@@ -86,8 +87,7 @@ class DataLine extends Component {
         for (let i = maxIndex + 1; i < this.props.index; i++) {
           toAdd.push(i);
         }
-      } else (this.props.index < minIndex)
-      {
+      } else if (this.props.index < minIndex) {
         for (let i = minIndex - 1; i > this.props.index; i--) {
           toAdd.push(i);
         }
@@ -174,8 +174,7 @@ class DataLine extends Component {
     tango: tango = this.props.tango;
     if (this.isTangoPlaying()) {
       root = {...rootBase, backgroundColor: '#3a3a3a', color: '#1ba500'}
-    }
-    else {
+    } else {
       root = {...rootBase};
     }
 

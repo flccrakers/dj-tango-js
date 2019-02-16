@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as milongaActions from '../redux/actions/milongaActions';
-import Save from 'material-ui-icons/Save';
-import OpenMilonga from 'material-ui-icons/FolderOpen';
-import Info from 'material-ui-icons/Info';
-import Delete from 'material-ui-icons/DeleteForever';
-import Sweep from 'material-ui-icons/DeleteSweep'
-import ArrowRight from "material-ui-icons/KeyboardArrowRight";
-import ArrowLeft from "material-ui-icons/KeyboardArrowLeft";
-import IconButton from "material-ui/IconButton/index";
-import Paper from "material-ui/es/Paper/Paper";
+import Save from '@material-ui/icons/Save';
+import OpenMilonga from '@material-ui/icons/FolderOpen';
+import Info from '@material-ui/icons/Info';
+import Delete from '@material-ui/icons/DeleteForever';
+import Sweep from '@material-ui/icons/DeleteSweep'
+import ArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import ArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
 import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap.css';
 import VirtualList from 'react-tiny-virtual-list';

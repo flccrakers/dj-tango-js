@@ -1,18 +1,21 @@
 import React, {Component} from 'react';
 import logo from '../logo.svg';
-import Button from 'material-ui/Button';
-import Menu, {MenuItem} from 'material-ui/Menu';
-import Divider from 'material-ui/Divider';
-import TextField from 'material-ui/TextField';
-import Dialog, {
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from 'material-ui/Dialog';
+import Button from '@material-ui/core/Button';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import Divider from '@material-ui/core/Divider';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogContentText from '@material-ui/core/DialogContentText'
+import DialogTitle from '@material-ui/core/DialogTitle'
 import * as menuActions from '../redux/actions/menuActions';
 import {connect} from "react-redux";
 import DjProgress from './dj-progress';
+import * as dialogActions from '../redux/actions/dialogActions';
+import dialogType from "../services/dialogTypeRef";
+import DjTangoDialog from './dialogs/dialog';
 
 const styles = {
 
@@ -88,13 +91,15 @@ class Header extends Component {
   };
 
   handleImportDatabase = () => {
-    let dialog = this.state.dialog;
-    dialog.open = true;
-    dialog.title = 'Import a Database';
-    dialog.contentText = 'Select a database to import and click import. We import csv (coma separated value) file. ' +
-      'The first line correspond to the name of the field. The field should be:' +
-      'Title, Artist, Album, Type, Year, Singer, Bpm, Time';
     this.closeMenu();
+    this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.IMPORT_DATABASE));
+    // let dialog = this.state.dialog;
+    // dialog.open = true;
+    // dialog.title = 'Import a Database';
+    // dialog.contentText = 'Select a database to import and click import. We import csv (coma separated value) file. ' +
+    //   'The first line correspond to the name of the field. The field should be:' +
+    //   'Title, Artist, Album, Type, Year, Singer, Bpm, Time';
+
   };
   handleImportData = () => {
     console.log('supposed to import data');
@@ -184,56 +189,16 @@ class Header extends Component {
             <MenuItem onClick={this.displaySideScreen}>Display side screen</MenuItem>
           </Menu>
 
-          <Dialog
-            open={this.state.dialog.open}
-            onClose={this.closeDialog}
-            aria-labelledby="form-dialog-title"
-          >
-            <DialogTitle id="form-dialog-title">{this.state.dialog.title}</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                {this.state.dialog.contentText}
-              </DialogContentText>
-              <TextField
-                autoFocus
-                margin="dense"
-                id="databaseFile"
-                label="Database file"
-                type="txt"
-                // fullWidth
-                value={this.state.databaseFile ? this.state.databaseFile.name : ''}
-              />
-              <input
-                accept="text/csv"
-                style={styles.input}
-                id="raised-button-file"
-                multiple
-                type="file"
-                onChange={e => {
-                  this.setState({databaseFile: e.target.files[0]})
-                }}
-              />
-              <label htmlFor="raised-button-file">
-                <Button variant={'raised'} component="span">
-                  Select File
-                </Button>
-              </label>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={this.closeDialog} color="primary">
-                Cancel
-              </Button>
-              <Button onClick={this.handleImportData} color="primary">
-                Import Data
-              </Button>
-            </DialogActions>
-          </Dialog>
+
         </div>
         <DjProgress
           key={'djProgress'}
           isImporting={this.props.menu.isImporting}
           percentEnded={this.props.menu.percentEnded}
-          label={'Importing ' + this.props.menu.importedFile + '...'}/>
+          label={'Importing ' + this.props.menu.importedFile + '...'}
+        />
+
+        <DjTangoDialog/>
 
       </div>
     );

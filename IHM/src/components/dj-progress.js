@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {LinearProgress} from 'material-ui/Progress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import propTypes from 'prop-types';
 
 const styles = {

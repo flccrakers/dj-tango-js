@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as sourceActions from '../redux/actions/sourceActions';
-import IconButton from "material-ui/IconButton/index";
-// import 'react-virtualized/styles.css';
+import IconButton from '@material-ui/core/IconButton';
 import VirtualList from 'react-tiny-virtual-list';
 import DataLine from './data-line';
 import {sortStatus as SORT} from '../services/dj-const';
-import ArrowUp from 'material-ui-icons/ArrowDropUp';
-import ArrowDown from 'material-ui-icons/ArrowDropDown';
-import Shuffle from 'material-ui-icons/Shuffle';
-import Refresh from 'material-ui-icons/Refresh';
-import List, {ListItem, ListItemText} from 'material-ui/List';
-import Menu, {MenuItem} from 'material-ui/Menu';
-import Paper from "material-ui/es/Paper/Paper";
+import ArrowUp from '@material-ui/icons/ArrowUpward';
+import ArrowDown from '@material-ui/icons/ArrowDownward';
+import Shuffle from '@material-ui/icons/Shuffle';
+import Refresh from '@material-ui/icons/Refresh';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem'
+import Paper from '@material-ui/core/Paper';
 import * as djUtils from './dj-utils';
 
 const styles = {
