@@ -9,8 +9,6 @@ import Button from "@material-ui/core/Button";
 import {getTranslate} from '../locales/localeUtils';
 import DialogContentText from "@material-ui/core/DialogContentText";
 import TextField from "@material-ui/core/TextField";
-import Input from "@material-ui/core/Input";
-import {InputLabel} from "@material-ui/core";
 
 const styles = {
   input: {
@@ -27,32 +25,34 @@ const styles = {
   }
 };
 
-class templateClassName extends Component {
+class ImportDataBaseDialog extends Component {
 
-  state = {
-    databaseFile: {name: 'temp name'},
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      databaseFile: undefined,
+      name: 'Cat in the Hat',
+    }
+  }
+
 
   getContentText() {
     return getTranslate(this.props.locale)('IMPORT_DATABASE_TEXT');
   };
 
+ handleChange = name => event => {
+    this.setState({ [name]: event.target.value });
+  };
   getContent() {
     console.log(this.state.databaseFile);
+    let textValue = this.state.databaseFile === undefined ? '' : this.state.databaseFile.name;
 
     return (
       <div style={styles.selectFileBloc}>
-        <TextField
-          // autoFocus
-          margin="dense"
-          // id="databaseFile"
-          // label="Database file"
-          // type="txt"
-          value={this.state.databaseFile.name}
-        />
-        <InputLabel>{this.state.databaseFile.name}</InputLabel>
-        <Input
-          accept="text/csv"
+        <TextField   value={this.state.name}
+          onChange={this.handleChange('name')}/>
+        <input
+          // accept="text/csv"
           style={styles.input}
           id="raised-button-file"
           type="file"
@@ -69,8 +69,8 @@ class templateClassName extends Component {
 
   handleSelectFile = event => {
     console.log("CHANGING FILE");
-    this.setState({databaseFile: event.target.files[0]});
-    this.forceUpdate() ;
+    // this.setState({databaseFile: event.target.files[0]});
+    this.setState({databaseFile: event.target.files[0], name:event.target.files[0].name});
   };
 
   getActions() {
@@ -87,11 +87,15 @@ class templateClassName extends Component {
         key={'import_button'}
         variant="contained"
         color="primary"
-        onClick={this.handleCloseDialog}>
+        onClick={this.handleImportDataBase}>
         {translate('IMPORT_DATABASE_BUTTON')}
       </Button>,
     ];
   }
+
+  handleImportDataBase = () => {
+    console.log(this.state.databaseFile);
+  };
 
   getTitle() {
     return (<div>{getTranslate(this.props.locale)('IMPORT_DATABASE')}</div>);
@@ -107,6 +111,7 @@ class templateClassName extends Component {
 
   render() {
     let dialog: dialogReducerDTO = this.props.dialog;
+    console.log(this.state.databaseFile);
 
     return (
       <Dialog open={dialog.open}>
@@ -130,5 +135,5 @@ export default connect(store => {
     dialog: store.dialog,
     locale: store.locale,
   };
-})(templateClassName);
+})(ImportDataBaseDialog);
 
