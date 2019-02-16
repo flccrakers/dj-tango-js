@@ -1,0 +1,5 @@
+interface detailsActionDataDTO {
+    index:number,
+
+
+}
