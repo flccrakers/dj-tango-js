@@ -1,11 +1,9 @@
 import moment from "moment/moment";
-let currentServerBasePath = 'http://localhost:3434';
+let currentServerBasePath = 'http://localhost:6767';
 
 // noinspection JSAnnotator
 export function postJSON(url: string, bodyPayload: any, queryPayload?:any) {
-  // console.log(bodyPayload);
   let finalUrl = composeUrl(url, queryPayload);
-  // console.log(currentServerBasePath + finalUrl);
   return fetch(currentServerBasePath + finalUrl, {
     method: 'POST',
     credentials: 'include',
@@ -66,7 +64,7 @@ export function getJSON(baseUrl:string, queryPayload?: any) {
 
   return fetch(currentServerBasePath + finalUrl, {
     method: 'GET',
-    credentials: 'include',
+    // credentials: 'include',
     headers: {
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json'

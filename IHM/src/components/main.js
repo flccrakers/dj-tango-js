@@ -7,6 +7,7 @@ import Footer from './footer';
 import PlaylistBoard from './playlist-board';
 import DjDialog from './dialogs/dialog';
 import * as localizeActions from "../redux/actions/localize-actions";
+import * as sourceActions from "../redux/actions/sourceActions";
 
 
 const theme = createMuiTheme({
@@ -36,6 +37,7 @@ class Main extends Component {
     this.props.dispatch(localizeActions.addTranslationForLanguage(require("./locales/en-us.json"), "en-us"));
     this.props.dispatch(localizeActions.addTranslationForLanguage(require("./locales/fr-fr.json"), "fr-fr"));
     this.props.dispatch(localizeActions.addTranslationForLanguage(require("./locales/ger-ger.json"), "ger-ger"));
+    this.props.dispatch(sourceActions.fetchAllTangos())
   }
 
   render() {

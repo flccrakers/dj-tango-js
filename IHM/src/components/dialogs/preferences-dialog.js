@@ -9,11 +9,12 @@ import Button from "@material-ui/core/Button";
 import {getTranslate} from '../locales/localeUtils';
 
 
-
 class templateClassName extends Component {
 
-  getContent(){};
-  getActions(){
+  getContent() {
+  };
+
+  getActions() {
     let translate = getTranslate(this.props.locale);
     return [
       <Button
@@ -25,16 +26,17 @@ class templateClassName extends Component {
       </Button>,
     ];
   }
-  getTitle(){
 
+  getTitle() {
+    return getTranslate(this.props.locale)('MENU.PREFERENCES')
   }
 
 
-/******************************************************/
-/*Fixed part of the dialog, don't touch that          */
-/******************************************************/
-  handleCloseDialog = ()=>{
-      this.props.dispatch(dialogActions.closeDialog());
+  /******************************************************/
+  /*Fixed part of the dialog, don't touch that          */
+  /******************************************************/
+  handleCloseDialog = () => {
+    this.props.dispatch(dialogActions.closeDialog());
   };
 
   render() {
@@ -56,7 +58,7 @@ class templateClassName extends Component {
 export default connect(store => {
   return {
     dialog: store.dialog,
-    locale:store.locale,
+    locale: store.locale,
   };
 })(templateClassName);
 

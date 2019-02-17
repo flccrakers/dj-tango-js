@@ -4,12 +4,12 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
-import * as menuActions from '../redux/actions/menuActions';
 import {connect} from "react-redux";
 import DjProgress from './dj-progress';
 import * as dialogActions from '../redux/actions/dialogActions';
 import dialogType from "../services/dialogTypeRef";
 import DjTangoDialog from './dialogs/dialog';
+import {getTranslate} from "./locales/localeUtils";
 
 const styles = {
 
@@ -22,7 +22,7 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     // flex: '1 1 auto',
-    height:'100%',
+    height: '100%',
   },
   logo: {},
   input: {
@@ -88,18 +88,18 @@ class Header extends Component {
     this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.IMPORT_DATABASE));
 
   };
-  handleImportData = () => {
-    console.log('supposed to import data');
-    console.log(this.state.databaseFile);
-    this.props.dispatch(menuActions.importTangosFromCSVFile(this.state.databaseFile));
-    this.closeDialog();
-  };
+  // handleImportData = () => {
+  //   console.log('supposed to import data');
+  //   console.log(this.state.databaseFile);
+  //   this.props.dispatch(menuActions.importTangosFromCSVFile(this.state.databaseFile));
+  //   this.closeDialog();
+  // };
 
-  closeDialog = () => {
-    let dialog = this.state.dialog;
-    dialog.open = false;
-    this.setState({dialog})
-  };
+  // closeDialog = () => {
+  //   let dialog = this.state.dialog;
+  //   dialog.open = false;
+  //   this.setState({dialog})
+  // };
 
   displaySideScreen = () => {
     this.closeMenu();
@@ -108,94 +108,136 @@ class Header extends Component {
   };
 
   render() {
+
     return (
       <div style={styles.headerRoot}>
-        <div style={styles.headerButtons}>
-          <img src={logo} className="App-logo" color={'white'} alt={'logo'}/>
-          <Button
-            id={'btn-file-menu'}
-            aria-owns={this.state.file_menu_open ? 'file-menu' : null}
-            aria-haspopup="true"
-            onClick={this.handleClick}
-            color={'secondary'}
-            style={styles.button}
-          >
-            File
-          </Button>
-          <Menu
-            id="file-menu"
-            anchorEl={this.state.anchorEl}
-            open={this.state.menus.file_menu_open}
-            onClose={this.closeMenu}
-          >
-            <MenuItem onClick={this.closeMenu}>Import files</MenuItem>
-            <MenuItem onClick={this.closeMenu}>Import directories</MenuItem>
-            <Divider/>
-            <MenuItem onClick={this.handleImportDatabase}>Import database</MenuItem>
-          </Menu>
-          <Button
-            id={'btn-edition-menu'}
-            aria-owns={this.state.menus.edition_menu_open ? 'edition-menu' : null}
-            aria-haspopup="true"
-            onClick={this.handleClick}
-            color={'secondary'}
-            style={styles.button}
-          >
-            Edition
-          </Button>
-          <Menu
-            id="edition-menu"
-            anchorEl={this.state.anchorEl}
-            open={this.state.menus.edition_menu_open}
-            onClose={this.closeMenu}
-          >
-            <MenuItem onClick={this.closeMenu}>Preferences</MenuItem>
-            <Divider/>
-            <MenuItem onClick={this.closeMenu}>Edit details of selected song</MenuItem>
-            <MenuItem onClick={this.closeMenu}>Tap BMP</MenuItem>
-
-          </Menu>
-
-          <Button
-            id={'btn-display-menu'}
-            aria-owns={this.state.menus.display_menu_open ? 'display-menu' : null}
-            aria-haspopup="true"
-            onClick={this.handleClick}
-            color={'secondary'}
-            style={styles.button}
-          >
-            Display
-          </Button>
-          <Menu
-            id="display-menu"
-            anchorEl={this.state.anchorEl}
-            open={this.state.menus.display_menu_open}
-            onClose={this.closeMenu}
-          >
-            <MenuItem onClick={this.closeMenu}>Full screen</MenuItem>
-            <MenuItem onClick={this.displaySideScreen}>Display side screen</MenuItem>
-          </Menu>
-
-
-        </div>
-
+        {this.getMenuButtons()}
         <DjProgress
           key={'djProgress'}
           isImporting={this.props.menu.isImporting}
           percentEnded={this.props.menu.percentEnded}
           label={'Importing ' + this.props.menu.importedFile + '...'}
         />
-
         <DjTangoDialog/>
 
       </div>
     );
   }
+
+  getMenuButtons() {
+
+    return (
+      <div style={styles.headerButtons}>
+        <img src={logo} className="App-logo" color={'white'} alt={'logo'}/>
+        {this.getFileMenuButton()}
+        {this.getEditionMenuButton()}
+        {this.getDisplayMenuButton()}
+      </div>
+    );
+  }
+
+
+  getFileMenuButton() {
+    let translate = getTranslate(this.props.locale);
+    return (
+      <div>
+        <Button
+          id={'btn-file-menu'}
+          aria-owns={this.state.file_menu_open ? 'file-menu' : null}
+          aria-haspopup="true"
+          onClick={this.handleClick}
+          color={'secondary'}
+          style={styles.button}
+        >
+          File
+        </Button>
+        <Menu
+          id="file-menu"
+          anchorEl={this.state.anchorEl}
+          open={this.state.menus.file_menu_open}
+          onClose={this.closeMenu}
+        >
+          <MenuItem onClick={this.closeMenu}>Import files</MenuItem>
+          <MenuItem onClick={this.closeMenu}>Import directories</MenuItem>
+          <Divider/>
+          <MenuItem onClick={this.handleImportDatabase}>Import database</MenuItem>
+        </Menu>
+      </div>
+    )
+
+  }
+
+  getEditionMenuButton() {
+    let translate = getTranslate(this.props.locale);
+    return (
+      <div>
+        <Button
+          id={'btn-edition-menu'}
+          aria-owns={this.state.menus.edition_menu_open ? 'edition-menu' : null}
+          aria-haspopup="true"
+          onClick={this.handleClick}
+          color={'secondary'}
+          style={styles.button}
+        >
+          Edition
+        </Button>
+        <Menu
+          id="edition-menu"
+          anchorEl={this.state.anchorEl}
+          open={this.state.menus.edition_menu_open}
+          onClose={this.closeMenu}
+        >
+          <MenuItem onClick={this.handlePreferences}>{translate('MENU.PREFERENCES')}</MenuItem>
+          <Divider/>
+          <MenuItem onClick={this.closeMenu}>{translate('MENU.EDIT_DETAILS_OF_SELECTED_SONG')}</MenuItem>
+          <MenuItem onClick={this.closeMenu}>{translate('MENU.TAB_BMP')}</MenuItem>
+
+        </Menu>
+      </div>
+    )
+  }
+
+  handlePreferences = () => {
+    console.log('preferences');
+    this.closeMenu();
+    this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.PREFERENCES));
+  };
+
+  getDisplayMenuButton() {
+    let translate = getTranslate(this.props.locale);
+    return (
+      <div>
+        <Button
+          id={'btn-display-menu'}
+          aria-owns={this.state.menus.display_menu_open ? 'display-menu' : null}
+          aria-haspopup="true"
+          onClick={this.handleClick}
+          color={'secondary'}
+          style={styles.button}
+        >
+          Display
+        </Button>
+        <Menu
+          id="display-menu"
+          anchorEl={this.state.anchorEl}
+          open={this.state.menus.display_menu_open}
+          onClose={this.closeMenu}
+        >
+          <MenuItem onClick={this.closeMenu}>Full screen</MenuItem>
+          <MenuItem onClick={this.displaySideScreen}>Display side screen</MenuItem>
+        </Menu>
+
+      </div>
+    )
+
+  }
+
 }
 
 export default connect((store) => {
   return {
     menu: store.menu,
+    locale: store.locale,
   }
 })(Header);
 

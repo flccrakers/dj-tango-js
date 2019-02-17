@@ -2,15 +2,15 @@
 # !/usr/bin/python3
 
 import logging.handlers
-import os
-import json
 
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify
 from flask_cors import CORS
-from werkzeug.utils import secure_filename
+from flask_pymongo import PyMongo
 
 DEBUG_APP = True
 APP = Flask(__name__)
+APP.config["MONGO_URI"] = "mongodb://localhost:27017/myDatabase"
+mongo = PyMongo(APP)
 CORS(APP)
 
 LOG_FILENAME = "flask_djtango.log"
@@ -34,11 +34,16 @@ def hello():
     return "Welcome to the djtango server"
 
 
-@APP.route("/get-preferences", methods=['get'])
+@APP.route("/preferences", methods=['get'])
 def get_preferences():
     return jsonify(
         {"baseDir": "/home/hoonakker/media/tango-propres-HQ", "timeCortina": 56, "timeFadOut": 6, "writeId3Tag": 2,
          "normalize": 2, "newSongAvailable": 0})
+
+
+@APP.route("/tangos", methods=['get', 'post'])
+def manage_tangos():
+    return jsonify([])
 
 
 if __name__ == '__main__':

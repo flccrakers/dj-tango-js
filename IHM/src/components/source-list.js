@@ -354,6 +354,7 @@ class SourceList extends Component {
       },
       button: {
         height: '36px',
+        padding:'0 12px',
       }
     };
     return [
