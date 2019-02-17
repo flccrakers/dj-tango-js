@@ -240,12 +240,12 @@ class SourceList extends Component {
     const anchorEl = this.props.source.anchorEl;
     if (optionsList !== null) {
       sizedRows.forEach(row => {
-        let style;
-        if (row.align === 'left') {
-          style = {...left, width: row.size, height: '24px'};
-        } else if (row.align === 'center') {
-          style = {...center, width: row.size, height: '24px'};
-        }
+        let style = {height: '24px'};
+        // if (row.align === 'left') {
+        //   style = {...left, width: row.size, height: '24px'};
+        // } else if (row.align === 'center') {
+        //   style = {...center, width: row.size, height: '24px'};
+        // }
         // console.log(row.name);
         if (row.name !== '') {
           // console.log(optionsList[row.field]);
@@ -297,7 +297,11 @@ class SourceList extends Component {
         }
       });
     }
-    return ret;
+    return (
+      <div style={{display:'flex', flex:'1 1 auto', justifyContent:'space-around'}}>
+        {ret}
+      </div>
+    );
 
   }
 
@@ -453,7 +457,6 @@ class SourceList extends Component {
 
   handleTitleClick(event, field) {
     event.preventDefault();
-    // console.log(field);
     this.updateTitleStatus(field);
 
   }
