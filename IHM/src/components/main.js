@@ -37,7 +37,7 @@ class Main extends Component {
     this.props.dispatch(localizeActions.addTranslationForLanguage(require("./locales/en-us.json"), "en-us"));
     this.props.dispatch(localizeActions.addTranslationForLanguage(require("./locales/fr-fr.json"), "fr-fr"));
     this.props.dispatch(localizeActions.addTranslationForLanguage(require("./locales/ger-ger.json"), "ger-ger"));
-    this.props.dispatch(sourceActions.fetchAllTangos())
+    this.props.dispatch(sourceActions.fetchAllTangos(true))
   }
 
   render() {

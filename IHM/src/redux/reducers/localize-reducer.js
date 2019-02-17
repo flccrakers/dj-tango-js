@@ -36,7 +36,7 @@ export default function reducer(state = {
       return { ...state, language: language };
     }
     case "persist/REHYDRATE": {
-      if (action.payload.locale !== undefined) {
+      if (action.payload !== undefined) {
         return { ...state, language: action.payload.locale.language };
       } else {
         return { ...state };

@@ -190,7 +190,8 @@ class DataLine extends Component {
     }
     return connectDragSource(
       <div
-        ref={this.props.tango.id}
+        // ref={this.props.tango.id}
+        key={this.props.tango.id}
         style={root}
         onClick={this.handleLeftClick}
         onDoubleClick={this.handleDoubleClick}

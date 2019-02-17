@@ -323,8 +323,7 @@ class SourceList extends Component {
       if (row.field === sortingDatas.sortingField) {
         if (sortingDatas.sortingDirection === SORT.ASC) {
           sort = [<ArrowUp style={{color: 'white'}} key={'sortUp'}/>];
-        }
-        else if (sortingDatas.sortingDirection === SORT.DESC) {
+        } else if (sortingDatas.sortingDirection === SORT.DESC) {
           sort = [<ArrowDown style={{color: 'white'}} key={'sortDown'}/>];
         }
       }
@@ -354,7 +353,7 @@ class SourceList extends Component {
       },
       button: {
         height: '36px',
-        padding:'0 12px',
+        padding: '0 12px',
       }
     };
     return [
@@ -411,12 +410,13 @@ class SourceList extends Component {
     let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
     let tango = this.props.source.displayTangoList[params.index];
     return (
-      <DataLine tango={tango}
-                sizedRows={sizedRows}
-                rowHeight={this.props.source.listRowHeight}
-                style={params.style}
-                index={params.index}
-                key={tango._id}
+      <DataLine
+        tango={tango}
+        sizedRows={sizedRows}
+        rowHeight={this.props.source.listRowHeight}
+        style={params.style}
+        index={params.index}
+        key={tango._id}
       />
     );
   };

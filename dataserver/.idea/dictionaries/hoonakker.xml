@@ -2,6 +2,7 @@
   <dictionary name="hoonakker">
     <words>
       <w>djtango</w>
+      <w>djtangodb</w>
       <w>mongo</w>
     </words>
   </dictionary>
