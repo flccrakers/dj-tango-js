@@ -9,6 +9,7 @@ import Button from "@material-ui/core/Button";
 import {getTranslate} from '../locales/localeUtils';
 import DialogContentText from "@material-ui/core/DialogContentText";
 import TextField from "@material-ui/core/TextField";
+import * as menuActions from "../../redux/actions/menuActions";
 
 const styles = {
   input: {
@@ -29,6 +30,7 @@ class ImportDataBaseDialog extends Component {
 
   constructor(props) {
     super(props);
+    this.inputRef = undefined;
     this.state = {
       databaseFile: undefined,
       name: 'Cat in the Hat',
@@ -36,41 +38,63 @@ class ImportDataBaseDialog extends Component {
   }
 
 
+  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
+    if (prevState.databaseFile === undefined && this.state.databaseFile !== undefined) {
+      console.log(prevState, this.state);
+    }
+  }
+
   getContentText() {
-    return getTranslate(this.props.locale)('IMPORT_DATABASE_TEXT');
+    let textValue = this.state.databaseFile === undefined ? '' : this.state.databaseFile.name;
+    return getTranslate(this.props.locale)('IMPORT_DATABASE_TEXT') + textValue;
   };
 
- handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
+  handleChange = name => event => {
+    let file = this.state.databaseFile;
+    if (file === undefined) {
+      file = {name: event.target.value}
+    } else {
+      file.name = event.target.value;
+    }
+    this.setState({databaseFile: file});
   };
+
   getContent() {
-    console.log(this.state.databaseFile);
     let textValue = this.state.databaseFile === undefined ? '' : this.state.databaseFile.name;
 
     return (
       <div style={styles.selectFileBloc}>
-        <TextField   value={this.state.name}
-          onChange={this.handleChange('name')}/>
+        <TextField
+          autoFocus
+          value={textValue}
+          label={getTranslate(this.props.locale)('DATABASE_IMPORT_FILE')}
+        />
         <input
-          // accept="text/csv"
+          ref={el => {
+            this.inputRef = el;
+          }}
+          accept="text/csv"
           style={styles.input}
           id="raised-button-file"
           type="file"
           onChange={this.handleSelectFile}
         />
-        <label htmlFor="raised-button-file">
-          <Button variant={'text'} component="span" color={'secondary'} style={{marginLeft: '25px'}}>
-            Select File
-          </Button>
-        </label>
+        <Button
+          variant={'text'}
+          component="span"
+          color={'secondary'}
+          style={{marginLeft: '25px'}}
+          onClick={() => {
+            this.inputRef.click()
+          }}>
+          Select File
+        </Button>
       </div>
     );
   }
 
   handleSelectFile = event => {
-    console.log("CHANGING FILE");
-    // this.setState({databaseFile: event.target.files[0]});
-    this.setState({databaseFile: event.target.files[0], name:event.target.files[0].name});
+    this.setState({databaseFile: event.target.files[0], name: event.target.files[0].name});
   };
 
   getActions() {
@@ -88,6 +112,7 @@ class ImportDataBaseDialog extends Component {
         variant="contained"
         color="primary"
         onClick={this.handleImportDataBase}>
+
         {translate('IMPORT_DATABASE_BUTTON')}
       </Button>,
     ];
@@ -95,6 +120,8 @@ class ImportDataBaseDialog extends Component {
 
   handleImportDataBase = () => {
     console.log(this.state.databaseFile);
+    this.handleCloseDialog();
+    this.props.dispatch(menuActions.importTangosFromCSVFile(this.state.databaseFile));
   };
 
   getTitle() {
@@ -111,13 +138,13 @@ class ImportDataBaseDialog extends Component {
 
   render() {
     let dialog: dialogReducerDTO = this.props.dialog;
-    console.log(this.state.databaseFile);
+    // console.log(this.state.databaseFile);
 
     return (
       <Dialog open={dialog.open}>
         <DialogTitle>{this.getTitle()}</DialogTitle>
         <DialogContent>
-          <DialogContentText style={{whiteSpace: 'pre-wrap'}}>
+          <DialogContentText>
             {this.getContentText()}
           </DialogContentText>
           {this.getContent()}

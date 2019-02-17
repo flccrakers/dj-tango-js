@@ -4,12 +4,6 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Divider from '@material-ui/core/Divider';
-import TextField from '@material-ui/core/TextField';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions'
-import DialogContent from '@material-ui/core/DialogContent'
-import DialogContentText from '@material-ui/core/DialogContentText'
-import DialogTitle from '@material-ui/core/DialogTitle'
 import * as menuActions from '../redux/actions/menuActions';
 import {connect} from "react-redux";
 import DjProgress from './dj-progress';
@@ -21,15 +15,14 @@ const styles = {
 
   headerRoot: {
     display: 'flex',
-    //alignItems: 'center',
     backgroundColor: '#2a2a2a',
-    flexDirection: 'column',
     minHeight: '50px',
   },
   headerButtons: {
     display: 'flex',
     alignItems: 'center',
-    flex: '1 1 auto',
+    // flex: '1 1 auto',
+    height:'100%',
   },
   logo: {},
   input: {
@@ -93,12 +86,6 @@ class Header extends Component {
   handleImportDatabase = () => {
     this.closeMenu();
     this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.IMPORT_DATABASE));
-    // let dialog = this.state.dialog;
-    // dialog.open = true;
-    // dialog.title = 'Import a Database';
-    // dialog.contentText = 'Select a database to import and click import. We import csv (coma separated value) file. ' +
-    //   'The first line correspond to the name of the field. The field should be:' +
-    //   'Title, Artist, Album, Type, Year, Singer, Bpm, Time';
 
   };
   handleImportData = () => {
@@ -191,6 +178,7 @@ class Header extends Component {
 
 
         </div>
+
         <DjProgress
           key={'djProgress'}
           isImporting={this.props.menu.isImporting}

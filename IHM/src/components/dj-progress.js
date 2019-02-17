@@ -12,7 +12,8 @@ const styles = {
     margin: '0px 5px 0px 5px',
   },
   main: {
-    minHeight:'150px',
+    minHeight:'50px',
+    flex:'1 1 auto'
   }
 
 };
