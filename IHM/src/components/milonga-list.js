@@ -185,7 +185,7 @@ class MilongaList extends Component {
   getHeader() {
 
     let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
-    console.log(sizedRows);
+    // console.log(sizedRows);
 
   }
 

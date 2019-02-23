@@ -10,6 +10,7 @@
     "localforage": "^1.7.3",
     "moment": "^2.24.0",
     "musicmetadata": "^2.0.5",
+    "notistack": "^0.4.2",
     "prop-types": "^15.7.2",
     "rc-slider": "^8.6.5",
     "rc-tooltip": "^3.7.3",

@@ -9,7 +9,7 @@ export function addTango(tangoDTO:tango){
 }
 
 export function getTangoFile(tangoId:string){
-  return serviceBase.getSongFile(`/tango/download/`,tangoId);
+  return serviceBase.getSongFile(`/get_tango_file`,tangoId);
 }
 
 // export {getAllTangos}

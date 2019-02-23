@@ -10,6 +10,7 @@ import * as dialogActions from '../redux/actions/dialogActions';
 import dialogType from "../services/dialogTypeRef";
 import DjTangoDialog from './dialogs/dialog';
 import {getTranslate} from "./locales/localeUtils";
+import {withSnackbar} from 'notistack';
 
 const styles = {
 
@@ -161,11 +162,27 @@ class Header extends Component {
           <MenuItem onClick={this.closeMenu}>Import directories</MenuItem>
           <Divider/>
           <MenuItem onClick={this.handleImportDatabase}>Import database</MenuItem>
+          <MenuItem onClick={this.handleTestSnack}>Test snack</MenuItem>
         </Menu>
       </div>
     )
-
   }
+
+  getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  handleTestSnack = () => {
+    let table, variant, min = 0, max = 4, index;
+    index = this.getRandomInt(min, max);
+    // console.log(index);
+    table = ['success', 'error', 'warning', 'info', ''];
+    variant = table[index];
+    // console.log(variant);
+    this.props.enqueueSnackbar('I love snacks.', {variant});
+  };
 
   getEditionMenuButton() {
     let translate = getTranslate(this.props.locale);
@@ -234,10 +251,12 @@ class Header extends Component {
 
 }
 
+const exportHeader = withSnackbar(Header);
+
 export default connect((store) => {
   return {
     menu: store.menu,
     locale: store.locale,
   }
-})(Header);
+})(exportHeader);
 

@@ -11,6 +11,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {ItemTypes} from '../services/dj-const';
 import {DragSource} from 'react-dnd';
+import {withSnackbar} from "notistack";
 
 const tangoSource = {
   beginDrag(props) {
@@ -96,10 +97,11 @@ class DataLine extends Component {
     this.props.dispatch(sourceActions.updateSelectedTangoIndex(toAdd, this.props.selectedTangos, shouldAdd));
   };
 
+
   handleDoubleClick = () => {
     let tango = this.props.tango;
     console.log(tango.path);
-    this.props.dispatch(playerActions.updateCurrentTango(tango));
+    this.props.dispatch(playerActions.updateCurrentTango(tango, this.props.enqueueSnackbar));
     this.props.dispatch(sourceActions.updateCurrentIndex(this.props.index))
 
   };
@@ -190,7 +192,6 @@ class DataLine extends Component {
     }
     return connectDragSource(
       <div
-        // ref={this.props.tango.id}
         key={this.props.tango.id}
         style={root}
         onClick={this.handleLeftClick}
@@ -257,9 +258,10 @@ DataLine.propTypes = {
 
 DataLine = DragSource(ItemTypes.TANGO, tangoSource, collect)(DataLine);
 
+const myDataLine = withSnackbar(DataLine);
 export default connect((store) => {
   return {
     playedId: store.player.currentTango._id,
     selectedTangos: store.source.selectedTangos,
   }
-})(DataLine);
+})(myDataLine);

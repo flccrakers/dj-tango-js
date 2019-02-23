@@ -5,7 +5,7 @@ import json
 import logging.handlers
 
 from bson import ObjectId
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_file
 from flask_cors import CORS
 from flask_pymongo import PyMongo
 
@@ -51,14 +51,18 @@ def hello():
     return "Welcome to the djtango server"
 
 
-@APP.route("/preferences", methods=['get'])
+@APP.route("/preferences", methods=['GET'])
 def get_preferences():
+    # if request.method == 'GET':
+    #     print("I will send back the preferences")
+    #     preferences = mongo.db.preferences.find({})
+    #     return jsonify(preferences)
     return jsonify(
         {"baseDir": "/home/hoonakker/media/tango-propres-HQ", "timeCortina": 56, "timeFadOut": 6, "writeId3Tag": 2,
          "normalize": 2, "newSongAvailable": 0})
 
 
-@APP.route("/tangos", methods=['get', 'post'])
+@APP.route("/tangos", methods=['GET', 'POST'])
 def manage_tangos():
     json_tango = []
     if request.method == 'GET':
@@ -72,10 +76,24 @@ def manage_tangos():
                     line['_id'] = str(tango[field])
                 else:
                     line[field] = tango[field]
-                print(line)
+                # print(line)
             json_tango.append(line)
-        print(json_tango)
+        # print(json_tango)
         return jsonify(json_tango), 200
+
+
+# noinspection PyBroadException
+@APP.route('/get_tango_file/<tango_id>')
+def download_tango(tango_id=None):
+    tango = mongo.db.tangos.find_one({"_id": ObjectId(tango_id)})
+    try:
+        return send_file(tango['path'])
+    except Exception as e:
+        print(str(e))
+        # return str(e)
+        json_response = {"IsSuccess": False, "Message": '', "ErrorType": '', "GeneralException": str(e),
+                         "Payload": None}
+        return jsonify(json_response)
 
 
 if __name__ == '__main__':

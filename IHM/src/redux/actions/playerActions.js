@@ -9,21 +9,36 @@ function updateTango(payload) {
 
 }
 
-export function updateCurrentTango(tango) {
+export function updateCurrentTango(tango, enquedSnack) {
   return function (dispatch) {
     tangoDataManagement.getTangoFile(tango._id).then(tangoFile => {
-
-      let payload = {
-        tango: tango,
-        song: tangoFile,
-      };
-      console.log(payload);
-      dispatch(updatePause(false));
-      dispatch(updateTango(payload));
-
+      console.log(tangoFile);
+      console.log(typeof tangoFile);
+      if (typeof tangoFile === "string" && tangoFile !== undefined) {
+        dispatch(updateTheSong(tango, tangoFile))
+      } else if (typeof tangoFile === "object" || tangoFile === undefined) {
+        let variant = 'error';
+        if (tangoFile !== undefined) {
+          enquedSnack(tangoFile.GeneralException, {variant});
+        } else {
+          enquedSnack("The tango file is undefined", {variant});
+          // (console.error("The tango file is undefined"));
+        }
+        dispatch(updateTheSong(tango, tangoFile));
+      }
     });
   }
+}
 
+function updateTheSong(tango, tangoFile) {
+  return function (dispatch) {
+    let payload = {
+      tango: tango,
+      song: tangoFile,
+    };
+    dispatch(updatePause(false));
+    dispatch(updateTango(payload));
+  }
 }
 
 /**
@@ -78,9 +93,9 @@ export function saveAudioEl(audioEl) {
   }
 }
 
-export function updatePause(value){
-  return{
-    type:'UPDATE_PAUSE',
-    payload:value,
+export function updatePause(value) {
+  return {
+    type: 'UPDATE_PAUSE',
+    payload: value,
   }
 }
