@@ -9,28 +9,29 @@ function updateTango(payload) {
 
 }
 
-export function updateCurrentTango(tango, enquedSnack) {
+export function updateCurrentTango(tango: tango, enqueueSnackbar) {
   return function (dispatch) {
     tangoDataManagement.getTangoFile(tango._id).then(tangoFile => {
-      console.log(tangoFile);
-      console.log(typeof tangoFile);
+      // console.log(tangoFile);
+      // console.log(typeof tangoFile);
       if (typeof tangoFile === "string" && tangoFile !== undefined) {
         dispatch(updateTheSong(tango, tangoFile))
       } else if (typeof tangoFile === "object" || tangoFile === undefined) {
         let variant = 'error';
         if (tangoFile !== undefined) {
-          enquedSnack(tangoFile.GeneralException, {variant});
+          enqueueSnackbar(tangoFile.GeneralException, {variant});
         } else {
-          enquedSnack("The tango file is undefined", {variant});
+          enqueueSnackbar("The file for \"" + tango.title + "\" is undefined", {variant});
           // (console.error("The tango file is undefined"));
         }
-        dispatch(updateTheSong(tango, tangoFile));
+        dispatch(updateTheSong(tango, undefined                                             ));
       }
     });
   }
 }
 
 function updateTheSong(tango, tangoFile) {
+  console.log(tangoFile);
   return function (dispatch) {
     let payload = {
       tango: tango,

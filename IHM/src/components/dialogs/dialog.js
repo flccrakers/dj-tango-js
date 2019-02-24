@@ -267,6 +267,8 @@ class DjTangoDialog extends Component {
   }
 }
 
+
+
 export default connect(store => {
   return {
     dialog: store.dialog,
