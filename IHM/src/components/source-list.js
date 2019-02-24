@@ -16,6 +16,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem'
 import Paper from '@material-ui/core/Paper';
 import * as djUtils from './dj-utils';
+import * as sizeActions from "../redux/actions/componentSizeActions";
 
 const styles = {
   leftAligned: {
@@ -171,10 +172,6 @@ class SourceList extends Component {
   constructor(props) {
     super(props);
     this.virtualContainerRef = undefined;
-    this.state = {
-      containerHeight: 600,
-      containerWidth: 600,
-    };
 
   }
 
@@ -190,9 +187,8 @@ class SourceList extends Component {
   }
 
   updateDimensions() {
-    const containerHeight = this.virtualContainerRef.clientHeight;
-    const containerWidth = this.virtualContainerRef.clientWidth;
-    this.setState({containerHeight, containerWidth});
+    let allSize = djUtils.calculateWidthAndHeightOfMilongaListAndSource();
+    this.props.dispatch(sizeActions.updateAllSize(allSize.milongaSize, allSize.sourceSize));
   }
 
   componentWillReceiveProps(newProps) {
@@ -348,7 +344,7 @@ class SourceList extends Component {
   }
 
   getFilter() {
-    let sizedRows = djUtils.getSizedRows(filterTemplate, this.state.containerWidth - 100);
+    let sizedRows = djUtils.getSizedRows(filterTemplate, this.props.sourceSize.width - 100);
 
     const styles = {
       paperContainer: {
@@ -385,7 +381,7 @@ class SourceList extends Component {
   }
 
   getHeader() {
-    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
+    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.props.sourceSize.width);
     // console.log(sizedRows);
     const table = {
       borderBottom: '1px solid red',
@@ -442,7 +438,7 @@ class SourceList extends Component {
         <div style={styles.virtualListContainer} ref={el => {this.virtualContainerRef = el}} id={'sourceVirtualList'}>
           <VirtualList
             width='100%'
-            height={this.state.containerHeight + source.listRowHeight}
+            height={this.props.sourceSize.height + source.listRowHeight}
             itemCount={source.displayTangoList.length}
             itemSize={source.listRowHeight} // Also supports variable heights (array or function getter)
             renderItem={(index, style) => {

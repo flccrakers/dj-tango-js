@@ -11,7 +11,6 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import {Howl} from 'howler';
 import {withSnackbar} from "notistack";
-import {initialize} from "../redux/actions/localizeActions";
 
 const styles = {
   playerRoot: {
@@ -55,7 +54,7 @@ const styles = {
 const cortinaDuration = 15 * 1000;
 const fadeoutDuration = 5 * 1000; // in milliseconds
 const listenInterval = 300; //in milliseconds
-const songInterval = 1500; // in milliseconds
+// const songInterval = 1500; // in milliseconds
 let start = null
 
 class PlayerWrapper extends Component {
@@ -186,18 +185,16 @@ class PlayerWrapper extends Component {
     position = Math.round(position * 1000);
     this.setState({progress: position});
     let tango = this.props.playerData.currentTango;
-    console.log(position, tango.end);
     if (tango.genre === 'cortina' && position >= cortinaDuration - fadeoutDuration && this.state.isFading === false) {
       this.sound.fade(1, 0, fadeoutDuration);
       this.setState({isFading: true});
     } else if (tango.genre === 'cortina' && position > cortinaDuration) {
       this.playNext();
     } else if (tango.genre !== 'cortina' && tango.end >0 && position > tango.end) {
-
       this.stop();
       setTimeout(() => {
         this.playNext();
-      }, songInterval);
+      }, this.props.preferences.timeBetweenSongsMS);
 
     }
   };
@@ -345,6 +342,7 @@ export default connect(
     return {
       playerData: store.player,
       source: store.source,
+      preferences:store.preferences,
     }
   })
 (myPlayerWrapper);

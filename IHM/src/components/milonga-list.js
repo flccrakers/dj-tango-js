@@ -116,18 +116,17 @@ const styles = {
     margin: '3px 0px 0px 0px',
     padding: '2px',
     color: 'white',
-    // backgroundColor: 'blue',
-    border: '1pt solid ' + '#5f5f5f',
+    border: '1pt solid',
+    borderColor: '#5f5f5f',
     overflow: 'hidden',
   },
   mainHided: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
-    // flexBasis: '25px',
-    // minWidth: '25px',
     flex: '0 0 auto',
-    borderLeft: '1pt solid ' + '#5f5f5f',
+    borderLeft: '1pt solid',
+    borderLeftColor: '#5f5f5f',
     overflow: 'hidden',
   },
   virtualListContainer: {
@@ -155,25 +154,19 @@ class MilongaList extends Component {
   }
 
   componentDidMount() {
-    this.updateDimensions();
-    window.addEventListener("resize", this.updateDimensions);
+    this.updateDimensionsInMilongaList();
+    window.addEventListener("resize", this.updateDimensionsInMilongaList.bind(this));
 
   }
 
   componentWillUnmount() {
-    window.removeEventListener("resize", this.updateDimensions);
+    window.removeEventListener("resize", this.updateDimensionsInMilongaList);
   }
 
-  updateDimensions() {
-    if (this.state.shouldHide === false) {
-      let size: sizeDTO;
-      size = {height: this.virtualContainerRef.clientHeight, width: this.virtualContainerRef.clientWidth};
-      const containerHeight = this.virtualContainerRef.clientHeight;
-      const containerWidth = this.virtualContainerRef.clientWidth;
-      this.setState({containerHeight, containerWidth});
+  updateDimensionsInMilongaList() {
+    if(this.state.shouldHide === false) {
       let allSize = djUtils.calculateWidthAndHeightOfMilongaListAndSource();
-      console.log(allSize);
-      this.props.dispatch(sizeActions.updateMilongaSize(size));
+      this.props.dispatch(sizeActions.updateAllSize(allSize.milongaSize, allSize.sourceSize));
     }
   }
 
@@ -206,9 +199,6 @@ class MilongaList extends Component {
       button: {
         height: '36px',
         padding: '0 12px',
-      },
-      toolTip: {
-        fontSize: '20px',
       },
       tooltip: {
         display: 'flex',

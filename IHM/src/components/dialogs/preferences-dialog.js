@@ -59,6 +59,7 @@ export default connect(store => {
   return {
     dialog: store.dialog,
     locale: store.locale,
+    preferences: store.preferences,
   };
 })(templateClassName);
 

@@ -8,6 +8,12 @@
   "MENU": {
     "PREFERENCES": "Preferences",
     "EDIT_DETAILS_OF_SELECTED_SONG": "Edit details of selected song",
-    "TAB_BMP": "Import database"
+    "TAB_BMP": "Tap the BMP",
+    "IMPORT_FILE": "Import file",
+    "IMPORT_DIRECTORIES": "Import directories",
+    "IMPORT_DATABASE": "Import database",
+    "FULL_SCREEN": "Full screen",
+    "DISPLAY_SIDE_SCREEN": "Display side screen"
+
   }
 }

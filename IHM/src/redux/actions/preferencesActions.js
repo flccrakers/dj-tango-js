@@ -9,7 +9,7 @@ export function UPDATE_PREFERENCES(preferences:preferencesDTO) {
 export function fetchPreferences() {
   return function (dispatch){
     prerencesService.getPreferences().then(preferences=>{
-      console.log(preferences;
+      console.log(preferences);
     });
   };
 

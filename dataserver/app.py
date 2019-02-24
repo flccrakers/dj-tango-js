@@ -53,13 +53,24 @@ def hello():
 
 @APP.route("/preferences", methods=['GET'])
 def get_preferences():
+    print("I will get the preferences")
+    data = {"baseDir": "", "timeCortina": 46, "timeFadOut": 6, "writeId3Tag": 2,
+            "normalize": 2, "newSongAvailable": 0, 'language': 'en-en', 'timeBetweenSongsMS': 1500}
     # if request.method == 'GET':
     #     print("I will send back the preferences")
     #     preferences = mongo.db.preferences.find({})
     #     return jsonify(preferences)
-    return jsonify(
-        {"baseDir": "/home/hoonakker/media/tango-propres-HQ", "timeCortina": 56, "timeFadOut": 6, "writeId3Tag": 2,
-         "normalize": 2, "newSongAvailable": 0})
+    preferences = mongo.db.preferences.find({})
+
+    print(preferences.count())
+    if preferences.count() == 0:
+        return jsonify(data)
+    else:
+        return jsonify(preferences[0])
+
+    # return jsonify(
+    #     {"baseDir": "/home/hoonakker/media/tango-propres-HQ", "timeCortina": 56, "timeFadOut": 6, "writeId3Tag": 2,
+    #      "normalize": 2, "newSongAvailable": 0, 'language': 'en-en', 'timeBetweenSongsMS': 1500})
 
 
 @APP.route("/tangos", methods=['GET', 'POST'])
@@ -82,7 +93,6 @@ def manage_tangos():
         return jsonify(json_tango), 200
 
 
-# noinspection PyBroadException
 @APP.route('/get_tango_file/<tango_id>')
 def download_tango(tango_id=None):
     tango = mongo.db.tangos.find_one({"_id": ObjectId(tango_id)})
@@ -91,7 +101,6 @@ def download_tango(tango_id=None):
         return send_file(tango['path'])
     except Exception as e:
         print(str(e))
-        # return str(e)
         json_response = {"IsSuccess": False, "Message": '', "ErrorType": '', "GeneralException": str(e),
                          "Payload": None}
         return jsonify(json_response)

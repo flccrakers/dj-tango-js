@@ -108,7 +108,7 @@ class DataLine extends Component {
 
   getLineContent() {
     let sizedRows = this.props.sizedRows;
-    let tango: tango = this.props.tango;
+    let tango: tangoDTO = this.props.tango;
     let ret = [];
     sizedRows.forEach(row => {
       let style;
