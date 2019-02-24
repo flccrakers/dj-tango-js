@@ -6,10 +6,12 @@ import * as dialogActions from '../redux/actions/dialogActions';
 import dialogType from '../services/dialogTypeRef';
 import {connect} from 'react-redux';
 import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
-import Playing from 'material-ui-icons/VolumeUp';
-import Menu, {MenuItem} from 'material-ui/Menu';
+import Playing from '@material-ui/icons/VolumeUp';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import {ItemTypes} from '../services/dj-const';
 import {DragSource} from 'react-dnd';
+import {withSnackbar} from "notistack";
 
 const tangoSource = {
   beginDrag(props) {
@@ -63,7 +65,7 @@ class DataLine extends Component {
   handleEditTango = () => {
     this.handleClose();
     console.log(this.props.index);
-    this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.TANGO_DETAILS, {index:this.props.index}));
+    this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.TANGO_DETAILS, {index: this.props.index}));
   };
 
   handleRightClick(event) {
@@ -86,8 +88,7 @@ class DataLine extends Component {
         for (let i = maxIndex + 1; i < this.props.index; i++) {
           toAdd.push(i);
         }
-      } else (this.props.index < minIndex)
-      {
+      } else if (this.props.index < minIndex) {
         for (let i = minIndex - 1; i > this.props.index; i--) {
           toAdd.push(i);
         }
@@ -96,10 +97,11 @@ class DataLine extends Component {
     this.props.dispatch(sourceActions.updateSelectedTangoIndex(toAdd, this.props.selectedTangos, shouldAdd));
   };
 
+
   handleDoubleClick = () => {
     let tango = this.props.tango;
     console.log(tango.path);
-    this.props.dispatch(playerActions.updateCurrentTango(tango));
+    this.props.dispatch(playerActions.updateCurrentTango(tango, this.props.enqueueSnackbar));
     this.props.dispatch(sourceActions.updateCurrentIndex(this.props.index))
 
   };
@@ -174,8 +176,7 @@ class DataLine extends Component {
     tango: tango = this.props.tango;
     if (this.isTangoPlaying()) {
       root = {...rootBase, backgroundColor: '#3a3a3a', color: '#1ba500'}
-    }
-    else {
+    } else {
       root = {...rootBase};
     }
 
@@ -191,7 +192,7 @@ class DataLine extends Component {
     }
     return connectDragSource(
       <div
-        ref={this.props.tango.id}
+        key={this.props.tango.id}
         style={root}
         onClick={this.handleLeftClick}
         onDoubleClick={this.handleDoubleClick}
@@ -257,9 +258,10 @@ DataLine.propTypes = {
 
 DataLine = DragSource(ItemTypes.TANGO, tangoSource, collect)(DataLine);
 
+const myDataLine = withSnackbar(DataLine);
 export default connect((store) => {
   return {
     playedId: store.player.currentTango._id,
     selectedTangos: store.source.selectedTangos,
   }
-})(DataLine);
+})(myDataLine);

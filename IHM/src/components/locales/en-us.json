@@ -1,0 +1,13 @@
+{
+  "CLOSE": "Close",
+  "CANCEL": "CANCEL",
+  "DATABASE_IMPORT_FILE": "Database import file name",
+  "IMPORT_DATABASE": "Import a tango database",
+  "IMPORT_DATABASE_BUTTON": "Import database",
+  "IMPORT_DATABASE_TEXT": "Select a database to import and click import. We import csv (coma separated value) file. The first line correspond to the name of the field.\nThe fields should contain: Title, Artist, Album, Type, Year, Singer, Bpm, Time",
+  "MENU": {
+    "PREFERENCES": "Preferences",
+    "EDIT_DETAILS_OF_SELECTED_SONG": "Edit details of selected song",
+    "TAB_BMP": "Import database"
+  }
+}

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
 import Main from './components/main';
+import PropTypes from 'prop-types';
+import {SnackbarProvider, withSnackbar} from 'notistack';
 
 class App extends Component {
   render() {
@@ -9,4 +11,22 @@ class App extends Component {
     );
   }
 }
-export default App;
+
+App.propTypes = {
+  enqueueSnackbar: PropTypes.func.isRequired,
+};
+
+const MyApp = withSnackbar(App);
+
+function IntegrationNotistack() {
+  return (
+    <SnackbarProvider maxSnack={3}>
+      <MyApp/>
+    </SnackbarProvider>
+  );
+}
+
+export default IntegrationNotistack;
+
+
+

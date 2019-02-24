@@ -1,15 +1,17 @@
 import React, {Component} from 'react';
-import Play from "material-ui-icons/PlayArrow";
-import IconButton from "material-ui/IconButton/index";
+import Play from "@material-ui/icons/PlayArrow";
+import IconButton from "@material-ui/core/IconButton";
 import {connect} from "react-redux";
-import Stop from 'material-ui-icons/Stop';
-import Pause from 'material-ui-icons/Pause';
+import Stop from '@material-ui/icons/Stop';
+import Pause from '@material-ui/icons/Pause';
 import * as utils from '../services/utils';
 import * as playerActions from '../redux/actions/playerActions';
 import * as sourceActions from "../redux/actions/sourceActions";
-import Slider, {Range} from 'rc-slider';
+import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-import {Howl, Howler} from 'howler';
+import {Howl} from 'howler';
+import {withSnackbar} from "notistack";
+import {initialize} from "../redux/actions/localizeActions";
 
 const styles = {
   playerRoot: {
@@ -53,6 +55,7 @@ const styles = {
 const cortinaDuration = 15 * 1000;
 const fadeoutDuration = 5 * 1000; // in milliseconds
 const listenInterval = 300; //in milliseconds
+const songInterval = 1500; // in milliseconds
 let start = null
 
 class PlayerWrapper extends Component {
@@ -61,19 +64,18 @@ class PlayerWrapper extends Component {
     super(props);
     this.sound = null;
     this.start = null;
-    this.state={
-      progress:0,
-      isFading : false,
+    this.state = {
+      progress: 0,
+      isFading: false,
     };
     window.requestAnimationFrame(this.step);
 
   }
 
-  componentWillReceiveProps(nextProps) {
-
-    if (nextProps.playerData.currentTango.path !== '' && this.props.playerData.currentTango.path !== nextProps.playerData.currentTango.path) {
+  componentDidUpdate(prevProps: Readonly<P>, prevState: Readonly<S>, snapshot: SS): void {
+    if (prevProps.playerData !== undefined && prevProps.playerData.currentTango.path !== '' && this.props.playerData.currentTango.path !== prevProps.playerData.currentTango.path) {
       this.stop();
-      this.initHowl(nextProps.playerData.currentTango.path, nextProps.playerData.currentTangoSong);
+      this.initHowl(this.props.playerData.currentTango.path, this.props.playerData.currentTangoSong);
       this.play();
     }
   }
@@ -100,20 +102,22 @@ class PlayerWrapper extends Component {
   };
 
   initHowl(path, songFile) {
-    console.log(path.split('.').pop());
     let ext = path.split('.').pop();
-    this.sound = new Howl(
-      {
-        src: songFile,
-        format: [ext],
-        onend: () => {
-          console.log('Finished!');
-          this.playNext();
-        },
-        onplay: this.handleStartPlay,
-      });
-    console.log('howl initiated');
-    console.log(this.sound);
+    console.log(songFile);
+    if (songFile !== undefined) {
+      this.sound = new Howl(
+        {
+          src: songFile,
+          format: [ext],
+          onend: () => {
+            console.log('Finished!');
+            this.playNext();
+          },
+          onplay: this.handleStartPlay,
+        });
+    } else {
+      this.playNext();
+    }
   }
 
   handleStartPlay = () => {
@@ -121,10 +125,25 @@ class PlayerWrapper extends Component {
   };
 
   play = () => {
-    if (this.sound === null){this.initHowl(this.props.playerData.currentTango.path, this.props.playerData.currentTangoSong)}
-    this.props.dispatch(playerActions.updateVolume(1));
-    this.props.dispatch(playerActions.updatePause(false));
-    this.sound.play();
+    let tango: tango;
+    tango = this.props.playerData.currentTango;
+    if (this.sound === null) {
+      console.log(tango);
+      // this.props.enqueueSnackbar("initialize " + tango.title, {variant: 'warning'});
+      this.initHowl(tango.path, this.props.playerData.currentTangoSong)
+    } else {
+
+      this.props.dispatch(playerActions.updateVolume(1));
+      this.props.dispatch(playerActions.updatePause(false));
+      try {
+        if (tango.start > 0) {
+          this.sound.seek(tango.start / 1000);
+        }
+        this.sound.play();
+      } catch (error) {
+        console.error(error);
+      }
+    }
   };
 
   pause = () => {
@@ -132,14 +151,19 @@ class PlayerWrapper extends Component {
   };
 
   stop = () => {
-    if (this.sound !== null) {
-      this.sound.stop();
-      this.sound.unload();
-      this.sound = null;
-      this.setState({progress:0});
+    try {
+      if (this.sound !== null) {
+        this.sound.stop();
+        this.sound.unload();
+        this.sound = null;
+        this.setState({progress: 0});
+      }
+      this.props.dispatch(playerActions.updateVolume(1));
+      this.props.dispatch(playerActions.updatePause(true));
+    } catch (error) {
+      console.log(error)
+      // this.props.enqueueSnackbar(error, {variant: 'error'});
     }
-    this.props.dispatch(playerActions.updateVolume(1));
-    this.props.dispatch(playerActions.updatePause(true));
 
   };
 
@@ -159,41 +183,39 @@ class PlayerWrapper extends Component {
 
   listen = (position) => {
 
-    position = Math.round(position*1000);
-    this.setState({progress:position});
+    position = Math.round(position * 1000);
+    this.setState({progress: position});
     let tango = this.props.playerData.currentTango;
-    let volume = this.props.playerData.volume;
-    if (tango.genre === 'cortina' && position >= cortinaDuration-fadeoutDuration && this.state.isFading === false) {
-      console.log("I'm suppose to fade out");
-      this.sound.fade(1,0, fadeoutDuration);
-      this.setState({isFading:true});
+    console.log(position, tango.end);
+    if (tango.genre === 'cortina' && position >= cortinaDuration - fadeoutDuration && this.state.isFading === false) {
+      this.sound.fade(1, 0, fadeoutDuration);
+      this.setState({isFading: true});
     } else if (tango.genre === 'cortina' && position > cortinaDuration) {
-      console.log("I'm supposed to end the song");
       this.playNext();
+    } else if (tango.genre !== 'cortina' && tango.end >0 && position > tango.end) {
+
+      this.stop();
+      setTimeout(() => {
+        this.playNext();
+      }, songInterval);
+
     }
   };
 
   playNext() {
     this.stop();
-    this.setState({isFading:false});
-    // console.log("I'm supposed to play next Tango");
-    // console.log('current Index: ' + this.props.source.currentIndex);
+    this.setState({isFading: false});
     let index = this.props.source.currentIndex;
     let tango = this.props.source.displayTangoList[index + 1];
-    // console.log(tango.path);
-    this.props.dispatch(playerActions.updateCurrentTango(tango));
+    this.props.dispatch(playerActions.updateCurrentTango(tango, this.props.enqueueSnackbar));
     this.props.dispatch(sourceActions.updateCurrentIndex(index + 1));
   }
 
   ended = (event) => {
-    console.log(event);
     let audioElement = this.rap.audioEl;
-
-    // let  audioElement = document.getElementById('audioElement').audioEl;
     audioElement.pause();
     audioElement.src = ""; // empty source
     audioElement.title = "";
-    // audioElement.load();
     console.log(audioElement);
     this.playNext();
   };
@@ -254,9 +276,7 @@ class PlayerWrapper extends Component {
 
   seekSlider = (value) => {
     console.log(value);
-    // this.props.dispatch(playerActions.progress(value));
-    //this.rap.audioEl.currentTime = value / 1000;
-    this.sound.seek(value/1000);
+    this.sound.seek(value / 1000);
   };
 
   render() {
@@ -319,6 +339,7 @@ class PlayerWrapper extends Component {
   };
 }
 
+const myPlayerWrapper = withSnackbar(PlayerWrapper);
 export default connect(
   (store) => {
     return {
@@ -326,4 +347,4 @@ export default connect(
       source: store.source,
     }
   })
-(PlayerWrapper);
+(myPlayerWrapper);

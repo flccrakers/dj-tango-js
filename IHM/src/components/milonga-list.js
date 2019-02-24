@@ -1,22 +1,23 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
 import * as milongaActions from '../redux/actions/milongaActions';
-import Save from 'material-ui-icons/Save';
-import OpenMilonga from 'material-ui-icons/FolderOpen';
-import Info from 'material-ui-icons/Info';
-import Delete from 'material-ui-icons/DeleteForever';
-import Sweep from 'material-ui-icons/DeleteSweep'
-import IconButton from "material-ui/IconButton/index";
-import Paper from "material-ui/es/Paper/Paper";
+import Save from '@material-ui/icons/Save';
+import OpenMilonga from '@material-ui/icons/FolderOpen';
+import Info from '@material-ui/icons/Info';
+import Delete from '@material-ui/icons/DeleteForever';
+import Sweep from '@material-ui/icons/DeleteSweep'
+import ArrowRight from "@material-ui/icons/KeyboardArrowRight";
+import ArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
+import IconButton from "@material-ui/core/IconButton";
+import Paper from "@material-ui/core/Paper";
 import Tooltip from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap.css';
 import VirtualList from 'react-tiny-virtual-list';
-import {sortStatus as SORT} from "../services/dj-const";
+import {ItemTypes, sortStatus as SORT} from "../services/dj-const";
 import DataLine from './data-line';
 import * as djUtils from "./dj-utils";
-import {ItemTypes} from '../services/dj-const';
 import {DropTarget} from 'react-dnd';
+import * as sizeActions from '../redux/actions/componentSizeActions';
 
 const milongaTarget = {
   drop(props, monitor) {
@@ -27,7 +28,7 @@ const milongaTarget = {
     // console.log(props.milonga.indexToDrop);
     // console.log(tangoToAdd);
     // console.log(props.milonga.list);
-    props.dispatch(milongaActions.dropTangos(props.milonga.indexToDrop,tangoToAdd,props.milonga.list ));
+    props.dispatch(milongaActions.dropTangos(props.milonga.indexToDrop, tangoToAdd, props.milonga.list));
 
 
     // console.log(props, monitor);
@@ -119,6 +120,16 @@ const styles = {
     border: '1pt solid ' + '#5f5f5f',
     overflow: 'hidden',
   },
+  mainHided: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    // flexBasis: '25px',
+    // minWidth: '25px',
+    flex: '0 0 auto',
+    borderLeft: '1pt solid ' + '#5f5f5f',
+    overflow: 'hidden',
+  },
   virtualListContainer: {
     flex: "1",
     display: 'flex',
@@ -134,16 +145,18 @@ class MilongaList extends Component {
 
   constructor(props) {
     super(props);
+    this.virtualContainerRef = undefined;
     this.state = {
       containerHeight: 600,
       containerWidth: 600,
+      shouldHide: false,
     };
 
   }
 
   componentDidMount() {
     this.updateDimensions();
-    window.addEventListener("resize", this.updateDimensions.bind(this));
+    window.addEventListener("resize", this.updateDimensions);
 
   }
 
@@ -152,9 +165,16 @@ class MilongaList extends Component {
   }
 
   updateDimensions() {
-    const containerHeight = this.refs.virtualContainer.clientHeight;
-    const containerWidth = this.refs.virtualContainer.clientWidth;
-    this.setState({containerHeight, containerWidth});
+    if (this.state.shouldHide === false) {
+      let size: sizeDTO;
+      size = {height: this.virtualContainerRef.clientHeight, width: this.virtualContainerRef.clientWidth};
+      const containerHeight = this.virtualContainerRef.clientHeight;
+      const containerWidth = this.virtualContainerRef.clientWidth;
+      this.setState({containerHeight, containerWidth});
+      let allSize = djUtils.calculateWidthAndHeightOfMilongaListAndSource();
+      console.log(allSize);
+      this.props.dispatch(sizeActions.updateMilongaSize(size));
+    }
   }
 
   handleOnClick = () => {
@@ -172,7 +192,7 @@ class MilongaList extends Component {
   getHeader() {
 
     let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
-    console.log(sizedRows);
+    // console.log(sizedRows);
 
   }
 
@@ -185,6 +205,7 @@ class MilongaList extends Component {
       },
       button: {
         height: '36px',
+        padding: '0 12px',
       },
       toolTip: {
         fontSize: '20px',
@@ -203,78 +224,113 @@ class MilongaList extends Component {
 
       }
     };
-    return (
-      <Paper style={styles.paperContainer} elevation={4} key={'filter_source_menu'}>
-        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Save'}</div>}
-                 overlayStyle={styles.overlayStyle}>
-          <IconButton
-            style={styles.button}
-            color={'secondary'}
-            onClick={() => {
-              console.log('save milonga')
-            }}
-          >
-            <Save style={styles.icon}/>
-          </IconButton>
-        </Tooltip>
+    if (this.state.shouldHide === false) {
+      return (
+        <Paper style={styles.paperContainer} elevation={4} key={'filter_source_menu'}>
+          <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Hide milonga panel'}</div>}
+                   overlayStyle={styles.overlayStyle}>
+            <IconButton
+              style={styles.button}
+              color={'secondary'}
+              onClick={this.handleArrowClick}
+            >
+              <ArrowRight style={styles.icon}/>
+            </IconButton>
+          </Tooltip>
+          <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Save'}</div>}
+                   overlayStyle={styles.overlayStyle}>
+            <IconButton
+              style={styles.button}
+              color={'secondary'}
+              onClick={() => {
+                console.log('save milonga')
+              }}
+            >
+              <Save style={styles.icon}/>
+            </IconButton>
+          </Tooltip>
 
-        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Open a milonga'}</div>}
-                 overlayStyle={styles.overlayStyle}>
-          <IconButton
-            style={styles.button}
-            color={'secondary'}
-            onClick={() => {
-              console.log('open milonga')
-            }}
-          >
-            <OpenMilonga style={styles.icon}/>
-          </IconButton>
-        </Tooltip>
+          <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Open a milonga'}</div>}
+                   overlayStyle={styles.overlayStyle}>
+            <IconButton
+              style={styles.button}
+              color={'secondary'}
+              onClick={() => {
+                console.log('open milonga')
+              }}
+            >
+              <OpenMilonga style={styles.icon}/>
+            </IconButton>
+          </Tooltip>
 
-        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Show infos about Milonga'}</div>}
-                 overlayStyle={styles.overlayStyle}>
-          <IconButton
-            style={styles.button}
-            color={'secondary'}
-            onClick={() => {
-              console.log('info about milonga')
-            }}
-          >
-            <Info style={styles.icon}/>
-          </IconButton>
-        </Tooltip>
+          <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Show infos about Milonga'}</div>}
+                   overlayStyle={styles.overlayStyle}>
+            <IconButton
+              style={styles.button}
+              color={'secondary'}
+              onClick={() => {
+                console.log('info about milonga')
+              }}
+            >
+              <Info style={styles.icon}/>
+            </IconButton>
+          </Tooltip>
 
-        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Delete the milonga'}</div>}
-                 overlayStyle={styles.overlayStyle}>
-          <IconButton
-            style={styles.button}
-            color={'secondary'}
-            onClick={() => {
-              console.log('delete milonga')
-            }}
-          >
-            <Delete style={styles.icon}/>
-          </IconButton>
-        </Tooltip>
+          <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Delete the milonga'}</div>}
+                   overlayStyle={styles.overlayStyle}>
+            <IconButton
+              style={styles.button}
+              color={'secondary'}
+              onClick={() => {
+                console.log('delete milonga')
+              }}
+            >
+              <Delete style={styles.icon}/>
+            </IconButton>
+          </Tooltip>
 
-        <Tooltip placement={'bottom'}
-                 overlay={<div style={styles.tooltip}>{'Empty the milonga and start a new one'}</div>}
+          <Tooltip placement={'bottom'}
+                   overlay={<div style={styles.tooltip}>{'Empty the milonga and start a new one'}</div>}
+                   overlayStyle={styles.overlayStyle}>
+            <IconButton
+              style={styles.button}
+              color={'secondary'}
+              onClick={this.handleClearMilonga}
+            >
+              <Sweep style={styles.icon}/>
+            </IconButton>
+          </Tooltip>
+        </Paper>
+      );
+    } else {
+      return (
+        <Tooltip placement={'bottom'} overlay={<div style={styles.tooltip}>{'Show milonga panel'}</div>}
                  overlayStyle={styles.overlayStyle}>
           <IconButton
-            style={styles.button}
+            style={{...styles.button, width: '24px'}}
             color={'secondary'}
-            onClick={this.handleClearMilonga}
+            onClick={this.handleArrowClick}
           >
-            <Sweep style={styles.icon}/>
+            {this.state.shouldHide === false && <ArrowRight style={styles.icon}/>}
+            {this.state.shouldHide === true && <ArrowLeft style={styles.icon}/>}
           </IconButton>
         </Tooltip>
-      </Paper>
-    );
+      );
+
+    }
+  }
+
+  handleArrowClick = () => {
+    this.setState({shouldHide: !this.state.shouldHide});
+    setTimeout(() => {
+      let newSizes = djUtils.calculateWidthAndHeightOfMilongaListAndSource();
+      this.props.dispatch(sizeActions.updateAllSize(newSizes.milongaSize, newSizes.sourceSize))
+    }, 10);
   }
 
   rowRenderer(params) {
 
-    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
+    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.props.milongaSize);
     let tango = this.props.milonga.list[params.index];
     return (
       <DataLine
@@ -292,27 +348,40 @@ class MilongaList extends Component {
   render() {
     let milonga = this.props.milonga;
     const {x, y, connectDropTarget, isOver} = this.props;
-    return connectDropTarget(
-      <div
-        style={styles.main}
-        onClick={this.handleOnClick}
-      >
-        {this.getMenu()}
-        {this.getHeader()}
-        <div style={styles.virtualListContainer} ref={'virtualContainer'}>
-          <VirtualList
-            width='100%'
-            height={this.state.containerHeight + milonga.listRowHeight}
-            itemCount={milonga.list.length}
-            itemSize={milonga.listRowHeight} // Also supports variable heights (array or function getter)
-            renderItem={(index, style) => {
-              return (this.rowRenderer(index))
-            }}
-          />
-        </div>
+    if (this.state.shouldHide !== true) {
+      return connectDropTarget(
+        <div
+          style={styles.main}
+          onClick={this.handleOnClick}
+        >
+          {this.getMenu()}
+          <div style={styles.virtualListContainer} ref={el => {
+            this.virtualContainerRef = el
+          }}
+               id={'milongaVirtualList'}>
+            <VirtualList
+              width='100%'
+              height={this.state.containerHeight + milonga.listRowHeight}
+              itemCount={milonga.list.length}
+              itemSize={milonga.listRowHeight} // Also supports variable heights (array or function getter)
+              renderItem={(index, style) => {
+                return (this.rowRenderer(index))
+              }}
+            />
+          </div>
 
-      </div>
-    );
+        </div>
+      );
+    } else {
+      return (
+        <div
+          style={styles.mainHided}
+          onClick={this.handleOnClick}
+        >
+          {this.getMenu()}
+        </div>
+      );
+    }
   }
 
 }
@@ -330,6 +399,7 @@ export default connect((store) => {
     milonga: store.milonga,
     selectedTangos: store.source.selectedTangos,
     tangoList: store.source.displayTangoList,
+    milongaSize: store.sizes.milongaSize,
   }
 
 })(MilongaList);

@@ -1,18 +1,20 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import * as sourceActions from '../redux/actions/sourceActions';
-import IconButton from "material-ui/IconButton/index";
-// import 'react-virtualized/styles.css';
+import IconButton from '@material-ui/core/IconButton';
 import VirtualList from 'react-tiny-virtual-list';
 import DataLine from './data-line';
 import {sortStatus as SORT} from '../services/dj-const';
-import ArrowUp from 'material-ui-icons/ArrowDropUp';
-import ArrowDown from 'material-ui-icons/ArrowDropDown';
-import Shuffle from 'material-ui-icons/Shuffle';
-import Refresh from 'material-ui-icons/Refresh';
-import List, {ListItem, ListItemText} from 'material-ui/List';
-import Menu, {MenuItem} from 'material-ui/Menu';
-import Paper from "material-ui/es/Paper/Paper";
+import ArrowUp from '@material-ui/icons/ArrowUpward';
+import ArrowDown from '@material-ui/icons/ArrowDownward';
+import Shuffle from '@material-ui/icons/Shuffle';
+import Refresh from '@material-ui/icons/Refresh';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem'
+import Paper from '@material-ui/core/Paper';
 import * as djUtils from './dj-utils';
 
 const styles = {
@@ -168,6 +170,7 @@ class SourceList extends Component {
 
   constructor(props) {
     super(props);
+    this.virtualContainerRef = undefined;
     this.state = {
       containerHeight: 600,
       containerWidth: 600,
@@ -187,8 +190,8 @@ class SourceList extends Component {
   }
 
   updateDimensions() {
-    const containerHeight = this.refs.virtualContainer.clientHeight;
-    const containerWidth = this.refs.virtualContainer.clientWidth;
+    const containerHeight = this.virtualContainerRef.clientHeight;
+    const containerWidth = this.virtualContainerRef.clientWidth;
     this.setState({containerHeight, containerWidth});
   }
 
@@ -238,12 +241,12 @@ class SourceList extends Component {
     const anchorEl = this.props.source.anchorEl;
     if (optionsList !== null) {
       sizedRows.forEach(row => {
-        let style;
-        if (row.align === 'left') {
-          style = {...left, width: row.size, height: '24px'};
-        } else if (row.align === 'center') {
-          style = {...center, width: row.size, height: '24px'};
-        }
+        let style = {height: '24px'};
+        // if (row.align === 'left') {
+        //   style = {...left, width: row.size, height: '24px'};
+        // } else if (row.align === 'center') {
+        //   style = {...center, width: row.size, height: '24px'};
+        // }
         // console.log(row.name);
         if (row.name !== '') {
           // console.log(optionsList[row.field]);
@@ -295,7 +298,11 @@ class SourceList extends Component {
         }
       });
     }
-    return ret;
+    return (
+      <div style={{display:'flex', flex:'1 1 auto', justifyContent:'space-around'}}>
+        {ret}
+      </div>
+    );
 
   }
 
@@ -321,8 +328,7 @@ class SourceList extends Component {
       if (row.field === sortingDatas.sortingField) {
         if (sortingDatas.sortingDirection === SORT.ASC) {
           sort = [<ArrowUp style={{color: 'white'}} key={'sortUp'}/>];
-        }
-        else if (sortingDatas.sortingDirection === SORT.DESC) {
+        } else if (sortingDatas.sortingDirection === SORT.DESC) {
           sort = [<ArrowDown style={{color: 'white'}} key={'sortDown'}/>];
         }
       }
@@ -352,6 +358,7 @@ class SourceList extends Component {
       },
       button: {
         height: '36px',
+        padding: '0 12px',
       }
     };
     return [
@@ -405,15 +412,16 @@ class SourceList extends Component {
   };
 
   rowRenderer = (params) => {
-    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
+    let sizedRows = djUtils.getSizedRows(rowsTemplate,this.props.sourceSize.width);
     let tango = this.props.source.displayTangoList[params.index];
     return (
-      <DataLine tango={tango}
-                sizedRows={sizedRows}
-                rowHeight={this.props.source.listRowHeight}
-                style={params.style}
-                index={params.index}
-                key={tango._id}
+      <DataLine
+        tango={tango}
+        sizedRows={sizedRows}
+        rowHeight={this.props.source.listRowHeight}
+        style={params.style}
+        index={params.index}
+        key={tango._id}
       />
     );
   };
@@ -431,7 +439,7 @@ class SourceList extends Component {
       <div style={styles.mainSource} id='sources' ref={'sources'}>
         {this.getFilter()}
         {this.getHeader()}
-        <div style={styles.virtualListContainer} ref={'virtualContainer'}>
+        <div style={styles.virtualListContainer} ref={el => {this.virtualContainerRef = el}} id={'sourceVirtualList'}>
           <VirtualList
             width='100%'
             height={this.state.containerHeight + source.listRowHeight}
@@ -450,7 +458,6 @@ class SourceList extends Component {
 
   handleTitleClick(event, field) {
     event.preventDefault();
-    // console.log(field);
     this.updateTitleStatus(field);
 
   }
@@ -471,6 +478,7 @@ export default connect((store) => {
   return {
     // tangoList: store.source.tangoList,
     source: store.source,
+    sourceSize:store.sizes.sourceSize,
   }
 
 })(SourceList);

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {LinearProgress} from 'material-ui/Progress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import propTypes from 'prop-types';
 
 const styles = {
@@ -12,7 +12,8 @@ const styles = {
     margin: '0px 5px 0px 5px',
   },
   main: {
-    minHeight:'150px',
+    minHeight:'50px',
+    flex:'1 1 auto'
   }
 
 };

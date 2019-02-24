@@ -3,7 +3,7 @@
  * @param time {Number} the time of the song in milliseconds
  * @returns {String} the time of the song in string => mm:ss
  */
-import * as colors from 'material-ui/colors';
+import * as colors from '@material-ui/core/colors';
 import colorManipulator from '../services/color-manipulator';
 
 export function millisToMinutesAndSeconds(time: Number) {
@@ -23,7 +23,6 @@ export function tangoColors() {
     vals: colorManipulator.fade('#cc333f',0.31),
     milonga: colorManipulator.fade('#edc951',0.31),
     electro_tango: '#00a0b0',
-    electro_vals: '#cc333f',
     electro_milonga: '#edc951',
     tango_nuevo: colorManipulator.fade('#00a0b0',0.196),
     electro_vals: colorManipulator.fade('#cc333f',0.2),

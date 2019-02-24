@@ -1,32 +1,25 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
-import PropTypes from 'prop-types';
 // import {getTranslate} from "../locales/localeUtils";
-import * as  dialogActions from '../redux/actions/dialogActions';
-import Button from 'material-ui/Button';
-import Dialog, {DialogActions, DialogContent, DialogTitle} from 'material-ui/Dialog';
-import dialogType from "../services/dialogTypeRef";
-import TextField from 'material-ui/TextField';
-import Checkbox from 'material-ui/Checkbox';
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import * as  dialogActions from '../../redux/actions/dialogActions';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle'
+import dialogType from "../../services/dialogTypeRef";
+import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import * as playerActions from "../../redux/actions/playerActions";
+import {generateDialogWithFactory} from '../dialogs/dialog-factory';
 
 class DjTangoDialog extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      dialogContent: null,
-      dialogAction: [
-        <Button color="primary"
-                onClick={() => {
-                  props.dispatch(dialogActions.closeDialog())
-                }}>
-          CLOSE
-        </Button>,
-      ],
-      dialogTitle: '',
-      dialogId: 'dialogId',
-      checkedPlayMusic:false,
+      checkedPlayMusic: false,
     }
   }
 
@@ -45,6 +38,10 @@ class DjTangoDialog extends Component {
       }
     }
   }
+
+
+
+
 
   getDetailsContent() {
     const styles = {
@@ -68,80 +65,80 @@ class DjTangoDialog extends Component {
       },
       section: {
         display: 'flex',
-        flex:'1 1 50%',
+        flex: '1 1 50%',
         flexWrap: 'no-wrap',
         justifyContent: 'flex-end',
-        alignItems:'center',
+        alignItems: 'center',
       },
-      fullSection:{
-        display:'flex',
-        flex:'1 1 auto',
+      fullSection: {
+        display: 'flex',
+        flex: '1 1 auto',
       }
     };
     let tango, ret = [], additionalData;
     additionalData = this.props.dialog.additionalData;
-    console.log(additionalData);
+    // console.log(additionalData);
     if (additionalData !== null && additionalData !== undefined) {
-      tango = this.props.tangoList[additionalData.index];
-      console.log(tango.title);
+      tango = {...this.props.tangoList[additionalData.index]};
+      // console.log(tango);
       ret.push(
-        <div style={styles.line}>
+        <div style={styles.line} key={'details_title_year'}>
           <div style={styles.section}>
             <span style={styles.name}>Title:</span>
-            <TextField defaultValue={tango.title}/>
+            <TextField value={tango.title}/>
           </div>
           <div style={styles.section}>
             <span style={styles.name}>Year:</span>
-            <TextField defaultValue={tango.year}/>
+            <TextField value={tango.year}/>
           </div>
         </div>
       );
       ret.push(
-        <div style={styles.line}>
+        <div style={styles.line} key={'details_artist_singer'}>
           <div style={styles.section}>
             <span style={styles.name}>Artist:</span>
-            <TextField defaultValue={tango.artist}/>
+            <TextField value={tango.artist}/>
           </div>
           <div style={styles.section}>
             <span style={styles.name}>Singer:</span>
-            <TextField defaultValue={tango.singer}/>
+            <TextField value={tango.singer}/>
           </div>
         </div>
       );
       ret.push(
-        <div style={styles.line}>
+        <div style={styles.line} key={'details_album_genre'}>
           <div style={styles.section}>
             <span style={styles.name}>Album:</span>
-            <TextField defaultValue={tango.album}/>
+            <TextField value={tango.album}/>
           </div>
           <div style={styles.section}>
             <span style={styles.name}>Genre:</span>
-            <TextField defaultValue={tango.genre}/>
+            <TextField value={tango.genre}/>
           </div>
         </div>
       );
       ret.push(
-        <div style={styles.line}>
+        <div style={styles.line} key={'details_composer_author'}>
           <div style={styles.section}>
             <span style={styles.name}>Compo.:</span>
-            <TextField defaultValue={tango.composer}/>
+            <TextField value={tango.composer}/>
           </div>
           <div style={styles.section}>
             <span style={styles.name}>Author:</span>
-            <TextField defaultValue={tango.author}/>
+            <TextField value={tango.author}/>
           </div>
         </div>
       );
       ret.push(
-        <div style={{...styles.line, marginTop:'20px'}}>
+        <div style={{...styles.line, marginTop: '20px'}} key={'details_path'}>
           <div style={styles.fullSection}>
             <span style={styles.name}>Path:</span>
-            <TextField defaultValue={tango.path} multiline={true} rows={3} fullWidth={true} disabled={true}/>
+            <TextField value={tango.path} multiline={true} rows={3} fullWidth={true} disabled={true}/>
           </div>
         </div>
       );
       ret.push(
-        <div style={{...styles.line, marginTop:'20px'}}>
+        <div style={{...styles.line, marginTop: '20px'}} key={'details_check_play_music'}>
           <div style={styles.fullSection}>
             <FormControlLabel
               control={
@@ -162,7 +159,7 @@ class DjTangoDialog extends Component {
   }
 
   handleChangeCheckBoxes = name => event => {
-    this.setState({ [name]: event.target.checked });
+    this.setState({[name]: event.target.checked});
   };
 
 
@@ -221,27 +218,27 @@ class DjTangoDialog extends Component {
           CANCEL
         </Button>,
         <Button
-          key={'edit_tango_next'}
-          variant="raised"
-          // color="primary"
-          onClick={() => {
-            this.props.dispatch(dialogActions.closeDialog())
-          }}>
-          Next
-        </Button>,
-        <Button
           key={'edit_tango_previous'}
           variant="raised"
           // color="primary"
           onClick={() => {
-            this.props.dispatch(dialogActions.closeDialog())
+            this.displayDetailsOfPreviousOrNextTangoSong(false);
           }}>
           PREVIOUS
         </Button>,
         <Button
-          key={'edit_tango_save'}
+          key={'edit_tango_next'}
           variant="raised"
           // color="primary"
+          onClick={() => {
+            this.displayDetailsOfPreviousOrNextTangoSong(false);
+            console.log('click on next');
+          }}>
+          Next
+        </Button>,
+        <Button
+          key={'edit_tango_save'}
+          variant="raised"
           onClick={() => {
             this.props.dispatch(dialogActions.closeDialog())
           }}>
@@ -251,23 +248,25 @@ class DjTangoDialog extends Component {
     );
   }
 
+  displayDetailsOfPreviousOrNextTangoSong(isPrevious = true) {
+    let additionalData = {...this.props.dialog.additionalData};
+    isPrevious === true ? additionalData.index -= 1 : additionalData.index += 1;
+    if (additionalData.index > (this.props.tangoList.length - 1)) additionalData.index = this.props.tangoList.length - 1;
+    this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.TANGO_DETAILS, additionalData));
+    if (this.state.checkedPlayMusic === true) {
+      this.props.dispatch(playerActions.updateCurrentTango(this.props.tangoList[additionalData.index]));
+    }
+  }
+
   render() {
-    let dialog: dialogReducerDTO = this.props.dialog;
+    if (this.props.dialog.open === true) {
+      return generateDialogWithFactory(this.props.dialog.dialogType);
+    }
+    return null
 
-    return (
-
-      <Dialog onClose={this.handleClose} open={dialog.open}>
-        <DialogTitle id={dialog.dialogTitle}>{this.getTitle()}</DialogTitle>
-        <DialogContent>
-          {this.getContent()}
-        </DialogContent>
-        <DialogActions>
-          {this.getActions()}
-        </DialogActions>
-      </Dialog>
-    );
   }
 }
+
 
 
 export default connect(store => {
