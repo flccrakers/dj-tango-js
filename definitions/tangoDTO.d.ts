@@ -1,4 +1,4 @@
-interface tango {
+interface tangoDTO {
     /** id of the tango*/
     id: number;
     /** the path of the tango */

@@ -9,7 +9,7 @@ function updateTango(payload) {
 
 }
 
-export function updateCurrentTango(tango: tango, enqueueSnackbar) {
+export function updateCurrentTango(tango: tangoDTO, enqueueSnackbar) {
   return function (dispatch) {
     tangoDataManagement.getTangoFile(tango._id).then(tangoFile => {
       // console.log(tangoFile);

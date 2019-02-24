@@ -4,5 +4,7 @@ interface preferencesDTO {
     normalize: boolean,
     timeCortina: number,
     timeFadOut: number,
-    writeId3Tag: boolean
+    writeId3Tag: boolean,
+    language:string,
+    timeBetweenSongsMS:number,
 }

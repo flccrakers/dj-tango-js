@@ -89,24 +89,7 @@ class Header extends Component {
     this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.IMPORT_DATABASE));
 
   };
-  // handleImportData = () => {
-  //   console.log('supposed to import data');
-  //   console.log(this.state.databaseFile);
-  //   this.props.dispatch(menuActions.importTangosFromCSVFile(this.state.databaseFile));
-  //   this.closeDialog();
-  // };
 
-  // closeDialog = () => {
-  //   let dialog = this.state.dialog;
-  //   dialog.open = false;
-  //   this.setState({dialog})
-  // };
-
-  displaySideScreen = () => {
-    this.closeMenu();
-    window.open('http://www.google.com/', 'sharer', 'type=fullWindow, fullscreen, scrollbars=yes, toolbar=0');
-
-  };
 
   render() {
 
@@ -158,10 +141,10 @@ class Header extends Component {
           open={this.state.menus.file_menu_open}
           onClose={this.closeMenu}
         >
-          <MenuItem onClick={this.closeMenu}>Import files</MenuItem>
-          <MenuItem onClick={this.closeMenu}>Import directories</MenuItem>
+          <MenuItem onClick={this.closeMenu}>{translate("MENU.IMPORT_FILE")}</MenuItem>
+          <MenuItem onClick={this.closeMenu}>{translate("MENU.IMPORT_DIRECTORIES")}</MenuItem>
           <Divider/>
-          <MenuItem onClick={this.handleImportDatabase}>Import database</MenuItem>
+          <MenuItem onClick={this.handleImportDatabase}>{translate("MENU.IMPORT_DATABASE")}</MenuItem>
           <MenuItem onClick={this.handleTestSnack}>Test snack</MenuItem>
         </Menu>
       </div>
@@ -206,8 +189,8 @@ class Header extends Component {
         >
           <MenuItem onClick={this.handlePreferences}>{translate('MENU.PREFERENCES')}</MenuItem>
           <Divider/>
-          <MenuItem onClick={this.closeMenu}>{translate('MENU.EDIT_DETAILS_OF_SELECTED_SONG')}</MenuItem>
-          <MenuItem onClick={this.closeMenu}>{translate('MENU.TAB_BMP')}</MenuItem>
+          <MenuItem onClick={this.closeMenu} disabled>{translate('MENU.EDIT_DETAILS_OF_SELECTED_SONG')}</MenuItem>
+          <MenuItem onClick={this.closeMenu} disabled>{translate('MENU.TAB_BMP')}</MenuItem>
 
         </Menu>
       </div>
@@ -240,14 +223,19 @@ class Header extends Component {
           open={this.state.menus.display_menu_open}
           onClose={this.closeMenu}
         >
-          <MenuItem onClick={this.closeMenu}>Full screen</MenuItem>
-          <MenuItem onClick={this.displaySideScreen}>Display side screen</MenuItem>
+          <MenuItem onClick={this.closeMenu} disabled>{translate("MENU.FULL_SCREEN")}</MenuItem>
+          <MenuItem onClick={this.displaySideScreen}>{translate("MENU.DISPLAY_SIDE_SCREEN")}</MenuItem>
         </Menu>
 
       </div>
     )
-
   }
+
+  displaySideScreen = () => {
+    this.closeMenu();
+    window.open('http://www.google.com/', 'sharer', 'type=fullWindow, fullscreen, scrollbars=yes, toolbar=0');
+
+  };
 
 }
 

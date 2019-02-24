@@ -4,12 +4,12 @@ export function getAllTangos() {
   return serviceBase.getJSON(`/tangos`, null);
 }
 
-export function addTango(tangoDTO:tango){
-  return serviceBase.postJSON(`/tangos`, tangoDTO, null );
+export function addTango(tango: tangoDTO) {
+  return serviceBase.postJSON(`/tangos`, tango, null);
 }
 
-export function getTangoFile(tangoId:string){
-  return serviceBase.getSongFile(`/get_tango_file`,tangoId);
+export function getTangoFile(tangoId: string) {
+  return serviceBase.getSongFile(`/get_tango_file`, tangoId);
 }
 
 // export {getAllTangos}

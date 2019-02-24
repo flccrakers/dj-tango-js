@@ -5,7 +5,8 @@ import menu from './menuReducer';
 import player from './playerReducer';
 import dialog from './dialogReducer';
 import locale from './localizeReducer';
-import sizes from './componentSizeReducer'
+import sizes from './componentSizeReducer';
+import preferences from './preferencesReducer';
 
 /*import inventory from "./inventoryReducer";
 import labbook from "./labbookReducer";
@@ -21,5 +22,6 @@ export default combineReducers({
   dialog,
   locale,
   sizes,
+  preferences,
 });
 

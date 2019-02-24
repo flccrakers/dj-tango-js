@@ -44,6 +44,25 @@ class JSONEncoder(json.JSONEncoder):
 
 # APP.json_encoder = JSONEncoder
 
+def json_ify(data):
+    returned_data = {}
+    for key in data:
+        if isinstance(data[key], ObjectId):
+            returned_data[key] = str(data[key])
+        elif isinstance(data[key], datetime.datetime):
+            returned_data[key] = str(data[key])
+        else:
+            returned_data[key] = data[key]
+    return jsonify(returned_data)
+
+
+def remove_object_id(data):
+    returned_data = {}
+    for key in data:
+        if not key == '_id':
+            returned_data[key] = data[key]
+    return returned_data
+
 
 @APP.route("/")
 def hello():
@@ -51,15 +70,41 @@ def hello():
     return "Welcome to the djtango server"
 
 
-@APP.route("/preferences", methods=['GET'])
+@APP.route("/preferences", methods=['GET', 'POST'])
 def get_preferences():
-    # if request.method == 'GET':
-    #     print("I will send back the preferences")
-    #     preferences = mongo.db.preferences.find({})
-    #     return jsonify(preferences)
-    return jsonify(
-        {"baseDir": "/home/hoonakker/media/tango-propres-HQ", "timeCortina": 56, "timeFadOut": 6, "writeId3Tag": 2,
-         "normalize": 2, "newSongAvailable": 0})
+    if request.method == 'GET':
+        print("I will get the preferences")
+        default_data = {"baseDir": "HELlO", "timeCortina": 46, "timeFadOut": 6, "writeId3Tag": 2,
+                        "normalize": 2, "newSongAvailable": 0, 'language': 'en-en', 'timeBetweenSongsMS': 1500}
+        preferences = mongo.db.preferences.find({})
+        print(preferences.count())
+        if preferences.count() == 0:
+            return json_ify(default_data)
+        else:
+            print(preferences[0])
+            return json_ify(preferences[0])
+    elif request.method == 'POST':
+        print("Should update preferences")
+        body_data = json.loads(request.form.get('json'))
+        print(body_data)
+        preferences_id = get_preferences_id_object()
+        if preferences_id is None:
+            result = mongo.db.preferences.insert_one(body_data)
+            print(result)
+        else:
+            my_query = {"_id": preferences_id}
+            # new_values = {"$set": body_data}
+            mongo.db.preferences.replace_one(my_query, remove_object_id(body_data))
+            return jsonify({"IsSuccess": True, "Payload": ''})
+
+
+def get_preferences_id_object():
+    preferences = mongo.db.preferences.find({})
+    if preferences.count() == 0:
+        return None
+    else:
+        print(preferences[0])
+        return preferences[0]['_id']
 
 
 @APP.route("/tangos", methods=['GET', 'POST'])
@@ -82,7 +127,6 @@ def manage_tangos():
         return jsonify(json_tango), 200
 
 
-# noinspection PyBroadException
 @APP.route('/get_tango_file/<tango_id>')
 def download_tango(tango_id=None):
     tango = mongo.db.tangos.find_one({"_id": ObjectId(tango_id)})
@@ -91,7 +135,6 @@ def download_tango(tango_id=None):
         return send_file(tango['path'])
     except Exception as e:
         print(str(e))
-        # return str(e)
         json_response = {"IsSuccess": False, "Message": '', "ErrorType": '', "GeneralException": str(e),
                          "Payload": None}
         return jsonify(json_response)
