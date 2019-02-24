@@ -100,7 +100,7 @@ export function getSongFile(baseUrl: string, queryPayload?: any) {
   }).then(response => {
     console.log(response.headers.get('Content-Type'));
     let contentType = response.headers.get('Content-Type');
-    if (contentType === 'audio/mpeg') {
+    if (contentType.includes('audio') === true) {
       return response.url;
     } else if (contentType === 'application/json') {
       return response.json()

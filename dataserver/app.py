@@ -87,6 +87,7 @@ def manage_tangos():
 def download_tango(tango_id=None):
     tango = mongo.db.tangos.find_one({"_id": ObjectId(tango_id)})
     try:
+        print(tango['path'])
         return send_file(tango['path'])
     except Exception as e:
         print(str(e))
