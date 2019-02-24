@@ -29,8 +29,7 @@ function getAutoSize(rowsTemplate, containerSize) {
     // console.log(element);
     if (element.size === 'auto' || element.size === 0) {
       autoNb += 1;
-    }
-    else {
+    } else {
       totalSize += element.size
     }
   });
@@ -38,11 +37,32 @@ function getAutoSize(rowsTemplate, containerSize) {
 }
 
 
-export function getTangoListFromIdList(selectedTangosList, displayedTangos){
+export function getTangoListFromIdList(selectedTangosList, displayedTangos) {
   let ret = [];
   selectedTangosList.forEach((id) => {
     ret.push(displayedTangos[id]);
   });
 
   return ret;
+}
+
+export function calculateWidthAndHeightOfMilongaListAndSource() {
+  let milongaSizeRef, sourceSizeRef, sourceSize: sizeDTO, milongaSize: sizeDTO;
+
+  milongaSizeRef = document.getElementById('milongaVirtualList');
+  sourceSizeRef = document.getElementById('sourceVirtualList');
+  if(sourceSizeRef !== null) {
+    sourceSize = {width: sourceSizeRef.clientWidth, height: sourceSizeRef.clientHeight};
+  }else{
+    sourceSize = {width: 0, height: 0};
+  }
+
+  if(milongaSizeRef !== null) {
+    milongaSize = {width: milongaSizeRef.clientWidth, height: milongaSizeRef.clientHeight};
+  }else{
+    milongaSize = {width: 0, height: 0};
+  }
+
+  return {sourceSize, milongaSize}
+
 }

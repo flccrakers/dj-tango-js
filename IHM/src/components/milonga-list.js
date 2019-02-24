@@ -17,6 +17,7 @@ import {ItemTypes, sortStatus as SORT} from "../services/dj-const";
 import DataLine from './data-line';
 import * as djUtils from "./dj-utils";
 import {DropTarget} from 'react-dnd';
+import * as sizeActions from '../redux/actions/componentSizeActions';
 
 const milongaTarget = {
   drop(props, monitor) {
@@ -144,6 +145,7 @@ class MilongaList extends Component {
 
   constructor(props) {
     super(props);
+    this.virtualContainerRef = undefined;
     this.state = {
       containerHeight: 600,
       containerWidth: 600,
@@ -154,7 +156,7 @@ class MilongaList extends Component {
 
   componentDidMount() {
     this.updateDimensions();
-    window.addEventListener("resize", this.updateDimensions.bind(this));
+    window.addEventListener("resize", this.updateDimensions);
 
   }
 
@@ -164,9 +166,14 @@ class MilongaList extends Component {
 
   updateDimensions() {
     if (this.state.shouldHide === false) {
-      const containerHeight = this.refs.virtualContainer.clientHeight;
-      const containerWidth = this.refs.virtualContainer.clientWidth;
+      let size: sizeDTO;
+      size = {height: this.virtualContainerRef.clientHeight, width: this.virtualContainerRef.clientWidth};
+      const containerHeight = this.virtualContainerRef.clientHeight;
+      const containerWidth = this.virtualContainerRef.clientWidth;
       this.setState({containerHeight, containerWidth});
+      let allSize = djUtils.calculateWidthAndHeightOfMilongaListAndSource();
+      console.log(allSize);
+      this.props.dispatch(sizeActions.updateMilongaSize(size));
     }
   }
 
@@ -198,7 +205,7 @@ class MilongaList extends Component {
       },
       button: {
         height: '36px',
-        padding:'0 12px',
+        padding: '0 12px',
       },
       toolTip: {
         fontSize: '20px',
@@ -225,9 +232,7 @@ class MilongaList extends Component {
             <IconButton
               style={styles.button}
               color={'secondary'}
-              onClick={() => {
-                this.setState({shouldHide: !this.state.shouldHide});
-              }}
+              onClick={this.handleArrowClick}
             >
               <ArrowRight style={styles.icon}/>
             </IconButton>
@@ -304,9 +309,7 @@ class MilongaList extends Component {
           <IconButton
             style={{...styles.button, width: '24px'}}
             color={'secondary'}
-            onClick={() => {
-              this.setState({shouldHide: !this.state.shouldHide});
-            }}
+            onClick={this.handleArrowClick}
           >
             {this.state.shouldHide === false && <ArrowRight style={styles.icon}/>}
             {this.state.shouldHide === true && <ArrowLeft style={styles.icon}/>}
@@ -317,9 +320,17 @@ class MilongaList extends Component {
     }
   }
 
+  handleArrowClick = () => {
+    this.setState({shouldHide: !this.state.shouldHide});
+    setTimeout(() => {
+      let newSizes = djUtils.calculateWidthAndHeightOfMilongaListAndSource();
+      this.props.dispatch(sizeActions.updateAllSize(newSizes.milongaSize, newSizes.sourceSize))
+    }, 10);
+  }
+
   rowRenderer(params) {
 
-    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
+    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.props.milongaSize);
     let tango = this.props.milonga.list[params.index];
     return (
       <DataLine
@@ -344,8 +355,10 @@ class MilongaList extends Component {
           onClick={this.handleOnClick}
         >
           {this.getMenu()}
-          {this.getHeader()}
-          <div style={styles.virtualListContainer} ref={'virtualContainer'}>
+          <div style={styles.virtualListContainer} ref={el => {
+            this.virtualContainerRef = el
+          }}
+               id={'milongaVirtualList'}>
             <VirtualList
               width='100%'
               height={this.state.containerHeight + milonga.listRowHeight}
@@ -386,6 +399,7 @@ export default connect((store) => {
     milonga: store.milonga,
     selectedTangos: store.source.selectedTangos,
     tangoList: store.source.displayTangoList,
+    milongaSize: store.sizes.milongaSize,
   }
 
 })(MilongaList);

@@ -170,6 +170,7 @@ class SourceList extends Component {
 
   constructor(props) {
     super(props);
+    this.virtualContainerRef = undefined;
     this.state = {
       containerHeight: 600,
       containerWidth: 600,
@@ -189,8 +190,8 @@ class SourceList extends Component {
   }
 
   updateDimensions() {
-    const containerHeight = this.refs.virtualContainer.clientHeight;
-    const containerWidth = this.refs.virtualContainer.clientWidth;
+    const containerHeight = this.virtualContainerRef.clientHeight;
+    const containerWidth = this.virtualContainerRef.clientWidth;
     this.setState({containerHeight, containerWidth});
   }
 
@@ -411,7 +412,7 @@ class SourceList extends Component {
   };
 
   rowRenderer = (params) => {
-    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
+    let sizedRows = djUtils.getSizedRows(rowsTemplate,this.props.sourceSize.width);
     let tango = this.props.source.displayTangoList[params.index];
     return (
       <DataLine
@@ -438,7 +439,7 @@ class SourceList extends Component {
       <div style={styles.mainSource} id='sources' ref={'sources'}>
         {this.getFilter()}
         {this.getHeader()}
-        <div style={styles.virtualListContainer} ref={'virtualContainer'}>
+        <div style={styles.virtualListContainer} ref={el => {this.virtualContainerRef = el}} id={'sourceVirtualList'}>
           <VirtualList
             width='100%'
             height={this.state.containerHeight + source.listRowHeight}
@@ -477,6 +478,7 @@ export default connect((store) => {
   return {
     // tangoList: store.source.tangoList,
     source: store.source,
+    sourceSize:store.sizes.sourceSize,
   }
 
 })(SourceList);

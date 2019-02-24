@@ -11,7 +11,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import {Howl} from 'howler';
 import {withSnackbar} from "notistack";
-import {initialize} from "../redux/actions/localize-actions";
+import {initialize} from "../redux/actions/localizeActions";
 
 const styles = {
   playerRoot: {
@@ -136,14 +136,12 @@ class PlayerWrapper extends Component {
       this.props.dispatch(playerActions.updateVolume(1));
       this.props.dispatch(playerActions.updatePause(false));
       try {
-        // this.props.enqueueSnackbar(tango.start + ', ' + tango.end, {variant: 'success'});
         if (tango.start > 0) {
           this.sound.seek(tango.start / 1000);
         }
         this.sound.play();
       } catch (error) {
         console.error(error);
-        // this.props.enqueueSnackbar(str(error), {variant: 'error'});
       }
     }
   };

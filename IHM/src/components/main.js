@@ -6,7 +6,7 @@ import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
 import Footer from './footer';
 import PlaylistBoard from './playlist-board';
 import DjDialog from './dialogs/dialog';
-import * as localizeActions from "../redux/actions/localize-actions";
+import * as localizeActions from "../redux/actions/localizeActions";
 import * as sourceActions from "../redux/actions/sourceActions";
 
 
