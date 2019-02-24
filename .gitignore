@@ -5,7 +5,7 @@ dataserver/node_modules/
 dataserver/build/
 dataserver/.idea/workspace.xml
 dataserver/.idea/
-dataserver/flask_djtango.log
+dataserver/flask_djtango.log*
 
 package-lock.json
 
