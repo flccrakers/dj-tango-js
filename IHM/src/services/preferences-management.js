@@ -4,11 +4,11 @@ export function getPreferences() {
   return serviceBase.getJSON(`/preferences`, null);
 }
 
-export function updatePreferences(preferences:preferencesDTO){
-  // return serviceBase.postJSON(`/tangos`, tangoDTO, null );
+export function updatePreferences(preferences: preferencesDTO) {
+  return serviceBase.postJSON(`/preferences`, preferences, null);
 }
 
-export function getTangoFile(tangoId:string){
+export function getTangoFile(tangoId: string) {
   // return serviceBase.getSongFile(`/tango/download/`,tangoId);
 }
 

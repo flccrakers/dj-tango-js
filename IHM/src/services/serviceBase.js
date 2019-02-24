@@ -5,16 +5,15 @@ let currentServerBasePath = 'http://localhost:6767';
 // noinspection JSAnnotator
 export function postJSON(url: string, bodyPayload: any, queryPayload?: any) {
   let finalUrl = composeUrl(url, queryPayload);
+  let data = new FormData();
+  data.append("json", JSON.stringify(bodyPayload));
+  console.log(data);
   return fetch(currentServerBasePath + finalUrl, {
     method: 'POST',
-    credentials: 'include',
-    headers: {
-      'Accept': 'application/json, text/plain, */*',
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(bodyPayload)
+    body: data
   }).then(function (response) {
     let contentType = response.headers.get("content-type");
+    console.log(contentType);
     if (contentType && contentType.includes("application/json")) {
       return response.json();
     }
@@ -58,17 +57,13 @@ export function composeUrl(baseUrl: string, queryPayload?: any): string {
 
 export function getJSON(baseUrl: string, queryPayload?: any) {
   let finalUrl = composeUrl(baseUrl, queryPayload);
-  // console.log(currentServerBasePath +finalUrl);
-
   return fetch(currentServerBasePath + finalUrl, {
     method: 'GET',
-    // credentials: 'include',
     headers: {
       'Accept': 'application/json, text/plain, */*',
       'Content-Type': 'application/json'
     },
   }).then(function (response) {
-    //console.log(response.headers.get("content-type"));
     const contentType = response.headers.get("content-type");
     if (contentType && contentType.includes("application/json")) {
       return response.json();

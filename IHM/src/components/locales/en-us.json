@@ -1,5 +1,6 @@
 {
   "CLOSE": "Close",
+  "SAVE": "Save",
   "CANCEL": "CANCEL",
   "DATABASE_IMPORT_FILE": "Database import file name",
   "IMPORT_DATABASE": "Import a tango database",
@@ -14,6 +15,10 @@
     "IMPORT_DATABASE": "Import database",
     "FULL_SCREEN": "Full screen",
     "DISPLAY_SIDE_SCREEN": "Display side screen"
-
+  },
+  "PREFERENCES": {
+    "BASE_DIRECTORY": "Base directory",
+    "SELECT_BASE_DIRECTORY": "Select base directory",
+    "TOOLTIP_BASE_DIR": "Put the absolute path to your directory, where your song files are."
   }
 }

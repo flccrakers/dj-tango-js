@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Header from "./header";
 import {connect} from 'react-redux';
 import PlayerWrapper from './player-wrapper';
-import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles';
+import {createMuiTheme, MuiThemeProvider} from '@material-ui/core/styles';
 import Footer from './footer';
 import PlaylistBoard from './playlist-board';
 import DjDialog from './dialogs/dialog';
@@ -15,6 +15,15 @@ const theme = createMuiTheme({
   palette: {
     type: 'dark', // Switching the dark mode on is a single property value change.
   },
+  overrides: {
+    MuiTooltip: {
+      tooltip: {
+        fontSize: "1em",
+        // color: "yellow",
+        // backgroundColor: "red"
+      },
+    }
+  }
 });
 
 const styles = {
@@ -26,9 +35,8 @@ const styles = {
     padding: '5px',
     backgroundColor: '#2a2a2a',
   },
-
-
 };
+
 
 class Main extends Component {
 
