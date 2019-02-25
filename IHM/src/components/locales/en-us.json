@@ -6,6 +6,9 @@
   "IMPORT_DATABASE": "Import a tango database",
   "IMPORT_DATABASE_BUTTON": "Import database",
   "IMPORT_DATABASE_TEXT": "Select a database to import and click import. We import csv (coma separated value) file. The first line correspond to the name of the field.\nThe fields should contain: Title, Artist, Album, Type, Year, Singer, Bpm, Time",
+  "LANGUAGE": "Language",
+  "ENGLISH": "English",
+  "FRENCH": "French",
   "MENU": {
     "PREFERENCES": "Preferences",
     "EDIT_DETAILS_OF_SELECTED_SONG": "Edit details of selected song",
@@ -19,6 +22,15 @@
   "PREFERENCES": {
     "BASE_DIRECTORY": "Base directory",
     "SELECT_BASE_DIRECTORY": "Select base directory",
-    "TOOLTIP_BASE_DIR": "Put the absolute path to your directory, where your song files are."
+    "TOOLTIP_BASE_DIR": "Put the absolute path to your directory, where your song files are.",
+    "CORTINA_DURATION": "Cortina duration",
+    "FADEOUT_DURATION": "Fadeout durations",
+    "SHOULD_BE_NUMBER": "You should enter a number",
+    "LATENCY_TIME": "Time between songs",
+    "IN_MILLISECONDS": "In milliseconds",
+    "IN_SECONDS": "In seconds",
+    "NORMALIZE_FILE_NAME": "Should normalize file name and organize your song folder according to name, title etc...",
+    "WRITE_ID3_TAG": "Should try to update tag into file ",
+    "NEW_SONG_AVAILABLE": "Search for new song available"
   }
 }

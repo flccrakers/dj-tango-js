@@ -11,6 +11,7 @@ import dialogType from "../services/dialogTypeRef";
 import DjTangoDialog from './dialogs/dialog';
 import {getTranslate} from "./locales/localeUtils";
 import {withSnackbar} from 'notistack';
+import {fetchPreferences} from "../redux/actions/preferencesActions";
 
 const styles = {
 
@@ -200,6 +201,7 @@ class Header extends Component {
   handlePreferences = () => {
     console.log('preferences');
     this.closeMenu();
+    this.props.dispatch(fetchPreferences());
     this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.PREFERENCES));
   };
 

@@ -3,7 +3,7 @@ interface preferencesDTO {
     newSongAvailable: boolean,
     normalize: boolean,
     timeCortina: number,
-    timeFadOut: number,
+    timeFadeOut: number,
     writeId3Tag: boolean,
     language:string,
     timeBetweenSongsMS:number,
