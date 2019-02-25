@@ -51,18 +51,23 @@ export function calculateWidthAndHeightOfMilongaListAndSource() {
 
   milongaSizeRef = document.getElementById('milongaVirtualList');
   sourceSizeRef = document.getElementById('sourceVirtualList');
-  if(sourceSizeRef !== null) {
+  if (sourceSizeRef !== null) {
     sourceSize = {width: sourceSizeRef.clientWidth, height: sourceSizeRef.clientHeight};
-  }else{
+  } else {
     sourceSize = {width: 0, height: 0};
   }
 
-  if(milongaSizeRef !== null) {
+  if (milongaSizeRef !== null) {
     milongaSize = {width: milongaSizeRef.clientWidth, height: milongaSizeRef.clientHeight};
-  }else{
+  } else {
     milongaSize = {width: 0, height: 0};
   }
 
   return {sourceSize, milongaSize}
 
 }
+
+export function isNumber(value) {
+  return !isNaN(parseFloat(value)) && isFinite(value);
+}
+

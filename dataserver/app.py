@@ -116,14 +116,11 @@ def manage_tangos():
         for tango in tangos:
             line = {}
             for field in tango:
-                # print(field, tango[field])
                 if field == '_id':
                     line['_id'] = str(tango[field])
                 else:
                     line[field] = tango[field]
-                # print(line)
             json_tango.append(line)
-        # print(json_tango)
         return jsonify(json_tango), 200
 
 
