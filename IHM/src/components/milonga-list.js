@@ -182,12 +182,7 @@ class MilongaList extends Component {
   */
   };
 
-  getHeader() {
 
-    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.state.containerWidth);
-    // console.log(sizedRows);
-
-  }
 
   getMenu() {
     const styles = {
@@ -337,7 +332,7 @@ class MilongaList extends Component {
 
   render() {
     let milonga = this.props.milonga;
-    const {x, y, connectDropTarget, isOver} = this.props;
+    const {connectDropTarget} = this.props;
     if (this.state.shouldHide !== true) {
       return connectDropTarget(
         <div

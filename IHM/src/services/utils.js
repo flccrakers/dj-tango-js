@@ -3,7 +3,7 @@
  * @param time {Number} the time of the song in milliseconds
  * @returns {String} the time of the song in string => mm:ss
  */
-import * as colors from '@material-ui/core/colors';
+// import * as colors from '@material-ui/core/colors';
 import colorManipulator from '../services/color-manipulator';
 
 export function millisToMinutesAndSeconds(time: Number) {
@@ -15,8 +15,8 @@ export function millisToMinutesAndSeconds(time: Number) {
   // return retTime;
 }
 
-export function tangoColors() {
-  let level = 900;
+export function getTangoColors() {
+  // let level = 900;
   let ret = {
     tango: colorManipulator.fade('#00a0b0',0.31),
     cortina: colorManipulator.fade('#6a4a3c',0.31),

@@ -11,8 +11,6 @@ export function importTangosFromCsvFile(csvFile, dispatch) {
     reader.readAsText(csvFile);
 
   });
-
-
 }
 
 function importTangoCSVFile(lines, resolve, dispatch) {
@@ -21,7 +19,7 @@ function importTangoCSVFile(lines, resolve, dispatch) {
     if (index > 0) {
       line = line.split(',');
       //title, artist, album, type, year, bpmHuman, bpmFromFile, duration, path, tstart, tend,author, singer, composer, ID
-      let tango: tango = {};
+      let tango: tangoDTO = {};
       tango.title = line[0];
       tango.artist = line[1];
       tango.album = line[2];

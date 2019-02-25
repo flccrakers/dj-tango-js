@@ -5,7 +5,7 @@ import * as sourceActions from '../redux/actions/sourceActions';
 import * as dialogActions from '../redux/actions/dialogActions';
 import dialogType from '../services/dialogTypeRef';
 import {connect} from 'react-redux';
-import {millisToMinutesAndSeconds, tangoColors} from '../services/utils';
+import {millisToMinutesAndSeconds, getTangoColors} from '../services/utils';
 import Playing from '@material-ui/icons/VolumeUp';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -64,12 +64,12 @@ class DataLine extends Component {
   };
   handleEditTango = () => {
     this.handleClose();
-    console.log(this.props.index);
+    // console.log(this.props.index);
     this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.TANGO_DETAILS, {index: this.props.index}));
   };
 
   handleRightClick(event) {
-    console.log(event.clientX);
+    // console.log(event.clientX);
     let position = {top: event.clientY - 35, left: event.clientX - 20};
     this.setState({anchorEl: event.currentTarget, anchorPosition: position});
   };
@@ -124,7 +124,7 @@ class DataLine extends Component {
       }
 
       if (row.field === 'genre' && !this.isTangoPlaying()) {
-        style = {...style, backgroundColor: tangoColors()[tango.genre.replace('-', '_')]};
+        style = {...style, backgroundColor: getTangoColors()[tango.genre.replace('-', '_')]};
       }
 
       if (this.isInSelectedIndex() === true) {
@@ -160,20 +160,20 @@ class DataLine extends Component {
     return this.props.tango._id === this.props.playedId;
   }
 
-  handleContextMenu(event) {
-
-    console.log('Display context menu');
-    this.handleRightClick(event);
-  }
+  // handleContextMenu(event) {
+  //
+  //   console.log('Display context menu');
+  //   this.handleRightClick(event);
+  // }
 
   render() {
 
-    const {connectDragSource, isDragging} = this.props;
+    const {connectDragSource, /*isDragging*/} = this.props;
     // console.log('is dragging:' + isDragging);
     const {anchorEl, anchorPosition} = this.state;
-    let tango, root, rootBase;
+    let root, rootBase;
     rootBase = {...this.props.style, ...styles.root, WebkitUserSelect: 'none'};
-    tango: tango = this.props.tango;
+    // tango = this.props.tango;
     if (this.isTangoPlaying()) {
       root = {...rootBase, backgroundColor: '#3a3a3a', color: '#1ba500'}
     } else {
@@ -186,10 +186,10 @@ class DataLine extends Component {
       console.log("I'm over a tango in milonga list");
       root = {...root, borderBottom: '1px solid white'}
     }
-    let ref = this.props.tango.id;
-    if (this.props.isMilonga === true) {
-      ref += 'milonga';
-    }
+    // let ref = this.props.tango.id;
+    // if (this.props.isMilonga === true) {
+    //   ref += 'milonga';
+    // }
     return connectDragSource(
       <div
         key={this.props.tango.id}

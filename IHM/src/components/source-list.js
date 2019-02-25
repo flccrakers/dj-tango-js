@@ -46,7 +46,8 @@ const styles = {
     padding: '2px',
     color: 'white',
     // backgroundColor: 'blue',
-    border: '1pt solid ' + '#5f5f5f',
+    border: '1pt solid ',
+    borderColor: '#5f5f5f',
     overflow: 'hidden',
   },
   virtualListContainer: {
@@ -225,8 +226,6 @@ class SourceList extends Component {
 
   getFilterContent(sizedRows) {
     let ret = [];
-    let left = {...styles.leftAligned, padding: '0px 2px 0px 2px', WebkitUserSelect: 'none'};
-    let center = {...styles.center, padding: '0px 2px 0px 2px', WebkitUserSelect: 'none'};
     let titleContainer = {
       display: 'flex',
       width: '100%',
@@ -238,14 +237,7 @@ class SourceList extends Component {
     if (optionsList !== null) {
       sizedRows.forEach(row => {
         let style = {height: '24px'};
-        // if (row.align === 'left') {
-        //   style = {...left, width: row.size, height: '24px'};
-        // } else if (row.align === 'center') {
-        //   style = {...center, width: row.size, height: '24px'};
-        // }
-        // console.log(row.name);
         if (row.name !== '') {
-          // console.log(optionsList[row.field]);
           ret.push(
             <div key={'filter_' + row.name} style={style}>
               <List style={styles.filterButton}>
@@ -295,7 +287,7 @@ class SourceList extends Component {
       });
     }
     return (
-      <div style={{display:'flex', flex:'1 1 auto', justifyContent:'space-around'}}>
+      <div style={{display: 'flex', flex: '1 1 auto', justifyContent: 'space-around'}}>
         {ret}
       </div>
     );
@@ -408,7 +400,7 @@ class SourceList extends Component {
   };
 
   rowRenderer = (params) => {
-    let sizedRows = djUtils.getSizedRows(rowsTemplate,this.props.sourceSize.width);
+    let sizedRows = djUtils.getSizedRows(rowsTemplate, this.props.sourceSize.width);
     let tango = this.props.source.displayTangoList[params.index];
     return (
       <DataLine
@@ -435,7 +427,9 @@ class SourceList extends Component {
       <div style={styles.mainSource} id='sources' ref={'sources'}>
         {this.getFilter()}
         {this.getHeader()}
-        <div style={styles.virtualListContainer} ref={el => {this.virtualContainerRef = el}} id={'sourceVirtualList'}>
+        <div style={styles.virtualListContainer} ref={el => {
+          this.virtualContainerRef = el
+        }} id={'sourceVirtualList'}>
           <VirtualList
             width='100%'
             height={this.props.sourceSize.height + source.listRowHeight}
@@ -474,7 +468,7 @@ export default connect((store) => {
   return {
     // tangoList: store.source.tangoList,
     source: store.source,
-    sourceSize:store.sizes.sourceSize,
+    sourceSize: store.sizes.sourceSize,
   }
 
 })(SourceList);

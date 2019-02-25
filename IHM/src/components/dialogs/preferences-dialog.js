@@ -21,34 +21,6 @@ import {withSnackbar} from "notistack";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 
-const styles = {
-  input: {
-    opacity: "0",
-    width: "0px",
-    height: "0px"
-  },
-  selectFileBloc: {
-    display: 'flex',
-    flex: '1 1 auto',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: '15px',
-  },
-  arrow: {
-    position: 'absolute',
-    fontSize: 6,
-    width: '3em',
-    height: '3em',
-    '&::before': {
-      content: '""',
-      margin: 'auto',
-      display: 'block',
-      width: 0,
-      height: 0,
-      borderStyle: 'solid',
-    },
-  },
-};
 
 class PreferenceDialog extends Component {
 
@@ -209,7 +181,7 @@ class PreferenceDialog extends Component {
   getSwitches() {
     let translate = getTranslate(this.props.locale);
     return (
-      <div key={'preferences_cortina_times'}
+      <div key={'preferences_switches'}
            style={{display: 'flex', flex: '1 1 auto', flexDirection: 'column', margin: '25px 0 0 0'}}>
         <FormControlLabel
           control={

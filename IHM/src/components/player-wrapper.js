@@ -53,9 +53,6 @@ const styles = {
 
 const cortinaDuration = 15 * 1000;
 const fadeoutDuration = 5 * 1000; // in milliseconds
-const listenInterval = 300; //in milliseconds
-// const songInterval = 1500; // in milliseconds
-let start = null
 
 class PlayerWrapper extends Component {
 
@@ -124,7 +121,7 @@ class PlayerWrapper extends Component {
   };
 
   play = () => {
-    let tango: tango;
+    let tango: tangoDTO;
     tango = this.props.playerData.currentTango;
     if (this.sound === null) {
       console.log(tango);
@@ -190,7 +187,7 @@ class PlayerWrapper extends Component {
       this.setState({isFading: true});
     } else if (tango.genre === 'cortina' && position > cortinaDuration) {
       this.playNext();
-    } else if (tango.genre !== 'cortina' && tango.end >0 && position > tango.end) {
+    } else if (tango.genre !== 'cortina' && tango.end > 0 && position > tango.end) {
       this.stop();
       setTimeout(() => {
         this.playNext();
@@ -228,7 +225,7 @@ class PlayerWrapper extends Component {
   getTitle() {
 
     // noinspection JSAnnotator
-    let tango: tango, ret, styles, space, color;
+    let tango: tangoDTO, ret, styles, space, color;
     tango = this.props.playerData.currentTango;
     ret = null;
     space = '8px';
@@ -342,7 +339,6 @@ export default connect(
     return {
       playerData: store.player,
       source: store.source,
-      preferences:store.preferences,
+      preferences: store.preferences,
     }
-  })
-(myPlayerWrapper);
+  })(myPlayerWrapper);

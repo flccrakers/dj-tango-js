@@ -1,8 +1,7 @@
-import {applyMiddleware, createStore, compose} from 'redux'
+import {applyMiddleware, createStore} from 'redux'
 import {createLogger} from 'redux-logger';
 import thunk from 'redux-thunk';
 import promise from 'redux-promise-middleware';
-// import localForage from "localforage";
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import rootReducer from './redux/reducers';
