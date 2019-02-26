@@ -1,7 +1,7 @@
 import dialogTypeRef from '../../services/dialogTypeRef'
 
 const initialState = {
-  dialogType: dialogTypeRef.TANGO_DETAILS,
+  dialogType: dialogTypeRef.EDIT_TANGO,
   open: false,
   additionalData: null,
 

@@ -5,13 +5,14 @@ import * as sourceActions from '../redux/actions/sourceActions';
 import * as dialogActions from '../redux/actions/dialogActions';
 import dialogType from '../services/dialogTypeRef';
 import {connect} from 'react-redux';
-import {millisToMinutesAndSeconds, getTangoColors} from '../services/utils';
+import {getTangoColors, millisToMinutesAndSeconds} from '../services/utils';
 import Playing from '@material-ui/icons/VolumeUp';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import {ItemTypes} from '../services/dj-const';
 import {DragSource} from 'react-dnd';
 import {withSnackbar} from "notistack";
+import {getTranslate} from "./locales/localeUtils";
 
 const tangoSource = {
   beginDrag(props) {
@@ -65,7 +66,7 @@ class DataLine extends Component {
   handleEditTango = () => {
     this.handleClose();
     // console.log(this.props.index);
-    this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.TANGO_DETAILS, {index: this.props.index}));
+    this.props.dispatch(dialogActions.updateDialogAndShow(dialogType.EDIT_TANGO, {index: this.props.index}));
   };
 
   handleRightClick(event) {
@@ -171,7 +172,8 @@ class DataLine extends Component {
     const {connectDragSource, /*isDragging*/} = this.props;
     // console.log('is dragging:' + isDragging);
     const {anchorEl, anchorPosition} = this.state;
-    let root, rootBase;
+    let root, rootBase, translate;
+    translate = getTranslate(this.props.locale);
     rootBase = {...this.props.style, ...styles.root, WebkitUserSelect: 'none'};
     // tango = this.props.tango;
     if (this.isTangoPlaying()) {
@@ -224,9 +226,9 @@ class DataLine extends Component {
           anchorReference={'anchorPosition'}
           anchorPosition={anchorPosition}
         >
-          <MenuItem onClick={this.handleEditTango}>Edit tango</MenuItem>
-          <MenuItem onClick={this.handleClose}>Calculate bpm</MenuItem>
-          <MenuItem onClick={this.handleClose}>Open with audacity</MenuItem>
+          <MenuItem onClick={this.handleEditTango}>{translate("EDIT_TANGO")}</MenuItem>
+          <MenuItem onClick={this.handleClose}>{translate("CALCULATE_BPM")}</MenuItem>
+          <MenuItem onClick={this.handleClose}>{translate("OPEN_WITH_AUDACITY")}</MenuItem>
         </Menu>
 
       </div>
@@ -263,5 +265,6 @@ export default connect((store) => {
   return {
     playedId: store.player.currentTango._id,
     selectedTangos: store.source.selectedTangos,
+    locale: store.locale,
   }
 })(myDataLine);

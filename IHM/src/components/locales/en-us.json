@@ -9,6 +9,9 @@
   "LANGUAGE": "Language",
   "ENGLISH": "English",
   "FRENCH": "French",
+  "EDIT_TANGO": "Edit tango",
+  "CALCULATE_BPM": "Calculate Beat Per Minutes",
+  "OPEN_WITH_AUDACITY": "Edit tango",
   "MENU": {
     "PREFERENCES": "Preferences",
     "EDIT_DETAILS_OF_SELECTED_SONG": "Edit details of selected song",
@@ -32,5 +35,8 @@
     "NORMALIZE_FILE_NAME": "Should normalize file name and organize your song folder according to name, title etc...",
     "WRITE_ID3_TAG": "Should try to update tag into file ",
     "NEW_SONG_AVAILABLE": "Search for new song available"
+  },
+  "TANGO_EDITION": {
+    "TITLE": "Tango edition"
   }
 }
