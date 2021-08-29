@@ -1,0 +1,48 @@
+{
+  "name": "dj-tango",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "4.5.2",
+    "@material-ui/icons": "4.5.1",
+    "flat": "5.0.0",
+    "howler": "^2.1.1",
+    "localforage": "^1.7.3",
+    "moment": "^2.24.0",
+    "musicmetadata": "^2.0.5",
+    "notistack": "^0.9.5",
+    "prop-types": "^15.7.2",
+    "rc-slider": "^8.7.1",
+    "rc-tooltip": "4.0.0-alpha.2",
+    "react": "^16.11.0",
+    "react-compound-slider": "2.4.0",
+    "react-dnd": "9.4.0",
+    "react-dnd-html5-backend": "9.4.0",
+    "react-dom": "^16.11.0",
+    "react-redux": "7.1.1",
+    "react-tiny-virtual-list": "^2.2.0",
+    "readdir": "0.1.0",
+    "recursive-readdir": "^2.2.2",
+    "redux": "4.0.4",
+    "redux-logger": "^3.0.6",
+    "redux-persist": "6.0.0",
+    "redux-promise-middleware": "^6.1.1",
+    "redux-thunk": "^2.3.0",
+    "typeface-roboto": "0.0.54"
+  },
+  "devDependencies": {
+    "react-scripts": "2.1.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

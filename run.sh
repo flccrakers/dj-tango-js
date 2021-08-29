@@ -9,7 +9,8 @@ cd dataserver
 #cmd='cd '$dataserver' && npm install && npm run start'
 #echo 'cd '$dataserver' && npm install && npm run start'
 #gnome-terminal -e '"npm install && npm run start;read"'
-npm run start &
-cd ihm
+echo $ihm
+cd $ihm && npm run start &
+
 #echo "I'm in IHM dir"
-npm install && npm start &
+#npm install && npm start &

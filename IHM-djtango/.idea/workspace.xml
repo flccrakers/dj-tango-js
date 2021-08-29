@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="043474cc-cfa3-4313-a19e-04f93d1c8751" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../IHM/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/public/favicon.ico" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/public/favicon.ico.bak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/public/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/public/manifest.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/App.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/App.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/data-line.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/dialogs/dialog-factory.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/dialogs/dialog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/dialogs/edit-sango-dialog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/dialogs/import-database-dialog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/dialogs/preferences-dialog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/dialogs/template-dialog.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/dj-progress.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/dj-utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/footer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/header.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/locales/en-us.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/locales/fr-fr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/locales/ger-ger.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/locales/localeUtils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/milonga-list.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/player-wrapper.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/playlist-board.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/components/source-list.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-A La Gran Muñeca-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-A La Gran Muñeca_2-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Adios Muchachos-FLORINDO SASSONE-100 BEST TANGO-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Adios Muchachos_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Adiós Pampa Mía_2-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Angustia De Un Perdon_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Arrabalero_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Azul_2-FLORINDO SASSONE-UNKNOWN-VALS.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Beso Su Mano, Señora-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Bolivar Y Chile_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Bomboncito_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Café_'Mientras Tanto-FLORINDO_SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Caminito-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Caminito_3-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Canaro En París_2-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Canción De Violeta_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Canción Del Amanecer-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Cascabelito-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Celos (Jalousie)-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Celos -FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Celos-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Celos_3-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Chique_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Cielo Azul-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Clavel Del Aire_2-FLORINDO SASSONE-16-08-1962-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Coqueteando Por La Ribera_2-FLORINDO SASSONE-UNKNOWN-MILONGA.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Corrientes Angosta-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-De Las Rosas-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Dia Del Tango_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Don Naides_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Donna Vatra-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Du Reve-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Amanecer-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Amanecer-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Amor No Sirve Para Nada-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Choclo_2-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Escondite De Hernando-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Escondite De Hernando_3-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Estrellero_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Huracán (Taifu)_2-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Morochito-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Relampago _2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-El Ultimo Escalon_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-En Un Pequeño Café_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-En Un Pequeño Café_3-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Enamorada-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Esquinas Porteñas-FLORINDO SASSONE-UNKNOWN-VALS.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Fogón De Huella_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Fuegos Artificiales_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Gran Hotel Victoria-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Hasta Siempre Amor_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Hoy La Espero A La Salida_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Isla De Capri-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-La Clavada-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-La Cumparsita-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-La Cumparsita-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-La Cumparsita_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-La Otra Mamá_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-La Paloma-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-La Ultima Copa_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-La Última Copa-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-La Ültima Cita_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Lluvia Sobre El Camino-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Lágrimas-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 11-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Mambo_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Mano Cruel-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Mi Corazón Es Un Violín-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Nina-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Nocturno-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Nostalgias_2-FLORINDO SASSONE-UNKNOWN-VALS.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Oh Donna Clara_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Oh, Donna Clara_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Ole Guapa-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Organito De La Tarde_2-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Organito De La Tarde_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Orquídeas A La Luz De Luna-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Papas Calientes-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Patotero Sentimental_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Pescadores De Perlas_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Pescadores De Perlas_3-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Pescadores De Perlas_4-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Pleito Malevo-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Portero Suba Y Diga_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Quejas De Bandoneón_2-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Quimera_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Ribera Sur_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Rie Payaso_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Rodríguez Peña-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Royal Pigall-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Sentimiento Gaucho_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Serenata Criolla_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Siempre Te Nombra_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Sinforosa-FLORINDO SASSONE-UNKNOWN-MILONGA.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Suba Y Diga_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Tango De Las Rosas _2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Tango De Las Rosas_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Tangos Para Bailar_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Taquito Militar_2-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Te Aconsejo Que Me Olvides_2-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Te Juro Madre Mia_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Te Quiero-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Testamento De Arrabal-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Transnochando_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Un Jardin En  Italia_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Un Jardín En Italia-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Una Noche De Garufa_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Una Noche De Tokio-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Unknown-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Unknown_3-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Veinte Tangos Atras_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Vieja Postal-FLORINDO SASSONE-UNKNOWN-MILONGA.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Viejo Malevo_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Viejo Malevo_3-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Violín Gitano-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Y Volvemos A Querernos_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Yira Yira-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Yira-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Yu-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Zulema Robles-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/0-Ángel Díaz-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1-Caminito-FLORINDO SASSONE-THE BEST TANGOS -TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1947-Canción De Cuna-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1947-Puentecito De Mi Río-FLORINDO SASSONE-UNKNOWN-VALS.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1947-Siempre Te Nombra-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1947-Volver-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1948-A La Luz De Un Candil_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1948-A Media Luz-FLORINDO SASSONE-FLORINDO SASSONE EN JAPON-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1948-A Media Luz-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1948-Quimera-FLORINDO_SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1949-El Divorcio-FLORINDO SASSONE-UNKNOWN-MILONGA.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1949-El Divorcio_2-FLORINDO SASSONE-UNKNOWN-MILONGA.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1949-Madre Hay Una Sola-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1949-Rencor-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1949-Rie Payaso-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1949-Te Juro Madre Mia-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1949-Y Volvemos a Quererno-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1949-la Última Cita-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1950-Flor De Fango _2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1950-Flor de Fango-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1950-Flor de Fango_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1950-Noches de Atenas-FLORINDO SASSONE-UNKNOWN-TANGO (Conflit de casse).mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1950-Noches de Atenas-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1950-Sinforosa-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1950-Vision-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1950-Vision_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1950-el Soldado-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1950-un Cuadro y una Cancion-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-Don Naides-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-Don Naides_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-Intimas-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-Intimas_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-La Guitarrita-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-La Trilla-FLORINDO SASSONE-UNKNOWN-TANGO (Conflit de casse).mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-La Trilla-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-Maipo-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-Maipo_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-Relampago-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-Testamento de Arrabal-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1951-el Relampago-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1952-Corrientes Angosta-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1952-Pleito Malevo-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1952-Vieja Postal-FLORINDO SASSONE-UNKNOWN-MILONGA.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1953-El-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1956-Canaro-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1958-Baldosa Floja-FLORINDO SASSONE-UNKNOWN-MILONGA.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1958-Baldosa Floja-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1958-Baldosa Floja_3-FLORINDO SASSONE-UNKNOWN-MILONGA.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Bahia Blanca-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Bahía Blanca-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 2-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Bahía Blanca_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Bar Exposicion-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 18-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Bar Exposicion-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Bar Exposición-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Gran Hotel Victoria-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Media Luz-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Organito De La Tarde-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Pescadores De perlas_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Quejas De Bandoneon-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Rawson-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 15-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Re Fa Si-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Tango Azul-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1959-Tomasito-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1962-La Clavada-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 14-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1962-Papas Calientes-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 16-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1965-Don Juan-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 19-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1966-A La Gran Muñeca-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 4-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1966-El Huracán-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1966-Felicia-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 27-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1966-La Tablada-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1966-Rodríguez Peña-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 6-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1966-Una Noche De Garufa-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 29-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1968-Orquideas a la Luz de la Luna-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1968-Pescadores De Perlas_2-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1968-Yira Yira-FLORINDO SASSONE-THE BEST TANGOS -TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1970-El Chamuyo-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1970-Fuegos Artificiales-FLORINDO SASSONE-LOS CLASICOS ARGENTINOS - VOL 13-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1970-La Viruta-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1972-La Cumparsita-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1973-Chiqué-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1973-Quejas De Bandoneón-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1973-Re Fa Si-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1974-Oh, Donna Clara-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/1979-Estrella-FLORINDO SASSONE-UNKNOWN-TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/files/FLORINDO_SASSONE/2003-Adios Muchachos-FLORINDO SASSONE-THE BEST TANGOS -TANGO.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/images/disc-311810-work.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/images/logo-djtango-2-work.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/images/logo-djtango.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/logo.svg.bak" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/actions/componentSizeActions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/actions/dialogActions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/actions/localizeActions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/actions/menuActions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/actions/milongaActions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/actions/playerActions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/actions/preferencesActions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/actions/sourceActions.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/reducers/componentSizeReducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/reducers/dialogReducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/reducers/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/reducers/localizeReducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/reducers/menuReducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/reducers/milongaReducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/reducers/playerReducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/reducers/preferencesReducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/redux/reducers/sourceReducer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/registerServiceWorker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/services/color-manipulator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/services/dialogTypeRef.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/services/dj-const.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/services/import-export.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/services/preferences-management.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/services/serviceBase.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/services/tangoDataManagement.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/services/utils.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../IHM/src/store.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataserver/.idea/dataserver.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataserver/.idea/dictionaries/hoonakker.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataserver/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataserver/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataserver/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataserver/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dataserver/app.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/../run.sh" afterDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="ProjectId" id="1T1apm8fLmglBr7COmE03ZgmAL9" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../budget/IHM" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="prettierjs.PrettierConfiguration.Package" value="/usr/local/lib/node_modules/prettier" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="043474cc-cfa3-4313-a19e-04f93d1c8751" name="Default Changelist" comment="" />
+      <created>1572630240479</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1572630240479</updated>
+      <workItem from="1572630242896" duration="881000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
