@@ -334,7 +334,7 @@ class MilongaList extends Component {
     let milonga = this.props.milonga;
     const {connectDropTarget} = this.props;
     if (this.state.shouldHide !== true) {
-      return connectDropTarget(
+      return (
         <div
           style={styles.main}
           onClick={this.handleOnClick}
@@ -377,7 +377,7 @@ class MilongaList extends Component {
 };*/
 
 
-MilongaList = DropTarget(ItemTypes.TANGO, milongaTarget, collect)(MilongaList);
+// MilongaList = DropTarget(ItemTypes.TANGO, milongaTarget, collect)(MilongaList);
 
 export default connect((store) => {
   return {

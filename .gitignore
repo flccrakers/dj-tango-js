@@ -1,6 +1,6 @@
-IHM/node_modules/
-IHM/build/
-IHM/.idea/workspace.xml
+IHM-djtango/node_modules/
+IHM-djtango/build/
+IHM-djtango/.idea/workspace.xml
 dataserver/node_modules/
 dataserver/build/
 dataserver/.idea/workspace.xml
@@ -11,4 +11,3 @@ package-lock.json
 
 npm-debug.log
 /.idea/
-/IHM/.idea/workspace.xml

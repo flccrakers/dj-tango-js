@@ -3,6 +3,8 @@ import './App.css';
 import Main from './components/main';
 import PropTypes from 'prop-types';
 import {SnackbarProvider, withSnackbar} from 'notistack';
+// todo: use the following link to use and configure 
+// https://wykrhm.medium.com/creating-standalone-desktop-applications-with-react-electron-and-sqlite3-269dbb310aee
 
 class App extends Component {
   render() {

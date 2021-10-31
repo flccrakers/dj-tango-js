@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Source from './source-list';
 import Milonga from './milonga-list';
-import {DragDropContext} from 'react-dnd';
+import DndContext from "react-dnd";
 import HTML5Backend from 'react-dnd-html5-backend';
 
 const styles = {
@@ -27,4 +27,4 @@ class PlayListBoard extends Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(PlayListBoard);
+export default PlayListBoard;
